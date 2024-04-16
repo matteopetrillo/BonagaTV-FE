@@ -1,7 +1,6 @@
 <template>
   <v-app id="app">
     <RouterView></RouterView>
-    <SponsorFooter/>
   </v-app>
 </template>
 
@@ -19,8 +18,6 @@ import SponsorFooter from './components/SponsorFooter.vue';
 
 export default {
   name: 'App',
-  components: {
-    SponsorFooter,
-  },
+
 }
 </script>

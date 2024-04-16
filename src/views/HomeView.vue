@@ -1,10 +1,5 @@
   <template>
     <v-main class="bg-white-2">
-      <div class="ma-4 logo">
-        <router-link to="/">
-          <img src="..\..\src\assets\bonaga.png"></img>
-        </router-link>
-      </div>
       <v-container>
         <v-row>
           <v-col class="mt-2 mb-n6" cols="12">
@@ -15,7 +10,12 @@
               <v-row>
                 <v-col v-for="(canale, index) in canaliProxLive" :key="index">
                   <v-item>
-                    <ChannelCard :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento" :srcLink="canale.streamingSrc" :isLive="true"/>
+                    <ChannelCard 
+                    :idCanale="canale.id"
+                    :nomeCanale="canale.nomeCanale" 
+                    :nomeEvento="canale.nomeEvento" 
+                    :srcLink="canale.streamingSrc" 
+                    :isLive="true"/>
                   </v-item>
                 </v-col>             
               </v-row>
@@ -30,7 +30,12 @@
               <v-row>
                 <v-col v-for="(canale, index) in canaliOffline" :key="index">
                   <v-item>
-                    <ChannelCard :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento" :srcLink="canale.streamingSrc" :isLive="false"/>
+                    <ChannelCard 
+                    :idCanale="canale.id"
+                    :nomeCanale="canale.nomeCanale" 
+                    :nomeEvento="canale.nomeEvento" 
+                    :srcLink="canale.streamingSrc" 
+                    :isLive="false"/>
                   </v-item>
                 </v-col>
               </v-row>
@@ -62,9 +67,6 @@
     },
     data() {
       return {
-        drawer: null,
-        nomiCanali: ["ARER","ARTA"],
-        iconColors: ["red","grey"],
         canaliProxLive: null,
         canaliOffline: null
       }
@@ -72,13 +74,4 @@
   }
 </script>
 
-<style scoped>
 
-.logo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-</style>

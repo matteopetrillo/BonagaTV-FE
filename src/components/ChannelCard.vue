@@ -2,7 +2,6 @@
     <v-card class="mainCard ma-3" border>
         <iframe 
         class="player"
-        id="ce1e9100-ab79-714b-0ef6-d31d21f25b8f" 
         :src="srcLink"
         frameborder="0"
         allowfullscreen 
@@ -16,7 +15,13 @@
                 <svg-icon type="mdi" :path="logo" size="60"></svg-icon>
             </v-avatar>
             <div class="channelInfo">
-                <div class="channelName">{{ nomeCanale }}</div>
+                <router-link 
+                    class="my-link"
+                    :to="{name: 'ChannelView', 
+                    params: {nomeCanale: nomeCanale},
+                    query: {id: idCanale}}">
+                    <div class="channelName">{{ nomeCanale }}</div>
+                </router-link>
                 <div class="liveDescription"> {{ nomeEvento }} </div>
             </div>
             <!-- <div class="liveIcon">
@@ -27,6 +32,7 @@
 </template>
 
 <script> 
+import ChannelView from '@/views/ChannelView.vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiAccountCircle   } from '@mdi/js'
 import { mdiCircle } from '@mdi/js'
@@ -34,6 +40,9 @@ import { mdiCircle } from '@mdi/js'
 export default {
     name: "ChannelCard",
     props: {
+        idCanale: {
+            type: String
+        },
         nomeCanale: {
             type: String
         },
@@ -54,7 +63,8 @@ export default {
         }
     },
     components: {
-		SvgIcon
+		SvgIcon,
+        ChannelView
     },
     data() {
         return {
@@ -107,6 +117,18 @@ export default {
 .liveIcon {
     justify-content: right;
     margin-right: 0.7rem;
+}
+
+/* Stile base del link */
+.my-link {
+  color: black; /* Colore predefinito */
+  text-decoration: underline; /* Sottolineatura predefinita */
+}
+
+/* Stile quando il cursore è sopra il link */
+.my-link:hover {
+  color: rgb(228, 102, 0); /* Colore del testo quando passi il mouse sopra */
+  text-decoration: none; /* Rimuove la sottolineatura */
 }
 
 </style>
