@@ -1,18 +1,84 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <template>
+    <v-main class="bg-white-2">
+      <div class="ma-4 logo">
+        <router-link to="/">
+          <img src="..\..\src\assets\bonaga.png"></img>
+        </router-link>
+      </div>
+      <v-container>
+        <v-row>
+          <v-col class="mt-2 mb-n6" cols="12">
+            <h2>In diretta questa settimana</h2>
+          </v-col>
+          <v-item-group>
+            <v-container>
+              <v-row>
+                <v-col v-for="(canale, index) in canaliProxLive" :key="index">
+                  <v-item>
+                    <ChannelCard :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento" :srcLink="canale.streamingSrc" :isLive="true"/>
+                  </v-item>
+                </v-col>             
+              </v-row>
+            </v-container>
+          </v-item-group>
+
+          <v-col class="mt-4 mb-n6" cols="12">
+            <h2>I nostri altri canali</h2>
+          </v-col>
+          <v-item-group>
+            <v-container>
+              <v-row>
+                <v-col v-for="(canale, index) in canaliOffline" :key="index">
+                  <v-item>
+                    <ChannelCard :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento" :srcLink="canale.streamingSrc" :isLive="false"/>
+                  </v-item>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-item-group>
+        </v-row>
+      </v-container>
+    </v-main>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+  import ChannelCard from '../../src/components/ChannelCard.vue';
+  import { getCanali } from '../services/api.js';
 
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  export default {
+    name: 'HomeView',
+    components: {
+      ChannelCard
+    },
+    mounted() {
+      getCanali()
+        .then(response => {
+          this.canaliProxLive = response.canaliProssimamenteLive;
+          this.canaliOffline = response.canaliOffline;
+        })
+        .catch(error => {
+        console.error('Errore durante il recupero dei canali:', error);
+        })
+    },
+    data() {
+      return {
+        drawer: null,
+        nomiCanali: ["ARER","ARTA"],
+        iconColors: ["red","grey"],
+        canaliProxLive: null,
+        canaliOffline: null
+      }
+    }
   }
-}
 </script>
+
+<style scoped>
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+</style>

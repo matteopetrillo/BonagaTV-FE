@@ -3,7 +3,7 @@
         <iframe 
         class="player"
         id="ce1e9100-ab79-714b-0ef6-d31d21f25b8f" 
-        src="https://iframe.dacast.com/live/e2eec26b-7144-f2c7-b0df-0153dcd0c24b/7867b42d-6fe3-6a2f-ab48-318ab68805fc" 
+        :src="srcLink"
         frameborder="0"
         allowfullscreen 
         webkitallowfullscreen 
@@ -16,12 +16,12 @@
                 <svg-icon type="mdi" :path="logo" size="60"></svg-icon>
             </v-avatar>
             <div class="channelInfo">
-                <div class="channelName">{{ name }}</div>
-                <div class="liveDescription">2° Tappa Campionato 2024</div>
+                <div class="channelName">{{ nomeCanale }}</div>
+                <div class="liveDescription"> {{ nomeEvento }} </div>
             </div>
-            <div class="liveIcon">
-                <svg-icon :color="color" type="mdi" :path="circle"></svg-icon>
-            </div>
+            <!-- <div class="liveIcon">
+                <svg-icon :color="isLive ? 'red' : 'grey'" type="mdi" :path="circle"></svg-icon>
+            </div> -->
         </div>
     </v-card>
 </template>
@@ -34,13 +34,24 @@ import { mdiCircle } from '@mdi/js'
 export default {
     name: "ChannelCard",
     props: {
-        name: {
+        nomeCanale: {
             type: String
+        },
+        nomeEvento: {
+            type: String
+        },
+        isLive: {
+            type: Boolean
         },
         color: {
             type: String
+        },
+        srcLink: {
+            type: String
+        },
+        channelLogo: {
+            type: String
         }
-        
     },
     components: {
 		SvgIcon
@@ -48,7 +59,7 @@ export default {
     data() {
         return {
             logo: mdiAccountCircle,
-            circle: mdiCircle
+            circle: mdiCircle,
         }
     }
 }
