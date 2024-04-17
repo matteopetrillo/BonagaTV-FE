@@ -8,12 +8,15 @@
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
+    "@paypal/paypal-js": "^8.0.5",
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
+    "inertiajs": "^0.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuetify": "^3.5.11",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

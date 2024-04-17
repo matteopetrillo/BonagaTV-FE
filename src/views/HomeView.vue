@@ -1,8 +1,10 @@
   <template>
     <v-main class="bg-white-2">
+      <SpecialEvent :nomeEvento="'NRHA EUROPEAN FUTURITY 2024'"></SpecialEvent>
+      <v-divider class="mx-16"></v-divider>
       <v-container>
         <v-row>
-          <v-col class="mt-2 mb-n6" cols="12">
+          <v-col class="mb-n6" cols="12">
             <h2>In diretta questa settimana</h2>
           </v-col>
           <v-item-group>
@@ -47,29 +49,49 @@
 </template>
 
 <script>
-  import ChannelCard from '../../src/components/ChannelCard.vue';
-  import { getCanali } from '../services/api.js';
+  import { mapActions, mapGetters } from 'vuex'
+  import ChannelCard from '@/components/ChannelCard.vue'
+  import SpecialEvent from '@/components/SpecialEvent.vue'
 
   export default {
     name: 'HomeView',
     components: {
-      ChannelCard
+      ChannelCard,
+      SpecialEvent
+    },
+    computed: {
+      ...mapGetters([
+        'getCanaliProxLive',
+        'getCanaliOffline'
+      ])
+
+    },
+    created() {
+
+      this.fetchCanali();
+      
+
+      // getCanali()
+      //   .then(response => {
+      //     this.canaliProxLive = response.canaliProssimamenteLive;
+      //     this.canaliOffline = response.canaliOffline;
+      //   })
+      //   .catch(error => {
+      //   console.error('Errore durante il recupero dei canali:', error);
+      //   })
     },
     mounted() {
-      getCanali()
-        .then(response => {
-          this.canaliProxLive = response.canaliProssimamenteLive;
-          this.canaliOffline = response.canaliOffline;
-        })
-        .catch(error => {
-        console.error('Errore durante il recupero dei canali:', error);
-        })
+      this.canaliProxLive = this.$store.getters.getCanaliProxLive
+      this.canaliOffline = this.$store.getters.getCanaliOffline
     },
     data() {
       return {
         canaliProxLive: null,
         canaliOffline: null
       }
+    },
+    methods: {
+      ...mapActions(['fetchCanali'])
     }
   }
 </script>

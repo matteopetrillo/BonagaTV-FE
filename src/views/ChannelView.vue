@@ -2,7 +2,7 @@
     <v-main class="bg-white-2">
         <div class="iframe-wrapper">
             <iframe
-            :src="canale.streamingSrc"
+            :src="streamingSrc"
             allowfullscreen 
             webkitallowfullscreen 
             mozallowfullscreen 
@@ -17,23 +17,43 @@
 
 
 <script>
-import { getInfoCanale } from '../services/api.js';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'ChannelView',
-    mounted() {
-        getInfoCanale(this.$route.query.id)
-        .then(response => {
-        this.canale = response;
-        })
-        .catch(error => {
-        console.error('Errore durante il recupero delle informazioni:', error);
-        })
+
+    computed: {
+      ...mapGetters([
+        'getCanaliProxLive',
+        'getCanaliOffline'
+      ])
+
+    },
+    created() {
+        this.setStreamingSrc()
     },
     data() {
         return {
-            canale: {
-                streamingSrc: '' // Inizializza con un valore vuoto
+            streamingSrc: ''
+        }
+    },
+    methods: {
+        setStreamingSrc() {
+            const canaliOnline = this.$store.getters.getCanaliProxLive
+            const canaliOffline = this.$store.getters.getCanaliOffline
+
+            canaliOnline.forEach((element,index) => {
+                if (element.id == this.$route.query.id) {
+                    this.streamingSrc = element.streamingSrc
+                }
+            })
+
+            if (this.streamingSrc == '') {
+                canaliOffline.forEach((element,index) => {
+                if (element.id == this.$route.query.id) {
+                    this.streamingSrc = element.streamingSrc
+                    }
+                })
             }
         }
     }
@@ -55,5 +75,13 @@ export default {
   height: 480px;
   border: 0;
 }
+
+@media screen and (max-width: 600px) { 
+    .iframe-wrapper iframe { 
+    width: 90%; 
+    height: 65vw;
+    padding-top: 7%
+    } 
+} 
 
 </style>
