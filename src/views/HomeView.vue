@@ -1,7 +1,11 @@
   <template>
     <v-main class="bg-white-2">
-      <SpecialEvent :nomeEvento="'NRHA EUROPEAN FUTURITY 2024'"></SpecialEvent>
-      <v-divider class="mx-16"></v-divider>
+      <SpecialEvent 
+      v-if="showSpecialEvent" 
+      :nomeEvento="this.specialEvent.nomeEvento"
+      :idEvento="this.specialEvent.idEvento"
+      :logoSrc="this.specialEvent.logoEventoSrc"
+      ></SpecialEvent>
       <v-container>
         <v-row>
           <v-col class="mb-n6" cols="12">
@@ -45,6 +49,7 @@
           </v-item-group>
         </v-row>
       </v-container>
+      
     </v-main>
 </template>
 
@@ -62,36 +67,31 @@
     computed: {
       ...mapGetters([
         'getCanaliProxLive',
-        'getCanaliOffline'
+        'getCanaliOffline',
+        'getSpecialEvent'
       ])
 
     },
     created() {
-
       this.fetchCanali();
-      
-
-      // getCanali()
-      //   .then(response => {
-      //     this.canaliProxLive = response.canaliProssimamenteLive;
-      //     this.canaliOffline = response.canaliOffline;
-      //   })
-      //   .catch(error => {
-      //   console.error('Errore durante il recupero dei canali:', error);
-      //   })
     },
-    mounted() {
+    beforeMount() {
       this.canaliProxLive = this.$store.getters.getCanaliProxLive
       this.canaliOffline = this.$store.getters.getCanaliOffline
+      this.specialEvent = this.$store.getters.getSpecialEvent
+      this.showSpecialEvent = this.specialEvent != null
     },
     data() {
       return {
         canaliProxLive: null,
-        canaliOffline: null
+        canaliOffline: null,
+        specialEvent: null,
+        showSpecialEvent: false,
       }
     },
     methods: {
-      ...mapActions(['fetchCanali'])
+      ...mapActions(['fetchCanali']),
+
     }
   }
 </script>

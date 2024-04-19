@@ -1,5 +1,5 @@
 <template>
-    <v-container class="cont"> 
+    <v-container> 
         <v-row>
             <v-col cols="12" sm="8" md="5">
                 <v-container>
@@ -20,7 +20,8 @@
                             <v-btn
                             class="text-none mb-4"
                             size="large"
-                            variant="elevated">
+                            variant="elevated"
+                            @click="authUser">
                             Login
                             </v-btn>
                             <p><a href="">Ho dimenticato la password.</a></p>
@@ -41,6 +42,7 @@
                     <p class="text-h6 pb-3">
                         Acquista il tuo biglietto virtuale
                     </p>
+                    <PaypalButtons></PaypalButtons>
                 </v-container>
             </v-col>
 
@@ -53,6 +55,8 @@
 
 <script>
 import PaypalButtons from '@/components/PaypalButtons.vue'
+import { login } from '@/services/api.js'
+
 
 export default {
     name: 'LoginPayment',
@@ -67,32 +71,35 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
         }
+    },
+    methods: {
+
+        authUser() {
+            login(this.email, this.password, this.idEvento)
+                .then(response => {
+
+                    this.$store.dispatch('setCredentials', { email: this.email, password: this.password });
+                    this.$store.dispatch('setIdUtente', response.idUtente);
+                    this.$router.push('special-event');
+                        
+                })
+                .catch(error => {
+                    // Se la risposta è 401, mostra il popup di errore
+                    console.log("error", error)
+            });
+        }
+
     }
 }
 
 </script>
 
 <style scoped>
-
-.cont {
-    width: 60%;
-    padding-left: 150px;
+.error-popup {
+  max-width: 400px;
+  text-align: center;
 }
-
-@media screen and (max-width: 600px) { 
-    .cont { 
-    width: 100%;
-    padding-left: 0;
-    } 
-} 
-
-@media screen and (max-width: 1300px) { 
-    .cont { 
-    width: 100%;
-    padding-left: 0;
-    } 
-} 
 
 </style>

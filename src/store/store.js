@@ -5,7 +5,11 @@ import createPersistedState from 'vuex-persistedstate'
 export default createStore({
   state: {
     canaliProssimamenteLive: null,
-    canaliOffline: null
+    canaliOffline: null,
+    specialEvent: null,
+    isAuthenticated: false,
+    credentials: null,
+    setIdUtente: null
   },
   getters: {
     getCanaliProxLive(state) {
@@ -13,6 +17,15 @@ export default createStore({
     },
     getCanaliOffline(state) {
       return state.canaliOffline
+    },
+    getSpecialEvent(state) {
+      return state.specialEvent
+    },
+    getCredentials(state) {
+      return state.credentials
+    },
+    getIdUtente(state) {
+      return state.idUtente
     }
   },
   mutations: {
@@ -22,6 +35,21 @@ export default createStore({
     setCanaliOffline(state, canali) {
       state.canaliOffline = canali;
     },
+    setSpecialEvent(state, canali) {
+      state.specialEvent = canali;
+    },
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+    setCredentials(state, cred) {
+      state.credentials = cred;
+    },
+    setIdUtente(state, id) {
+      state.idUtente = id
+    }
   },
   actions: {
     async fetchCanali({commit}) {
@@ -29,13 +57,24 @@ export default createStore({
         const response = await getCanali();
         commit('setCanaliProxLive', response.canaliProssimamenteLive);
         commit('setCanaliOffline', response.canaliOffline);
+        commit('setSpecialEvent', response.specialEvent);
       } catch (error) {
         console.error('Errore durante il recupero dei canali:', error);
         throw error;
       }
-
-
-
+    },
+    login({commit}) {
+      commit('login');
+    },
+    logout({commit}) {
+      commit('logout');
+    },
+    setCredentials({commit},{ email, password }) {
+      const cred = btoa(`${email}:${password}`)
+      commit('setCredentials', cred)
+    },
+    setIdUtente({commit},idUtente) {
+      commit('setIdUtente', idUtente)
     }
   },
   modules: {
