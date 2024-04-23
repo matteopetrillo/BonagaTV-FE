@@ -1,4 +1,4 @@
-export const baseURL = 'http://172.232.218.214:8082/api'
+export const baseURL = 'http://172.232.218.214:61498/api'
 
 export const getCanali = () => {
   return fetch(`${baseURL}/canale/raccolta`)
