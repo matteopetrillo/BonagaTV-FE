@@ -71,7 +71,7 @@ export default {
     },
     async mounted() {
 
-        this.idEvento = this.$store.getters.getSpecialEvent.idEvento;
+        const idEvento = this.$store.getters.getSpecialEvent.idEvento;
 
         const paypalSdk = await loadScript({
             clientId: 'AZ-KdqJRqNOlHsDUsjH5ul8HB1bpb3X_5KjPrWWvRNHZyNgzNNqhFdSMNYO9_HFWdZysQgqAugN4WoxX',
@@ -87,7 +87,7 @@ export default {
 
             },
             createOrder: function (data, actions) {
-                return fetch(baseURL + "/ordine/crea-ordine?id=" + this.idEvento, {
+                return fetch(baseURL + "/ordine/crea-ordine?id=" + idEvento, {
                     method: "POST", headers: { "Content-Type": "application/json" }
                 })
                     .then((response) => { return response.json() })
