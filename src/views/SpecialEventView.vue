@@ -39,7 +39,7 @@ export default {
 
     },
 
-    mounted() {
+    beforeMount() {
         const credentials = this.$store.getters.getCredentials;
 
         getSpecialEventChannel(credentials)
