@@ -1,4 +1,4 @@
-export const baseURL = 'https://bonagatv-be-production.up.railway.app/api'
+export const baseURL = 'http://localhost:8080/api'
 
 export const getCanali = () => {
   return fetch(`${baseURL}/canale/raccolta`)
