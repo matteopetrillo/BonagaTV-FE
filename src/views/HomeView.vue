@@ -87,7 +87,7 @@
       this.showSpecialEvent = this.specialEvent != null
     },
     mounted() {
-      this.readyToShow = true
+      this.readyToShow = this.canaliOffline != null
     },
     data() {
       return {
