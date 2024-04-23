@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:8080/api'; // Assicurati di sostituire con il tuo URL API
+export const baseURL = 'http://172.232.218.214:8082/api'
 
 export const getCanali = () => {
   return fetch(`${baseURL}/canale/raccolta`)
@@ -9,8 +9,9 @@ export const getCanali = () => {
       return response.json();
     })
     .catch(error => {
-      throw new Error('Errore di rete durante la richiesta');
       console.log(error)
+      throw new Error('Errore di rete durante la richiesta');
+
     });
 };
 
@@ -23,6 +24,7 @@ export const getInfoCanale = (id) => {
       return response.json();
     })
     .catch(error => {
+      console.log(error)
       throw new Error('Errore di rete durante la richiesta');
     });
 };

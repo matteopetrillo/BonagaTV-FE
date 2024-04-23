@@ -21,7 +21,11 @@
     </v-app-bar> -->
 
 
-    <RouterView style="padding-top: 80px;"></RouterView>
+    <RouterView style="padding-top: 4%;"></RouterView>
+
+
+
+    
 
     <SponsorFooter/>
 

@@ -26,6 +26,9 @@ export default createStore({
     },
     getIdUtente(state) {
       return state.idUtente
+    },
+    getIdSpecialEvent(state) {
+      return state.specialEvent.idEvento
     }
   },
   mutations: {

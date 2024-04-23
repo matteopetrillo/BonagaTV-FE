@@ -15,8 +15,8 @@
                         <strong>{{ nomeEvento }}</strong>
                     </h3>
                     <p class="text-caption" style="width: 90%; padding-top: 10px; text-align: justify;">
-                        Per accedere alla diretta bisogna acquistare il proprio biglietto virtuale. Bisognerà quindi
-                        inserire la propria mail nell'apposito spazio e
+                        Il costo della diretta è di €{{ this.$store.getters.getSpecialEvent.costo }} . Per registrarsi al servizio streaming 
+                        bisognerà quindi inserire la propria mail nell'apposito spazio e
                         procedere con il pagamento. Una volta convalidato riceverete alla mail indicata in fase di
                         registrazione la password generata dal nostro sistema.
                         In caso di smarrimento di suddetta password potrà essere richiesta cliccando sul pulsante
@@ -29,7 +29,7 @@
             </v-col>
 
             <v-col cols="12" sm="8" md="6">
-                <LoginPayment :idEvento="idEvento" class="loginComponent" ></LoginPayment>
+                <LoginPayment class="loginComponent"></LoginPayment>
             </v-col>
 
         </v-row>
@@ -48,9 +48,6 @@ export default {
         LoginPayment
     },
     props: {
-        idEvento: {
-            required: true
-        },
         nomeEvento: {
             required: true
         }, 

@@ -14,6 +14,7 @@ const vuetify = createVuetify({
   components,
   directives,
   iconfont: 'mdi',
+  
 })
 
 createApp(App).use(store).use(router).use(vuetify).mount('#app')

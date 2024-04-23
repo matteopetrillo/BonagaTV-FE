@@ -10,6 +10,7 @@
         oallowfullscreen 
         msallowfullscreen>
         </iframe>
+
         <div class="channel">
             <v-avatar class="channelIcon">
                 <svg-icon type="mdi" :path="logo" size="60"></svg-icon>

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getSpecialEventChannel, attivaUtente, disattivaUtente } from '@/services/api';
+import { baseURL, getSpecialEventChannel, attivaUtente, disattivaUtente } from '@/services/api';
 import { mapActions, mapGetters } from 'vuex'
 
 
@@ -62,7 +62,7 @@ export default {
     methods: {
         handleUnload(event) {
             const id = this.$store.getters.getIdUtente
-            navigator.sendBeacon('http://localhost:8080/api/utente/disattiva?id='+id)
+            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
             disattivaUtente(this.$store.getters.getIdUtente)
         }
     },

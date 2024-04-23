@@ -1,10 +1,15 @@
   <template>
-    <v-main class="bg-white-2">
+    <div class="text-center" style="margin-top: 15%;"v-if="!readyToShow">
+      <v-progress-circular
+      color="orange"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+    <v-main v-else class="bg-white-2">
       <SpecialEvent 
       v-if="showSpecialEvent" 
-      :nomeEvento="this.specialEvent.nomeEvento"
-      :idEvento="this.specialEvent.idEvento"
-      :logoSrc="this.specialEvent.logoEventoSrc"
+      :nomeEvento="specialEvent.nomeEvento"
+      :logoSrc="specialEvent.logoEventoSrc"
       ></SpecialEvent>
       <v-container>
         <v-row>
@@ -40,7 +45,7 @@
                     :idCanale="canale.id"
                     :nomeCanale="canale.nomeCanale" 
                     :nomeEvento="canale.nomeEvento" 
-                    :srcLink="canale.streamingSrc" 
+                    srcLink="" 
                     :isLive="false"/>
                   </v-item>
                 </v-col>
@@ -81,12 +86,16 @@
       this.specialEvent = this.$store.getters.getSpecialEvent
       this.showSpecialEvent = this.specialEvent != null
     },
+    mounted() {
+      this.readyToShow = true
+    },
     data() {
       return {
         canaliProxLive: null,
         canaliOffline: null,
         specialEvent: null,
         showSpecialEvent: false,
+        readyToShow: false
       }
     },
     methods: {
