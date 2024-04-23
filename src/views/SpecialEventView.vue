@@ -35,9 +35,6 @@ export default {
             streamingSrc: null,
         }
     },
-    created() {
-
-    },
 
     beforeMount() {
         const credentials = this.$store.getters.getCredentials;
@@ -53,6 +50,8 @@ export default {
         attivaUtente(this.$store.getters.getIdUtente)
 
         window.addEventListener('beforeunload', this.handleUnload)
+        window.addEventListener('pagehide', this.handlePageHide)
+        document.addEventListener('visibilitychange', this.handleVisibilityChange)
 
     },
     beforeUnmount() {
@@ -64,6 +63,20 @@ export default {
             const id = this.$store.getters.getIdUtente
             navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
             disattivaUtente(this.$store.getters.getIdUtente)
+        },
+        handlePageHide(event) {
+        // In caso di pagehide, disattiva l'utente
+        const id = this.$store.getters.getIdUtente
+        navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
+        disattivaUtente(this.$store.getters.getIdUtente)
+        },
+        handleVisibilityChange(event) {
+        // Se la visibilità del documento diventa "hidden", disattiva l'utente
+        if (document.visibilityState === 'hidden') {
+            const id = this.$store.getters.getIdUtente
+            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
+            disattivaUtente(this.$store.getters.getIdUtente)
+            }
         }
     },
 
