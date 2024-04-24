@@ -52,9 +52,7 @@ export default {
             required: true
         }, 
         logoSrc: {
-        },
-        importoBiglietto: {
-            
+            type: String
         }
     }
 }

@@ -29,6 +29,9 @@ export default createStore({
     },
     getIdSpecialEvent(state) {
       return state.specialEvent.idEvento
+    },
+    showSpecialEvent(state) {
+      return state.specialEvent != null
     }
   },
   mutations: {
@@ -40,12 +43,6 @@ export default createStore({
     },
     setSpecialEvent(state, canali) {
       state.specialEvent = canali;
-    },
-    login(state) {
-      state.isAuthenticated = true;
-    },
-    logout(state) {
-      state.isAuthenticated = false;
     },
     setCredentials(state, cred) {
       state.credentials = cred;
@@ -65,12 +62,6 @@ export default createStore({
         console.error('Errore durante il recupero dei canali:', error);
         throw error;
       }
-    },
-    login({commit}) {
-      commit('login');
-    },
-    logout({commit}) {
-      commit('logout');
     },
     setCredentials({commit},{ email, password }) {
       const cred = btoa(`${email}:${password}`)

@@ -49,7 +49,7 @@
 import { login } from '@/services/api.js'
 import { loadScript } from '@paypal/paypal-js';
 import { baseURL } from '@/services/api.js'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: 'LoginPayment',
@@ -71,8 +71,6 @@ export default {
     },
     async mounted() {
 
-        const idEvento = this.$store.getters.getSpecialEvent.idEvento;
-
         const paypalSdk = await loadScript({
             clientId: 'AZ-KdqJRqNOlHsDUsjH5ul8HB1bpb3X_5KjPrWWvRNHZyNgzNNqhFdSMNYO9_HFWdZysQgqAugN4WoxX',
             currency: 'EUR'
@@ -87,7 +85,7 @@ export default {
 
             },
             createOrder: function (data, actions) {
-                return fetch(baseURL + "/ordine/crea-ordine?id=" + idEvento, {
+                return fetch(baseURL + "/ordine/crea-ordine?id=" + this.getIdSpecialEvent, {
                     method: "POST", headers: { "Content-Type": "application/json" }
                 })
                     .then((response) => { return response.json() })
@@ -120,14 +118,14 @@ export default {
             .catch((error) => { console.log(error) });
     },
     methods: {
-
+        ...mapActions(['setCredentials','setIdUtente']),
         authUser() {
 
             login(this.emailLogin, this.password, this.idEvento)
                 .then(response => {
 
-                    this.$store.dispatch('setCredentials', { email: this.emailLogin, password: this.password });
-                    this.$store.dispatch('setIdUtente', response.idUtente);
+                    this.setCredentials({ email: this.emailLogin, password: this.password });
+                    this.setIdUtente(response.idUtente);
                     this.$router.push('special-event');
 
                 })

@@ -1,15 +1,9 @@
   <template>
-    <div class="text-center" style="margin-top: 15%;"v-if="!readyToShow">
-      <v-progress-circular
-      color="orange"
-      indeterminate
-    ></v-progress-circular>
-    </div>
-    <v-main v-else class="bg-white-2">
+    <v-main class="bg-white-2">
       <SpecialEvent 
-      v-if="showSpecialEvent" 
-      :nomeEvento="specialEvent.nomeEvento"
-      :logoSrc="specialEvent.logoEventoSrc"
+      v-if="this.specialEvent != null" 
+      :nomeEvento="this.specialEvent.nomeEvento"
+      :logoSrc="this.specialEvent.logoEventoSrc"
       ></SpecialEvent>
       <v-container>
         <v-row>
@@ -19,7 +13,7 @@
           <v-item-group>
             <v-container>
               <v-row>
-                <v-col v-for="(canale, index) in canaliProxLive" :key="index">
+                <v-col v-for="(canale, index) in this.getCanaliProxLive" :key="index">
                   <v-item>
                     <ChannelCard 
                     :idCanale="canale.id"
@@ -39,7 +33,7 @@
           <v-item-group>
             <v-container>
               <v-row>
-                <v-col v-for="(canale, index) in canaliOffline" :key="index">
+                <v-col v-for="(canale, index) in this.getCanaliOffline" :key="index">
                   <v-item>
                     <ChannelCard 
                     :idCanale="canale.id"
@@ -73,33 +67,24 @@
       ...mapGetters([
         'getCanaliProxLive',
         'getCanaliOffline',
-        'getSpecialEvent'
+        'getSpecialEvent',
       ])
 
     },
     created() {
-      this.fetchCanali();
-    },
-    beforeMount() {
-      this.canaliProxLive = this.$store.getters.getCanaliProxLive
-      this.canaliOffline = this.$store.getters.getCanaliOffline
-      this.specialEvent = this.$store.getters.getSpecialEvent
-      this.showSpecialEvent = this.specialEvent != null
-    },
-    mounted() {
-      this.readyToShow = this.canaliOffline != null
+      this.getData();
     },
     data() {
       return {
-        canaliProxLive: null,
-        canaliOffline: null,
         specialEvent: null,
-        showSpecialEvent: false,
-        readyToShow: false
       }
     },
     methods: {
       ...mapActions(['fetchCanali']),
+      async getData() {
+          await this.fetchCanali();
+          this.specialEvent = this.getSpecialEvent;
+      }
 
     }
   }

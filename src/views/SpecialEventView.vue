@@ -16,9 +16,9 @@
 
 <script>
 import { baseURL, getSpecialEventChannel, attivaUtente, disattivaUtente } from '@/services/api';
-import { mapActions, mapGetters } from 'vuex'
-
-
+import { mapGetters } from 'vuex';
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 
 export default {
 
@@ -36,10 +36,9 @@ export default {
         }
     },
 
-    beforeMount() {
-        const credentials = this.$store.getters.getCredentials;
+    created() {
 
-        getSpecialEventChannel(credentials)
+        getSpecialEventChannel(this.getCredentials)
                 .then(response => {
                     this.streamingSrc = response.streamingSrc                        
                 })
@@ -47,22 +46,16 @@ export default {
                     console.log(error)
             });
         
-        attivaUtente(this.$store.getters.getIdUtente)
-
-        window.addEventListener('beforeunload', this.handleUnload)
-        window.addEventListener('pagehide', this.handlePageHide)
-        document.addEventListener('visibilitychange', this.handleVisibilityChange)
-
+        this.connect();
     },
     beforeUnmount() {
-        disattivaUtente(this.$store.getters.getIdUtente)
+        this.disconnect();
 
     },
     methods: {
         handleUnload(event) {
-            const id = this.$store.getters.getIdUtente
-            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
-            disattivaUtente(this.$store.getters.getIdUtente)
+            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+this.getIdUtente)
+            disattivaUtente(this.getIdUtente)
         },
         handlePageHide(event) {
         // In caso di pagehide, disattiva l'utente
@@ -77,7 +70,23 @@ export default {
             navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
             disattivaUtente(this.$store.getters.getIdUtente)
             }
-        }
+        },
+        connect() {
+            this.socket = new SockJS("http://bonagatv-be-production.up.railway.app/heartbeat");
+            this.stompClient = Stomp.over(this.socket);
+            this.stompClient.connect(
+                {idUtente: this.getIdUtente},
+                error => {
+                    console.log(error);
+                    this.connect = false;
+                }
+            );
+        },
+        disconnect() {
+            this.stompClient.disconnect(() => {
+                this.connect = false;
+            },{idUtente: this.getIdUtente});
+        },
     },
 
 }
