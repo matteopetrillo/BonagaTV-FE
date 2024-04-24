@@ -72,7 +72,7 @@ export default {
             }
         },
         connect() {
-            this.socket = new SockJS("http://bonagatv-be-production.up.railway.app/heartbeat");
+            this.socket = new SockJS("https://bonagatv-be-production.up.railway.app/heartbeat");
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect(
                 {idUtente: this.getIdUtente},
