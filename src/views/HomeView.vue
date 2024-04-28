@@ -4,6 +4,7 @@
       v-if="this.specialEvent != null" 
       :nomeEvento="this.specialEvent.nomeEvento"
       :logoSrc="this.specialEvent.logoEventoSrc"
+      :idEvento="this.specialEvent.idEvento"
       ></SpecialEvent>
       <v-container>
         <v-row>
@@ -13,9 +14,12 @@
           <v-item-group>
             <v-container>
               <v-row>
-                <v-col v-for="(canale, index) in this.getCanaliProxLive" :key="index">
+                <v-col v-for="(canale, index) in this.canaliOnline" 
+                :key="index" 
+                cols="12" xs="12" sm="10" md="4" :lg="getNumCols(this.canaliOnline)"
+                :class="{'pr-10' : this.canaliOnline.length < 3}">
                   <v-item>
-                    <ChannelCard 
+                    <ChannelCard
                     :idCanale="canale.id"
                     :nomeCanale="canale.nomeCanale" 
                     :nomeEvento="canale.nomeEvento" 
@@ -33,7 +37,9 @@
           <v-item-group>
             <v-container>
               <v-row>
-                <v-col v-for="(canale, index) in this.getCanaliOffline" :key="index">
+                <v-col v-for="(canale, index) in this.canaliOffline" 
+                :key="index" 
+                cols="12" xs="12" sm="10" md="4" :lg="getNumCols(this.canaliOffline)">
                   <v-item>
                     <ChannelCard 
                     :idCanale="canale.id"
@@ -77,6 +83,8 @@
     data() {
       return {
         specialEvent: null,
+        canaliOnline: null,
+        canaliOffline: null
       }
     },
     methods: {
@@ -84,6 +92,12 @@
       async getData() {
           await this.fetchCanali();
           this.specialEvent = this.getSpecialEvent;
+          this.canaliOnline = this.getCanaliProxLive;
+          this.canaliOffline = this.getCanaliOffline;
+      },
+      getNumCols(canali) {
+          const col = Math.round(12 / canali.length);
+          return col > 3 ? col : 3;
       }
 
     }

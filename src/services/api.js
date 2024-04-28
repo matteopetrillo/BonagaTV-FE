@@ -1,4 +1,4 @@
-export const baseURL = 'http://localhost:8080/api'
+export const baseURL = process.env.VUE_APP_ROOT_API
 
 export const getCanali = () => {
   return fetch(`${baseURL}/canale/raccolta`)

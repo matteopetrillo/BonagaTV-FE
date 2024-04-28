@@ -4,7 +4,7 @@
 
         <v-row>
 
-            <v-col cols="12" sm="8" md="6">
+            <v-col cols="12" sm="12" md="5" lg="6">
 
                 <div class="my-4 logo">
                     <img :src="logoSrc"></img>
@@ -28,8 +28,11 @@
 
             </v-col>
 
-            <v-col cols="12" sm="8" md="6">
-                <LoginPayment class="loginComponent"></LoginPayment>
+            <v-col cols="12" sm="10" md="7" lg="6">
+                <LoginPayment 
+                class="loginComponent"
+                :idEvento="this.idEvento">
+                </LoginPayment>
             </v-col>
 
         </v-row>
@@ -53,6 +56,9 @@ export default {
         }, 
         logoSrc: {
             type: String
+        },
+        idEvento: {
+            required: true
         }
     }
 }

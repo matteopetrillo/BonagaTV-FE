@@ -72,7 +72,7 @@ export default {
             }
         },
         connect() {
-            this.socket = new SockJS("http://localhost:8080/heartbeat");
+            this.socket = new SockJS(process.env.VUE_APP_HEARTBEAT);
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect(
                 {idUtente: this.getIdUtente},

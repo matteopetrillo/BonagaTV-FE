@@ -9,7 +9,7 @@ export default createStore({
     specialEvent: null,
     isAuthenticated: false,
     credentials: null,
-    setIdUtente: null
+    idUtente: null
   },
   getters: {
     getCanaliProxLive(state) {
@@ -43,6 +43,7 @@ export default createStore({
     },
     setSpecialEvent(state, canali) {
       state.specialEvent = canali;
+      
     },
     setCredentials(state, cred) {
       state.credentials = cred;
