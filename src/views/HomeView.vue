@@ -67,7 +67,6 @@
     },
     created() {
       this.getData();
-      this.readyToShow = true;
     },
     data() {
       return {
@@ -84,6 +83,7 @@
           this.specialEvent = this.getSpecialEvent;
           this.canaliOnline = this.getCanaliProxLive;
           this.canaliOffline = this.getCanaliOffline;
+          this.readyToShow = true;
       },
       getNumCols(canali) {
           const col = Math.round(12 / canali.length);
