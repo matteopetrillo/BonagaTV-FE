@@ -1,5 +1,5 @@
   <template>
-    <div v-if="!this.readyToShow">
+    <div v-if="!this.readyToShow" class="loading">
       <v-progress-circular color="orange" indeterminate></v-progress-circular>
     </div>
     <v-main v-else class="bg-white-2">
@@ -93,5 +93,20 @@
     }
   }
 </script>
+
+<style scoped>
+
+.loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 20vh;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+</style>
 
 
