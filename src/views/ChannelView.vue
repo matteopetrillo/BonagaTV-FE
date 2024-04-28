@@ -1,5 +1,8 @@
 <template>
-    <v-main class="bg-white-2">
+    <div v-if="!this.readyToShow" class="loading">
+      <v-progress-circular color="orange" indeterminate></v-progress-circular>
+    </div>
+    <v-main v-else class="bg-white-2">
         <div class="iframe-wrapper">
             <iframe
             :src="streamingSrc"
@@ -34,13 +37,14 @@ export default {
     },
     data() {
         return {
-            streamingSrc: ''
+            streamingSrc: '',
+            readyToShow: false
         }
     },
     methods: {
         setStreamingSrc() {
-            const canaliOnline = this.$store.getters.getCanaliProxLive
-            const canaliOffline = this.$store.getters.getCanaliOffline
+            const canaliOnline = this.getCanaliProxLive
+            const canaliOffline = this.getCanaliOffline
 
             canaliOnline.forEach((element,index) => {
                 if (element.id == this.$route.query.id) {
@@ -55,6 +59,9 @@ export default {
                     }
                 })
             }
+
+            this.readyToShow = true;
+
         }
     }
 

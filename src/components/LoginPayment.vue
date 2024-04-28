@@ -24,23 +24,43 @@
             <v-divider class="ms-3" inset vertical></v-divider>
 
             <v-col cols="12" sm="10" md="6">
+                <v-alert
+                v-if="alertValidEmail"
+                density=“compact”
+                class="popup"
+                closable
+                close-label="Chiudi"
+                color="error"
+                ><strong>Attenzione!</strong> <br> La mail inserita deve essere valida e non deve essere già associata ad un altro account.</v-alert>
+
+                <v-alert
+                v-if="alertSuccesso"
+                density=“compact”
+                class="popup"
+                closable
+                close-label="Chiudi"
+                color="success"
+                ><strong>Congratulazioni!</strong> <br> La registrazione è avvenuta con successo. Ti abbiamo inviato alla mail indicata le credenziali per effettuare 
+                l'accesso.</v-alert>
                 <v-container>
                     <p class="text-h6 pb-3">
                         Registrati al Servizio
                     </p>
                     <p>1. Inserisci e convalida la tua mail:</p>
-                    <v-text-field density="compact" v-model="emailReg" label="Email" class="mb-n5"></v-text-field>
+                    <v-text-field :disabled="emailRegDisabled" density="compact" v-model="emailReg" label="Email"
+                        class="mb-n5"></v-text-field>
                     <div class="text-center">
-                        <v-btn class="my-3" size="small" variant="elevated" @click="this.isEmailValid = true">
-                            Conferma Mail
-                        </v-btn>
+                        <v-btn class="my-3" size="small" variant="elevated" @click="confirmEmail()"
+                            :text="this.emailRegDisabled ? 'Modifica Email' : 'Conferma Email'" />
                     </div>
-                    <div v-if="this.isEmailValid">
+                    <div v-if="this.showPayment">
                         <v-divider class="py-2"></v-divider>
-                        <p>2. <input type="checkbox"
-                                style="margin-bottom: 20px; margin-right: 10px; margin-left: 5px;"><span>Accetto le <a
-                                    href="">condizioni di utilizzo</a>.</span></p>
-
+                        <p>2. <label><input :checked="checkBoxCondizioni" type="checkbox"
+                                    style="margin-bottom: 20px; margin-right: 10px; margin-left: 5px;"
+                                    @change="checkCondizioni()"><span>Accetto le <a href="">condizioni di
+                                        utilizzo</a>.</span></label></p>
+                    </div>
+                    <div v-if="this.checkBoxCondizioni">
                         <v-divider class="py-2"></v-divider>
                         <p>3. Completa la registrazione effettuando il pagamento:</p>
                         <div id="paypal-button-container"></div>
@@ -56,7 +76,7 @@
 </template>
 
 <script>
-import { login } from '@/services/api.js'
+import { login, registraUtente, registraOrdine, checkDispEmail } from '@/services/api.js'
 import { loadScript } from '@paypal/paypal-js';
 import { baseURL } from '@/services/api.js'
 import { mapActions } from 'vuex';
@@ -73,42 +93,36 @@ export default {
             emailLogin: '',
             emailReg: '',
             password: '',
-            isEmailValid: false,
+            showPayment: false,
             checkBoxCondizioni: false,
             idOrdine: null,
-
+            emailRegDisabled: false,
+            alertValidEmail: false,
+            alertSuccesso: false,
         }
     },
     watch: {
-        isEmailValid(newVal) {
+        checkBoxCondizioni(newVal) {
             if (newVal) {
                 this.renderPaypal();
             }
-        }
+        },
     },
     methods: {
         ...mapActions(['setCredentials', 'setIdUtente']),
         authUser() {
 
             login(this.emailLogin, this.password, this.idEvento)
-                .then(response => {
-
+                .then((response) => {
                     this.setCredentials({ email: this.emailLogin, password: this.password });
                     this.setIdUtente(response.idUtente);
                     this.$router.push('special-event');
-
                 })
                 .catch(error => {
                     // Se la risposta è 401, mostra il popup di errore
                     console.log("error", error)
                 });
         },
-
-        completeUserRegistration(orderDetails) {
-            console.log(orderDetails)
-            console.log(this.emailReg)
-        },
-
         async renderPaypal() {
             const paypalSdk = await loadScript({
                 clientId: 'AZ-KdqJRqNOlHsDUsjH5ul8HB1bpb3X_5KjPrWWvRNHZyNgzNNqhFdSMNYO9_HFWdZysQgqAugN4WoxX',
@@ -127,10 +141,15 @@ export default {
                     return fetch(baseURL + "/ordine/crea-ordine?id=" + this.idEvento, {
                         method: "POST", headers: { "Content-Type": "application/json" }
                     })
-                        .then((response) => { return response.json() })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Errore nella creazione dell'ordine");   
+                            }
+                            return response.json();
+                        })
                         .then((res) => {
-                            this.idOrdine = res.idOrdine
-                            return res.idOrdine
+                            this.idOrdine = res.idOrdine;
+                            return res.idOrdine;
                         })
                         .catch((error) => { console.log(error) });
                 },
@@ -139,11 +158,21 @@ export default {
                     return fetch(baseURL + "/ordine/conferma-ordine?id=" + this.idOrdine, {
                         method: "POST", headers: { "Content-Type": "application/json" }
                     })
-                        .then((response) => { return response.json() })
-                        .then((details) => {
-                            this.completeUserRegistration(details)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Errore nella cattura del pagamento");
+                            }
+                            return response.json();
                         })
-                        .catch((error) => { console.log(error) })
+                        .then((details) => {
+                            this.completeRegistration(details);
+                            this.resetRegisterFields();
+                            this.alertSuccesso = true;
+                        })
+                        .catch(error => { 
+                            console.log(details)
+                            console.error("Errore in onApprove",error) 
+                        })
                 },
 
                 onCancel: (data, actions) => {
@@ -151,24 +180,76 @@ export default {
                 },
 
                 onError: function (err) {
-                    console.log(err)
+                    console.error("Errore in onError di Paypal",err)
                 }
 
 
             }).render('#paypal-button-container')
                 .catch((error) => { console.log(error) });
 
-        }
+        },
+        checkCondizioni() {
+            this.checkBoxCondizioni = !this.checkBoxCondizioni;
+        },
+        async confirmEmail() {
+            const email = this.emailReg
+            const isValidEmail = await this.validaEmail(email)
+            if (isValidEmail) {
+                this.emailRegDisabled = !this.emailRegDisabled;
+                this.showPayment = !this.showPayment;
+                this.alertValidEmail = false;
+                if (this.checkBoxCondizioni) {
+                    this.checkBoxCondizioni = false;
+                }
+            } else {
+                this.alertValidEmail = true
+            }
+        },
 
+        async validaEmail(email) {
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (regex.test(email)) {
+                try {
+                    const dispEmail = await checkDispEmail(email);
+                    return dispEmail;
+                } catch (error) {
+                    return false;
+                }   
+            } else {
+                return false;
+            }
+        },
+        completeRegistration(orderDetails) {
+            registraUtente(this.emailReg, this.idEvento)
+            .then(response => {
+                const data = {
+                    idUtente: response,
+                    codiceOrdine: orderDetails.id,
+                    codicePagamento: orderDetails.purchase_units[0].payments.captures[0].id,
+                    importo: orderDetails.purchase_units[0].payments.captures[0].amount.value
+                };
+                registraOrdine(data)
+                .catch(error => console.error("Errore durante la registrazione dell'ordine", error))
+
+            })
+            .catch(error => console.error("Errore durante la registrazione dell'utente", error))
+        },
+        resetRegisterFields() {
+            this.emailRegDisabled = false;
+            this.emailReg = '';
+            this.showPayment = false;
+            this.checkBoxCondizioni = false;
+        }
     }
 }
 
 </script>
 
 <style scoped>
-.error-popup {
-    max-width: 400px;
-    text-align: center;
+.popup {
+    max-width: 500px;
+    max-height: 150px;
+    font-size: medium;
 }
 
 .checkbox-styled .v-input--selection-controls__input {

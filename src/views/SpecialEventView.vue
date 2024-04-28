@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { baseURL, getSpecialEventChannel, attivaUtente, disattivaUtente } from '@/services/api';
+import { getSpecialEventChannel} from '@/services/api';
 import { mapGetters } from 'vuex';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
@@ -50,27 +50,8 @@ export default {
     },
     beforeUnmount() {
         this.disconnect();
-
     },
     methods: {
-        handleUnload(event) {
-            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+this.getIdUtente)
-            disattivaUtente(this.getIdUtente)
-        },
-        handlePageHide(event) {
-        // In caso di pagehide, disattiva l'utente
-        const id = this.$store.getters.getIdUtente
-        navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
-        disattivaUtente(this.$store.getters.getIdUtente)
-        },
-        handleVisibilityChange(event) {
-        // Se la visibilità del documento diventa "hidden", disattiva l'utente
-        if (document.visibilityState === 'hidden') {
-            const id = this.$store.getters.getIdUtente
-            navigator.sendBeacon(baseURL+'/utente/disattiva?id='+id)
-            disattivaUtente(this.$store.getters.getIdUtente)
-            }
-        },
         connect() {
             this.socket = new SockJS(process.env.VUE_APP_HEARTBEAT);
             this.stompClient = Stomp.over(this.socket);

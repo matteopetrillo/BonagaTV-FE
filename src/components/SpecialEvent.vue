@@ -21,7 +21,7 @@
                         registrazione la password generata dal nostro sistema.
                         In caso di smarrimento di suddetta password potrà essere richiesta cliccando sul pulsante
                         apposito nella sezione di login. <br> Solo per ulteriori problemi potrete
-                        contattarci all'indirizzo mail <a href="">help@bonagacommunication.tv</a> . Grazie e buona
+                        contattarci all'indirizzo mail <a href="">help@bonagacommunication.tv</a> . <br> Grazie e buona
                         visione.
                     </p>
                 </div>
@@ -38,7 +38,7 @@
         </v-row>
 
     </v-container>
-    <v-divider class="mx-16"></v-divider>
+    <v-divider></v-divider>
 
 </template>
 

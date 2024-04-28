@@ -24,6 +24,7 @@
     "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "@mdi/font": "^7.4.47",
     "@mdi/js": "^7.4.47",
     "@vue/cli-plugin-babel": "~5.0.0",

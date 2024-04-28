@@ -105,3 +105,63 @@ export const login = (email, password) => {
       console.log(error)
     });
 };
+
+export const registraUtente = (email, idEvento) => {
+
+  const data = {
+    email: email,
+    idEvento: idEvento
+  };
+
+  return fetch(`${baseURL}/utente/registra`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Errore durante la registrazione utente');
+      }
+      return response.json()
+    })
+    .catch(error => {
+      console.log(error)
+    });
+};
+
+export const registraOrdine = (data) => {
+
+  return fetch(`${baseURL}/ordine/registra-ordine`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Errore durante la registrazione dell ordine');
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    });
+};
+
+export const checkDispEmail = (email) => {
+
+  return fetch(`${baseURL}/utente/check-by-email?email=${email}`, {
+    method: 'GET',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Errore durante il check della disp email');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.log(error)
+    });
+};
