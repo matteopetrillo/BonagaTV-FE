@@ -8,7 +8,7 @@
                             Accedi per guardare la diretta
                         </p>
                         <v-text-field density="compact" v-model="emailLogin" label="Email"></v-text-field>
-                        <v-text-field density="compact" v-model="password" label="Password"
+                        <v-text-field id="psw" density="compact" v-model="password" label="Password"
                             type="password"></v-text-field>
                         <div class="text-center">
                             <v-btn class="mb-4" size="large" variant="elevated" @click="authUser">
@@ -40,7 +40,7 @@
                 closable
                 close-label="Chiudi"
                 color="success"
-                ><strong>Congratulazioni!</strong> <br> La registrazione è avvenuta con successo. Ti abbiamo inviato alla mail indicata le credenziali per effettuare 
+                ><strong>Congratulazioni!</strong> <br> La registrazione è avvenuta con successo. A breve le arriverà una mail con le credenziali per effettuare 
                 l'accesso.</v-alert>
                 <v-container>
                     <p class="text-h6 pb-3">
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { login, registraUtente, registraOrdine, checkDispEmail } from '@/services/api.js'
+import { login, registraUtente, registraOrdine, checkDispEmail, sendEmail } from '@/services/api.js'
 import { loadScript } from '@paypal/paypal-js';
 import { baseURL } from '@/services/api.js'
 import { mapActions } from 'vuex';
@@ -99,6 +99,7 @@ export default {
             emailRegDisabled: false,
             alertValidEmail: false,
             alertSuccesso: false,
+            idUtente: null
         }
     },
     watch: {
@@ -107,6 +108,13 @@ export default {
                 this.renderPaypal();
             }
         },
+    },
+    mounted() {
+        document.getElementById('psw').onkeydown = (e) => {
+        if(e.keyCode == 13){
+            this.authUser();
+            }
+        };
     },
     methods: {
         ...mapActions(['setCredentials', 'setIdUtente']),
@@ -222,13 +230,18 @@ export default {
         completeRegistration(orderDetails) {
             registraUtente(this.emailReg, this.idEvento)
             .then(response => {
+                this.idUtente = response;
                 const data = {
-                    idUtente: response,
+                    idUtente: this.idUtente,
                     codiceOrdine: orderDetails.id,
                     codicePagamento: orderDetails.purchase_units[0].payments.captures[0].id,
                     importo: orderDetails.purchase_units[0].payments.captures[0].amount.value
                 };
                 registraOrdine(data)
+                .then(() => {
+                    sendEmail(this.idUtente)
+                    .catch(error => console.error("Errore durante l'invio della mail all'utente", error))
+                } )
                 .catch(error => console.error("Errore durante la registrazione dell'ordine", error))
 
             })

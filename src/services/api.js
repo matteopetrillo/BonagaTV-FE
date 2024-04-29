@@ -165,3 +165,22 @@ export const checkDispEmail = (email) => {
       console.log(error)
     });
 };
+
+export const sendEmail = (idUtente) => {
+
+  return fetch(`${baseURL}/utente/send-email?id=${idUtente}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: {}
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Errore durante la registrazione dell ordine');
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    });
+};
