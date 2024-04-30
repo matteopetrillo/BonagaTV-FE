@@ -15,7 +15,7 @@
                         <strong>{{ nomeEvento }}</strong>
                     </h3>
                     <p class="text-caption" style="width: 90%; padding-top: 10px; text-align: justify;">
-                        Il costo della diretta è di €{{ this.$store.getters.getSpecialEvent.costo }} . Per registrarsi al servizio streaming 
+                        Il costo della diretta è di €{{ this.getSpecialEvent.costo }} . Per registrarsi al servizio streaming 
                         bisognerà quindi inserire la propria mail nell'apposito spazio e
                         procedere con il pagamento. Una volta convalidato riceverete alla mail indicata in fase di
                         registrazione la password generata dal nostro sistema.
@@ -31,7 +31,8 @@
             <v-col cols="12" sm="10" md="7" lg="6">
                 <LoginPayment 
                 class="loginComponent"
-                :idEvento="this.idEvento">
+                :idEvento="this.idEvento"
+                @lostPsw="handleLostPassword()">
                 </LoginPayment>
             </v-col>
 
@@ -43,7 +44,10 @@
 </template>
 
 <script>
-import LoginPayment from '@/components/LoginPayment.vue'
+import LoginPayment from '@/components/LoginPayment.vue';
+import { checkDispEmail, sendEmail } from '@/services/api.js';
+import { mapGetters } from 'vuex';
+
 
 export default {
     name: 'SpecialEvent',
@@ -59,6 +63,19 @@ export default {
         },
         idEvento: {
             required: true
+        }
+    },
+    computed: {
+      ...mapGetters([
+        'getCanaliProxLive',
+        'getCanaliOffline',
+        'getSpecialEvent',
+      ])
+
+    },
+    methods: {
+        handleLostPassword() {
+
         }
     }
 }

@@ -96,10 +96,7 @@ export const login = (email, password) => {
     body: JSON.stringify(data)
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Errore durante il recupero delle informazioni');
-      }
-      return response.json()
+      return response;
     })
     .catch(error => {
       console.log(error)

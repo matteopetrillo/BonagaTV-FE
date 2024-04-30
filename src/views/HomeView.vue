@@ -34,7 +34,7 @@
                   :lg="getNumCols(this.canaliOffline)">
                   <v-item>
                     <ChannelCard :idCanale="canale.id" :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento"
-                      srcLink="" :isLive="false" />
+                    :srcLink="canale.streamingSrc" :isLive="false" />
                   </v-item>
                 </v-col>
               </v-row>

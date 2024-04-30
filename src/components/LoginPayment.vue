@@ -2,6 +2,9 @@
     <v-container>
         <v-row>
             <v-col cols="12" sm="10" md="5">
+                <Alert v-if="showAlertLogin" :tipo="tipoAlertLogin" :titolo="titoloAlertLogin" :testo="testoAlertLogin">
+                </Alert>
+
                 <v-container>
                     <v-form>
                         <p class="text-h6 pb-3">
@@ -14,9 +17,8 @@
                             <v-btn class="mb-4" size="large" variant="elevated" @click="authUser">
                                 Login
                             </v-btn>
-                            <p><a href="">Ho dimenticato la password</a></p>
+                            <p><a href="#" @click="handleLostPsw()">Ho dimenticato la password</a></p>
                         </div>
-
                     </v-form>
                 </v-container>
             </v-col>
@@ -24,31 +26,16 @@
             <v-divider class="ms-3" inset vertical></v-divider>
 
             <v-col cols="12" sm="10" md="6">
-                <v-alert
-                v-if="alertValidEmail"
-                density=“compact”
-                class="popup"
-                closable
-                close-label="Chiudi"
-                color="error"
-                ><strong>Attenzione!</strong> <br> La mail inserita deve essere valida e non deve essere già associata ad un altro account.</v-alert>
+                <Alert v-if="showAlertRegistrazione" :tipo="tipoAlertReg" :titolo="titoloAlertReg"
+                    :testo="testoAlertReg"></Alert>
 
-                <v-alert
-                v-if="alertSuccesso"
-                density=“compact”
-                class="popup"
-                closable
-                close-label="Chiudi"
-                color="success"
-                ><strong>Congratulazioni!</strong> <br> La registrazione è avvenuta con successo. A breve le arriverà una mail con le credenziali per effettuare 
-                l'accesso.</v-alert>
                 <v-container>
                     <p class="text-h6 pb-3">
                         Registrati al Servizio
                     </p>
                     <p>1. Inserisci e convalida la tua mail:</p>
                     <v-text-field :disabled="emailRegDisabled" density="compact" v-model="emailReg" label="Email"
-                        class="mb-n5"></v-text-field>
+                        class="mb-n5" id="email-reg"></v-text-field>
                     <div class="text-center">
                         <v-btn class="my-3" size="small" variant="elevated" @click="confirmEmail()"
                             :text="this.emailRegDisabled ? 'Modifica Email' : 'Conferma Email'" />
@@ -80,9 +67,13 @@ import { login, registraUtente, registraOrdine, checkDispEmail, sendEmail } from
 import { loadScript } from '@paypal/paypal-js';
 import { baseURL } from '@/services/api.js'
 import { mapActions } from 'vuex';
+import Alert from '@/components/Alert.vue';
 
 export default {
     name: 'LoginPayment',
+    components: {
+        Alert
+    },
     props: {
         idEvento: {
             required: true
@@ -99,7 +90,15 @@ export default {
             emailRegDisabled: false,
             alertValidEmail: false,
             alertSuccesso: false,
-            idUtente: null
+            idUtente: null,
+            showAlertRegistrazione: false,
+            tipoAlertReg: '',
+            titoloAlertReg: '',
+            testoAlertReg: '',
+            tipoAlertLogin: '',
+            titoloAlertLogin: '',
+            testoAlertLogin: '',
+            showAlertLogin: false,
         }
     },
     watch: {
@@ -108,93 +107,109 @@ export default {
                 this.renderPaypal();
             }
         },
+        showAlertRegistrazione(newVal) {
+            if (newVal) {
+                setTimeout(() => {
+                    this.showAlertRegistrazione = false
+                }, 10000)
+            }
+        },
+        showAlertLogin(newVal) {
+            if (newVal) {
+                setTimeout(() => {
+                    this.showAlertLogin = false
+                }, 10000)
+            }
+        }
     },
     mounted() {
         document.getElementById('psw').onkeydown = (e) => {
-        if(e.keyCode == 13){
-            this.authUser();
+            if (e.keyCode == 13) {
+                this.authUser();
+            }
+        };
+        document.getElementById('email-reg').onkeydown = (e) => {
+            if (e.keyCode == 13) {
+                this.confirmEmail();
             }
         };
     },
     methods: {
         ...mapActions(['setCredentials', 'setIdUtente']),
-        authUser() {
-
-            login(this.emailLogin, this.password, this.idEvento)
-                .then((response) => {
+        async authUser() {
+            try {
+                const response = await login(this.emailLogin, this.password, this.idEvento);
+                if (response.ok) {
+                    const responseData = await response.json();
                     this.setCredentials({ email: this.emailLogin, password: this.password });
-                    this.setIdUtente(response.idUtente);
+                    this.setIdUtente(responseData.idUtente);
                     this.$router.push('special-event');
-                })
-                .catch(error => {
-                    // Se la risposta è 401, mostra il popup di errore
-                    console.log("error", error)
-                });
+                } else if (response.status == 409) {
+                    this.showAlertLoginFunction("error", "Attenzione!", "La connessione non può essere effettuata da due dispositivi contemporaneamente. Si prega di disconnetterne uno e riprovare.");
+                } else if (response.status == 401) {
+                    this.showAlertLoginFunction("error", "Attenzione!", "Le credenziali fornite non sono corrette o l'utenza non è registrata al servizio. Si prega di ricontrollare la mail inviata con le credenziali o effettuare la registrazione al servizio.");
+                } else {
+                    throw new Error("Errore imprevisto nel login: status " + response.status);
+                }
+
+            } catch (error) {
+                console.error("Errore durante l'autenticazione", error);
+            }
         },
         async renderPaypal() {
-            const paypalSdk = await loadScript({
-                clientId: 'AZ-KdqJRqNOlHsDUsjH5ul8HB1bpb3X_5KjPrWWvRNHZyNgzNNqhFdSMNYO9_HFWdZysQgqAugN4WoxX',
-                currency: 'EUR'
-            });
-            paypalSdk.Buttons({
-                style: {
-                    layout: 'horizontal',
-                    label: 'buynow',
-                    tagline: false
-                },
-                onClick: (data) => {
-
-                },
-                createOrder: (data, actions) => {
-                    return fetch(baseURL + "/ordine/crea-ordine?id=" + this.idEvento, {
-                        method: "POST", headers: { "Content-Type": "application/json" }
-                    })
-                        .then((response) => {
+            try {
+                const paypalSdk = await loadScript({
+                    clientId: process.env.VUE_APP_PAYPAL_ID,
+                    currency: 'EUR'
+                });
+                paypalSdk.Buttons({
+                    style: {
+                        layout: 'horizontal',
+                        label: 'buynow',
+                        tagline: false
+                    },
+                    onClick: (data) => { },
+                    createOrder: async (data, actions) => {
+                        try {
+                            const response = await fetch(baseURL + "/ordine/crea-ordine?id=" + this.idEvento, {
+                                method: "POST", headers: { "Content-Type": "application/json" }
+                            });
                             if (!response.ok) {
-                                throw new Error("Errore nella creazione dell'ordine");   
+                                throw new Error("Errore nella creazione dell'ordine");
                             }
-                            return response.json();
-                        })
-                        .then((res) => {
+                            const res = await response.json();
                             this.idOrdine = res.idOrdine;
                             return res.idOrdine;
-                        })
-                        .catch((error) => { console.log(error) });
-                },
-
-                onApprove: (data, actions) => {
-                    return fetch(baseURL + "/ordine/conferma-ordine?id=" + this.idOrdine, {
-                        method: "POST", headers: { "Content-Type": "application/json" }
-                    })
-                        .then((response) => {
+                        } catch (error) {
+                            console.error("Errore durante la creazione dell'ordine", error);
+                        }
+                    },
+                    onApprove: async (data, actions) => {
+                        try {
+                            const response = await fetch(baseURL + "/ordine/conferma-ordine?id=" + this.idOrdine, {
+                                method: "POST", headers: { "Content-Type": "application/json" }
+                            });
                             if (!response.ok) {
                                 throw new Error("Errore nella cattura del pagamento");
                             }
-                            return response.json();
-                        })
-                        .then((details) => {
+                            const details = await response.json();
                             this.completeRegistration(details);
                             this.resetRegisterFields();
-                            this.alertSuccesso = true;
-                        })
-                        .catch(error => { 
-                            console.log(details)
-                            console.error("Errore in onApprove",error) 
-                        })
-                },
-
-                onCancel: (data, actions) => {
-                    console.log("ordine cancellato")
-                },
-
-                onError: function (err) {
-                    console.error("Errore in onError di Paypal",err)
-                }
-
-
-            }).render('#paypal-button-container')
-                .catch((error) => { console.log(error) });
-
+                            this.showAlertReg("success","Congratulazioni!","La registrazione è avvenuta con successo. A breve le arriveranno le credenziali di accesso alla mail utilizzata durante la registrazione.")
+                        } catch (error) {
+                            console.error("Errore in onApprove", error);
+                        }
+                    },
+                    onCancel: (data, actions) => {
+                        console.log("ordine cancellato")
+                    },
+                    onError: function (err) {
+                        console.error("Errore in onError di Paypal", err)
+                    }
+                }).render('#paypal-button-container');
+            } catch (error) {
+                console.error("Errore durante il rendering di Paypal", error);
+            }
         },
         checkCondizioni() {
             this.checkBoxCondizioni = !this.checkBoxCondizioni;
@@ -205,12 +220,11 @@ export default {
             if (isValidEmail) {
                 this.emailRegDisabled = !this.emailRegDisabled;
                 this.showPayment = !this.showPayment;
-                this.alertValidEmail = false;
                 if (this.checkBoxCondizioni) {
                     this.checkBoxCondizioni = false;
                 }
             } else {
-                this.alertValidEmail = true
+                this.showAlertReg("error", "Attenzione!", "La registrazione è avvenuta con successo. A breve le arriverà una mail con le credenziali per effettuare l'accesso.")
             }
         },
 
@@ -222,51 +236,64 @@ export default {
                     return dispEmail;
                 } catch (error) {
                     return false;
-                }   
+                }
             } else {
                 return false;
             }
         },
-        completeRegistration(orderDetails) {
-            registraUtente(this.emailReg, this.idEvento)
-            .then(response => {
-                this.idUtente = response;
+        async completeRegistration(orderDetails) {
+            try {
+                // Registra l'utente e ottieni l'ID utente
+                const responseUtente = await registraUtente(this.emailReg, this.idEvento);
+                this.idUtente = responseUtente;
+
+                // Prepara i dettagli dell'ordine
                 const data = {
                     idUtente: this.idUtente,
                     codiceOrdine: orderDetails.id,
                     codicePagamento: orderDetails.purchase_units[0].payments.captures[0].id,
                     importo: orderDetails.purchase_units[0].payments.captures[0].amount.value
                 };
-                registraOrdine(data)
-                .then(() => {
-                    sendEmail(this.idUtente)
-                    .catch(error => console.error("Errore durante l'invio della mail all'utente", error))
-                } )
-                .catch(error => console.error("Errore durante la registrazione dell'ordine", error))
 
-            })
-            .catch(error => console.error("Errore durante la registrazione dell'utente", error))
+                // Registra l'ordine
+                try {
+                    await registraOrdine(data);
+                } catch (errorRegistrazioneOrdine) {
+                    console.error("Errore durante la registrazione dell'ordine", errorRegistrazioneOrdine);
+                }
+
+                // Invia l'email all'utente
+                try {
+                    await sendEmail(this.idUtente);
+                } catch (errorInvioEmail) {
+                    console.error("Errore durante l'invio della mail all'utente", errorInvioEmail);
+                }
+            } catch (errorRegistrazioneUtente) {
+                console.error("Errore durante la registrazione dell'utente", errorRegistrazioneUtente);
+            }
         },
         resetRegisterFields() {
             this.emailRegDisabled = false;
             this.emailReg = '';
             this.showPayment = false;
             this.checkBoxCondizioni = false;
+        },
+        showAlertReg(tipo, titolo, testo) {
+            this.tipoAlertReg = tipo;
+            this.titoloAlertReg = titolo;
+            this.testoAlertReg = testo;
+            this.showAlertRegistrazione = true;
+        },
+        showAlertLoginFunction(tipo, titolo, testo) {
+            this.tipoAlertLogin = tipo;
+            this.titoloAlertLogin = titolo;
+            this.testoAlertLogin = testo;
+            this.showAlertLogin = true;
+        },
+        handleLostPsw() {
+            this.$emit('lostPsw');
         }
     }
 }
 
 </script>
-
-<style scoped>
-.popup {
-    max-width: 500px;
-    max-height: 150px;
-    font-size: medium;
-}
-
-.checkbox-styled .v-input--selection-controls__input {
-    border-color: #000;
-    /* Cambia il colore del bordo del checkbox */
-}
-</style>
