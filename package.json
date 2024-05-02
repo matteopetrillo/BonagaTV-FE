@@ -8,13 +8,23 @@
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
+    "@paypal/paypal-js": "^8.0.5",
+    "axios": "^1.6.8",
     "core-js": "^3.8.3",
+    "dotenv": "^16.4.5",
+    "inertiajs": "^0.0.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-stomp": "^0.0.5",
     "vuetify": "^3.5.11",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.1.0",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "@mdi/font": "^7.4.47",
     "@mdi/js": "^7.4.47",
     "@vue/cli-plugin-babel": "~5.0.0",
