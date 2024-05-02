@@ -8,7 +8,7 @@
                 <v-container>
                     <v-form>
                         <p class="text-h6 pb-3">
-                            Accedi per guardare la diretta
+                            <strong>Accedi per guardare la diretta</strong> 
                         </p>
                         <v-text-field density="compact" v-model="emailLogin" label="Email"></v-text-field>
                         <v-text-field id="psw" density="compact" v-model="password" label="Password"
@@ -17,7 +17,7 @@
                             <v-btn class="mb-4" size="large" variant="elevated" @click="authUser">
                                 Login
                             </v-btn>
-                            <p><a href="#" @click="handleLostPsw()">Ho dimenticato la password</a></p>
+                            <p><a href="#" @click="handleLostPsw()">Ho dimenticato le credenziali</a></p>
                         </div>
                     </v-form>
                 </v-container>
@@ -31,7 +31,7 @@
 
                 <v-container>
                     <p class="text-h6 pb-3">
-                        Registrati al Servizio
+                        <strong>Registrati al Servizio</strong> 
                     </p>
                     <p>1. Inserisci e convalida la tua mail:</p>
                     <v-text-field :disabled="emailRegDisabled" density="compact" v-model="emailReg" label="Email"
@@ -44,7 +44,7 @@
                         <v-divider class="py-2"></v-divider>
                         <p>2. <label><input :checked="checkBoxCondizioni" type="checkbox"
                                     style="margin-bottom: 20px; margin-right: 10px; margin-left: 5px;"
-                                    @change="checkCondizioni()"><span>Accetto le <a href="">condizioni di
+                                    @change="checkCondizioni()"><span>Accetto le <a href="http://www.andreabonaga.it/node/9">condizioni di
                                         utilizzo</a>.</span></label></p>
                     </div>
                     <div v-if="this.checkBoxCondizioni">

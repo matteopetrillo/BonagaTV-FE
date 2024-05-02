@@ -15,13 +15,16 @@
                         <strong>{{ nomeEvento }}</strong>
                     </h3>
                     <p class="text-caption" style="width: 90%; padding-top: 10px; text-align: justify;">
-                        Il costo della diretta è di €{{ this.getSpecialEvent.costo }} . Per registrarsi al servizio
-                        streaming
-                        bisognerà quindi inserire la propria mail nell'apposito spazio e
-                        procedere con il pagamento. Una volta convalidato riceverete alla mail indicata in fase di
-                        registrazione la password generata dal nostro sistema.
-                        In caso di smarrimento di suddetta password potrà essere richiesta cliccando sul pulsante
-                        apposito nella sezione di login. <br> Solo per ulteriori problemi potrete
+                        Per registrarsi al servizio streaming bisognerà seguire i passaggi illustrati nella sezione "Registrati al Servizio". <br> 
+                        In particolare verrà richiesto di: 
+                        <ol style="margin-left: 20px;">
+                            <li>Inserire una mail valida a cui successivamente riceverete la vostra password</li>
+                            <li>Accettare le condizioni di utilizzo del sito</li>
+                            <li>Finalizzare la registrazione tramite il pagamento. Il costo della diretta è di €{{ this.getSpecialEvent.costo }} .</li>
+                        </ol>
+                        <br>
+                        In caso di smarrimento di della mail contenente le credenziali di accesso, essa potrà essere richiesta nuovamente cliccando sul pulsante
+                        "Ho dimenticato le credenziali" nella sezione di login. <br> Solo per ulteriori problemi potrete
                         contattarci all'indirizzo mail <a href="mailto:help@bonagacommunication.tv">help@bonagacommunication.tv</a> . <br> Grazie e buona
                         visione.
                     </p>
