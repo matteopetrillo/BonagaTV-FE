@@ -173,9 +173,7 @@ export const sendEmail = (idUtente) => {
     body: {}
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Errore durante la registrazione dell ordine');
-      }
+      return response
     })
     .catch(error => {
       console.log(error)

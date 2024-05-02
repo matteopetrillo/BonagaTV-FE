@@ -220,11 +220,12 @@ export default {
             if (isValidEmail) {
                 this.emailRegDisabled = !this.emailRegDisabled;
                 this.showPayment = !this.showPayment;
+                this.showAlertRegistrazione = false;
                 if (this.checkBoxCondizioni) {
                     this.checkBoxCondizioni = false;
                 }
             } else {
-                this.showAlertReg("error", "Attenzione!", "La registrazione è avvenuta con successo. A breve le arriverà una mail con le credenziali per effettuare l'accesso.")
+                this.showAlertReg("error", "Attenzione!", "La mail inserita non è valida o già associata ad un altro utente.")
             }
         },
 
@@ -233,7 +234,7 @@ export default {
             if (regex.test(email)) {
                 try {
                     const dispEmail = await checkDispEmail(email);
-                    return dispEmail;
+                    return dispEmail == 0;
                 } catch (error) {
                     return false;
                 }
