@@ -7,7 +7,7 @@
             <v-col cols="12" sm="12" md="5" lg="6">
 
                 <div class="my-4 logo">
-                    <img :src="logoSrc"></img>
+                    <img :src="getLogoSrc()"></img>
                 </div>
                 <div
                     style="display: flex; justify-content: center; text-align: center; align-items: center; flex-direction: column;">
@@ -70,12 +70,15 @@ export default {
         'getCanaliProxLive',
         'getCanaliOffline',
         'getSpecialEvent',
-      ])
-
+      ]),
+      
     },
     methods: {
         handleLostPassword() {
 
+        },
+        getLogoSrc() {
+            return require(`@/${this.logoSrc}`);
         }
     }
 }
