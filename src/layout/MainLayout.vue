@@ -6,7 +6,7 @@
     :elevation="3"
     style="flex-direction: column; z-index: 999; position: fixed; width: 100%;">
     <router-link to="/">
-        <img class="mt-n5" style="height: 130px;" src="https://imagizer.imageshack.com/img922/7724/imwyzs.png"></img>
+        <img class="mt-n5" style="height: 130px;" src='@/assets/bonaga.png'></img>
     </router-link>
     </v-sheet>
     <!-- 
