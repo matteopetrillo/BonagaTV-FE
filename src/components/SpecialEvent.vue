@@ -22,7 +22,7 @@
                         registrazione la password generata dal nostro sistema.
                         In caso di smarrimento di suddetta password potrà essere richiesta cliccando sul pulsante
                         apposito nella sezione di login. <br> Solo per ulteriori problemi potrete
-                        contattarci all'indirizzo mail <a href="">help@bonagacommunication.tv</a> . <br> Grazie e buona
+                        contattarci all'indirizzo mail <a href="mailto:help@bonagacommunication.tv">help@bonagacommunication.tv</a> . <br> Grazie e buona
                         visione.
                     </p>
                 </div>
