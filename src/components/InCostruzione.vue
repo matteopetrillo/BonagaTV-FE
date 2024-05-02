@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h1 class="titolo">Sito in Costruzione</h1>
+        <h1 class="titolo">Sito in Costruzione!</h1>
     </v-container>
 </template>
 
