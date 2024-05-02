@@ -23,7 +23,7 @@
                             <li>Finalizzare la registrazione tramite il pagamento. Il costo della diretta è di €{{ this.getSpecialEvent.costo }} .</li>
                         </ol>
                         <br>
-                        In caso di smarrimento di della mail contenente le credenziali di accesso, essa potrà essere richiesta nuovamente cliccando sul pulsante
+                        In caso di smarrimento della mail contenente le credenziali di accesso, essa potrà essere richiesta nuovamente cliccando sul pulsante
                         "Ho dimenticato le credenziali" nella sezione di login. <br> Solo per ulteriori problemi potrete
                         contattarci all'indirizzo mail <a href="mailto:help@bonagacommunication.tv">help@bonagacommunication.tv</a> . <br> Grazie e buona
                         visione.
