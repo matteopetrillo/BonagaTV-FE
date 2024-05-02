@@ -23,7 +23,7 @@
 
     <RouterView class="view"></RouterView>
 
-    <SponsorFooter/>
+    <!-- <SponsorFooter/> -->
 
 </template>
 

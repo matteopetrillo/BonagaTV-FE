@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MainLayout from '@/layout/MainLayout.vue'
 import ChannelView from '../views/ChannelView.vue'
 import SpecialEventView from '@/views/SpecialEventView.vue'
+import InCostruzione from '@/components/InCostruzione.vue'
 import store from '@/store/store.js'
 
 const routes = [
@@ -13,7 +14,7 @@ const routes = [
     children: [
       {
         path: '/',
-        component: HomeView,
+        component: InCostruzione,
         name: 'HomeView'
       },
       {
