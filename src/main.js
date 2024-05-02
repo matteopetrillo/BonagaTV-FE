@@ -12,6 +12,7 @@ import "@mdi/font/css/materialdesignicons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { fa } from "vuetify/iconsets/fa";
 import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
+import i18n from '@/i18n'
 
 const vuetify = createVuetify({
   components,
@@ -27,5 +28,5 @@ const vuetify = createVuetify({
   
 })
 
-createApp(App).use(store).use(router).use(vuetify).mount('#app')
+createApp(App).use(i18n).use(store).use(router).use(vuetify).mount('#app')
 

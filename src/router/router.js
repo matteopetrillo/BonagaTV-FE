@@ -4,25 +4,30 @@ import MainLayout from '@/layout/MainLayout.vue'
 import ChannelView from '../views/ChannelView.vue'
 import SpecialEventView from '@/views/SpecialEventView.vue'
 import store from '@/store/store.js'
+import i18n from '@/i18n'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    redirect: `/${i18n.global.locale.value}/home`
+  },  
+  {
+    path: '/:lang',
+    name: 'base',
     component: MainLayout,
     children: [
       {
-        path: '/',
+        path: 'home',
         component: HomeView,
         name: 'HomeView'
       },
       {
-        path: '/channel/:nomeCanale',
+        path: 'channel/:nomeCanale',
         component: ChannelView,
         name: 'ChannelView',
       },
       {
-        path: '/special-event',
+        path: 'special-event',
         name: 'SpecialEventView',
         component: SpecialEventView
       }
@@ -33,21 +38,12 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
-
-// Aggiungi una guardia di navigazione per controllare l'autenticazione dell'utente prima di accedere alle rotte protette
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Controlla se l'utente è autenticato nello store Vuex
-    if (!store.state.isAuthenticated) {
-      // Se l'utente non è autenticato, reindirizza alla pagina di login
-      next('/');
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
 });
+
+router.beforeEach((to, from, next) => {
+  let language = to.params.lang || i18n.global.locale.value;
+  i18n.global.locale.value = language;
+  next();
+})
 
 export default router

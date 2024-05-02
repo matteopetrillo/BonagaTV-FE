@@ -8,7 +8,7 @@
                 <v-container>
                     <v-form>
                         <p class="text-h6 pb-3">
-                            <strong>Accedi per guardare la diretta</strong> 
+                            <strong>{{ $t('login.titolo') }}</strong> 
                         </p>
                         <v-text-field density="compact" v-model="emailLogin" label="Email"></v-text-field>
                         <v-text-field id="psw" density="compact" v-model="password" label="Password"
