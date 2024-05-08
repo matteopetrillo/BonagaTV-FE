@@ -2,5 +2,27 @@
   "login": {
     "titolo": "Accedi per guardare la diretta",
     "lostPsw": "Ho dimenticato le credenziali"
-  }
+  },
+  "credenzialiSmarrite": {
+    "testoIntro": "",
+    "pulsanteConfermaMail": "",
+    "alertErrore": "",
+    "alertSuccesso": ""
+  },
+  "registrazione": {
+    "titolo": "",
+    "punto1": "",
+    "bottoneConfermaMail": "",
+    "punto2": "",
+    "punto3": ""
+  },
+  "descSpecial": {
+    "introduzione": "",
+    "elencoPunto1": "",
+    "elencoPunto2": "",
+    "elencoPunto3": "",
+    "conclusione": ""
+  },
+  "canaliLive": "",
+  "canaliOffline": ""
 }

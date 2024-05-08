@@ -44,7 +44,7 @@
                         <v-divider class="py-2"></v-divider>
                         <p>2. <label><input :checked="checkBoxCondizioni" type="checkbox"
                                     style="margin-bottom: 20px; margin-right: 10px; margin-left: 5px;"
-                                    @change="checkCondizioni()"><span>Accetto le <a href="http://www.andreabonaga.it/node/9">condizioni di
+                                    @change="checkCondizioni()"><span>Accetto le <a href="http://www.andreabonaga.it/node/9" target="_blank">condizioni di
                                         utilizzo</a>.</span></label></p>
                     </div>
                     <div v-if="this.checkBoxCondizioni">
