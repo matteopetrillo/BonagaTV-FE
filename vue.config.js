@@ -1,7 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: `/it`,
   pluginOptions: {
     i18n: {
       locale: 'it',
