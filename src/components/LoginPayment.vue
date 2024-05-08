@@ -17,7 +17,7 @@
                             <v-btn class="mb-4" size="large" variant="elevated" @click="authUser">
                                 Login
                             </v-btn>
-                            <p><a href="#" @click="handleLostPsw()">Ho dimenticato le credenziali</a></p>
+                            <p><a href="#" @click="handleLostPsw()">{{ $t('login.lostPsw') }}</a></p>
                         </div>
                     </v-form>
                 </v-container>

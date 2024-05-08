@@ -1,5 +1,6 @@
 {
     "login": {
-      "titolo": "Login to watch the livestream"
+      "titolo": "Login to watch the livestream",
+      "lostPsw": "I Lost my Credentials"
     }
   }

@@ -3,13 +3,12 @@ import HomeView from '../views/HomeView.vue'
 import MainLayout from '@/layout/MainLayout.vue'
 import ChannelView from '../views/ChannelView.vue'
 import SpecialEventView from '@/views/SpecialEventView.vue'
-import store from '@/store/store.js'
 import i18n from '@/i18n'
 
 const routes = [
   {
     path: '/',
-    redirect: `/${i18n.global.locale.value}/home`
+    redirect: `/${i18n.global.locale.value}`
   },  
   {
     path: '/:lang',
@@ -17,7 +16,7 @@ const routes = [
     component: MainLayout,
     children: [
       {
-        path: 'home',
+        path: '',
         component: HomeView,
         name: 'HomeView'
       },

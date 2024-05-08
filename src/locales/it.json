@@ -1,5 +1,6 @@
 {
   "login": {
-    "titolo": "Accedi per guardare la diretta"
+    "titolo": "Accedi per guardare la diretta",
+    "lostPsw": "Ho dimenticato le credenziali"
   }
 }
