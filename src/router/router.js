@@ -11,6 +11,10 @@ const routes = [
     redirect: `/${i18n.global.locale.value}`
   },  
   {
+    path:'',
+    redirect: `/${i18n.global.locale.value}`
+  },
+  {
     path: '/:lang',
     name: 'base',
     component: MainLayout,
