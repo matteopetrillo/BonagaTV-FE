@@ -143,7 +143,7 @@ export default {
                     const responseData = await response.json();
                     this.setCredentials({ email: this.emailLogin, password: this.password });
                     this.setIdUtente(responseData.idUtente);
-                    this.$router.push('special-event');
+                    this.$router.push({name: 'SpecialEventView'});
                 } else if (response.status == 409) {
                     this.showAlertLoginFunction("error", "Attenzione!", "La connessione non può essere effettuata da due dispositivi contemporaneamente. Si prega di disconnetterne uno e riprovare.");
                 } else if (response.status == 401) {

@@ -32,6 +32,13 @@ const routes = [
       }
     ]
   },
+  // Wildcard route for handling 404
+  {
+    path: '/:catchAll(.*)',
+    redirect: to => {
+      return `/${i18n.global.locale.value}`;
+    }
+  }
 ]
 
 const router = createRouter({
