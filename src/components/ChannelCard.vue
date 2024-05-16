@@ -13,7 +13,10 @@
 
         <div class="channel">
             <v-avatar class="channelIcon">
-                <svg-icon type="mdi" :path="logo" size="60"></svg-icon>
+                <!-- <svg-icon type="mdi" :path="logo" size="60"></svg-icon> -->
+                <div>
+                    <img :src="channelLogo" />
+                </div>
             </v-avatar>
             <div class="channelInfo">
                 <router-link 
@@ -76,7 +79,8 @@ export default {
             logo: mdiAccountCircle,
             circle: mdiCircle,
         }
-    }
+    },
+
 }
 
 </script>
@@ -111,6 +115,11 @@ export default {
     color: rgb(49, 49, 49);
     margin-bottom: 0.3rem;
 
+}
+
+.v-avatar img {
+  width: 100%;
+  height: auto;
 }
 
 .liveDescription {

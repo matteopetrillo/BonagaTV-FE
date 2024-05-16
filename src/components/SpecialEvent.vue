@@ -129,7 +129,7 @@ export default {
                 if (idUtenteFromMail != 0) {
                     try {
                         this.showDialogAlertFunction('success',this.$t('credenzialiSmarrite.alertSuccessoTitolo'), this.$t('credenzialiSmarrite.alertSuccessoTesto'))
-                        await sendEmail(idUtenteFromMail);
+                        await sendEmail(idUtenteFromMail, this.$route.params.lang);
                         this.closeDialog();
                     } catch (errorInvioEmail) {
                         console.error("Errore durante l'invio della mail all'utente", errorInvioEmail);

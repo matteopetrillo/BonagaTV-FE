@@ -61,7 +61,7 @@
       ...mapGetters([
         'getCanaliProxLive',
         'getCanaliOffline',
-        'getSpecialEvent',
+        'getSpecialEvent'
       ])
 
     },
@@ -77,9 +77,9 @@
       }
     },
     methods: {
-      ...mapActions(['fetchCanali']),
+      ...mapActions(['beginningFetch']),
       async getData() {
-          await this.fetchCanali();
+          await this.beginningFetch();
           this.specialEvent = this.getSpecialEvent;
           this.canaliOnline = this.getCanaliProxLive;
           this.canaliOffline = this.getCanaliOffline;

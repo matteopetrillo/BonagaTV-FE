@@ -1,6 +1,47 @@
 {
-    "login": {
-      "titolo": "Login to watch the livestream",
-      "lostPsw": "I Lost my Credentials"
-    }
-  }
+  "login": {
+    "titolo": "Sign in to watch the live stream",
+    "lostPsw": "I forgot my credentials"
+  },
+  "credenzialiSmarrite": {
+    "testoIntro": "Enter the registration email and we will resend the credentials.",
+    "pulsanteConfermaMail": "Confirm Email",
+    "alertErroreTitolo": "Attention!",
+    "alertErroreTesto": "The email entered is not registered in our system for this event",
+    "alertSuccessoTitolo": "Valid Email!",
+    "alertSuccessoTesto": "We are sending the access credentials to your email."
+  },
+  "authAlerts" : {
+    "attenzioneAlertTitle": "Attention!",
+    "concurrentConnessionText": "Connection cannot be made from two devices simultaneously. Please disconnect one and try again.",
+    "credenzialiNonValide": "The provided credentials are incorrect or the user is not registered for the service. Please check the email sent with the credentials or register for the service."
+  },
+  "registrazione": {
+    "titolo": "Register for the Service",
+    "punto1": "1. Enter and validate your email:",
+    "punto2": "I accept the ",
+    "punto21": "terms of use",
+    "punto3": "3. Complete the registration by making the payment:",
+    "modificaMailButton": "Change Email",
+    "confermaMailButton": "Confirm Email"
+  },
+  "registrazioneAlerts": {
+    "successoTitolo": "Congratulations!",
+    "attenzioneTitolo": "Attention!",
+    "successoTesto": "Registration was successful. You will soon receive access credentials to the email used during registration.",
+    "mailNonValidaTesto": "The entered email is not valid or already associated with another user."
+  },
+  "descSpecial": {
+    "introduzione1": "To register for the streaming service, follow the steps outlined in the 'Register for the Service' section.",
+    "introduzione2": "In particular, you will be asked to:",
+    "elencoPunto1": "Enter a valid email to which you will later receive your password",
+    "elencoPunto2": "Accept the site's terms of use",
+    "elencoPunto3": "Complete registration by payment. The cost of the live stream is €",
+    "conclusione1": "If you do not receive or lose the email containing the access credentials, it can be requested again by clicking on the 'I forgot my credentials' button in the login section.",
+    "conclusione2": "For further issues, you can contact us at the email address",
+    "conclusione3": "Thank you and enjoy the show."
+  },
+  "canaliLive": "Live this week",
+  "canaliOffline": "Our other channels",
+  "sponsor": "Thanks to our sponsors!"
+}

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { getCanali } from '@/services/api'
+import { getCanali, getSponsors } from '@/services/api'
 import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
@@ -9,29 +9,33 @@ export default createStore({
     specialEvent: null,
     isAuthenticated: false,
     credentials: null,
-    idUtente: null
+    idUtente: null,
+    sponsors: null
   },
   getters: {
     getCanaliProxLive(state) {
-      return state.canaliProssimamenteLive
+      return state.canaliProssimamenteLive;
     },
     getCanaliOffline(state) {
-      return state.canaliOffline
+      return state.canaliOffline;
     },
     getSpecialEvent(state) {
-      return state.specialEvent
+      return state.specialEvent;
     },
     getCredentials(state) {
-      return state.credentials
+      return state.credentials;
     },
     getIdUtente(state) {
-      return state.idUtente
+      return state.idUtente;
     },
     getIdSpecialEvent(state) {
-      return state.specialEvent.idEvento
+      return state.specialEvent.idEvento;
     },
     showSpecialEvent(state) {
-      return state.specialEvent != null
+      return state.specialEvent != null;
+    },
+    getSponsors(state) {
+      return state.sponsors;
     }
   },
   mutations: {
@@ -49,16 +53,21 @@ export default createStore({
       state.credentials = cred;
     },
     setIdUtente(state, id) {
-      state.idUtente = id
+      state.idUtente = id;
+    },
+    setSponsors(state, sponsors) {
+      state.sponsors = sponsors;
     }
   },
   actions: {
-    async fetchCanali({commit}) {
+    async beginningFetch({commit}) {
       try {
-        const response = await getCanali();
-        commit('setCanaliProxLive', response.canaliProssimamenteLive);
-        commit('setCanaliOffline', response.canaliOffline);
-        commit('setSpecialEvent', response.specialEvent);
+        const responseCanali = await getCanali();
+        commit('setCanaliProxLive', responseCanali.canaliProssimamenteLive);
+        commit('setCanaliOffline', responseCanali.canaliOffline);
+        commit('setSpecialEvent', responseCanali.specialEvent);
+        const responseSponsor = await getSponsors();
+        commit('setSponsors', responseSponsor);
       } catch (error) {
         console.error('Errore durante il recupero dei canali:', error);
         throw error;
@@ -70,7 +79,7 @@ export default createStore({
     },
     setIdUtente({commit},idUtente) {
       commit('setIdUtente', idUtente)
-    }
+    },
   },
   modules: {
   },

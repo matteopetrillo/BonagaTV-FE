@@ -163,9 +163,9 @@ export const checkDispEmail = (email) => {
     });
 };
 
-export const sendEmail = (idUtente) => {
+export const sendEmail = (idUtente, lang) => {
 
-  return fetch(`${baseURL}/utente/send-email?id=${idUtente}`, {
+  return fetch(`${baseURL}/utente/send-email?id=${idUtente}&lang=${lang}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -177,5 +177,20 @@ export const sendEmail = (idUtente) => {
     })
     .catch(error => {
       console.log(error)
+    });
+};
+
+export const getSponsors = () => {
+  return fetch(`${baseURL}/sponsor/getAll`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Errore durante il recupero dei canali');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.log(error)
+      throw new Error('Errore di rete durante la richiesta');
+
     });
 };

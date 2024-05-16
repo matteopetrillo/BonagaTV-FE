@@ -128,17 +128,8 @@ export default {
             return this.emailRegDisabled ? this.$t('registrazione.modificaMailButton') : this.$t('registrazione.confermaMailButton')
         }
     },
-    mounted() {
-        document.getElementById('psw').onkeydown = (e) => {
-            if (e.keyCode == 13) {
-                this.authUser();
-            }
-        },
-        document.getElementById('email-reg').onkeydown = (e) => {
-            if (e.keyCode == 13) {
-                this.confirmEmail();
-            }
-        }
+    beforeMount() {
+
     },
     methods: {
         ...mapActions(['setCredentials', 'setIdUtente']),
@@ -271,7 +262,7 @@ export default {
 
                 // Invia l'email all'utente
                 try {
-                    await sendEmail(this.idUtente);
+                    await sendEmail(this.idUtente, this.$route.params.lang);
                 } catch (errorInvioEmail) {
                     console.error("Errore durante l'invio della mail all'utente", errorInvioEmail);
                 }
