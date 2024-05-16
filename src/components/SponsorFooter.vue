@@ -7,7 +7,7 @@
                 </p> 
             </v-row>
             <v-row justify="center" >
-                <v-col v-for="(sponsor, index) in sponsors" :key="index">
+                <v-col v-for="(sponsor, index) in sponsors" :key="index" cols="2">
                     <img :src="sponsor.srcImgLink" class="sponsor-image">
                 </v-col>
             </v-row>
@@ -37,15 +37,33 @@
 
 <style scoped>
 .footer {
-    height: 15%;
+    height: 18%;
     width: 100%;
     padding: 25px;
     flex-direction: column;
+    opacity: 98%;
 }
 
 .sponsor-image {
-    width: 80px;
+    width: 100px;
     height: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 600px) {
+    .footer {
+        height: 22%;
+        width: 100%;
+        padding: 15px;
+        flex-direction: column;
+    }
+
+    .sponsor-image {
+        width: 60px;
+        height: auto;
+        margin: auto;
+    }
 }
 
 
