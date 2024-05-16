@@ -31,25 +31,26 @@
 
                 <v-container>
                     <p class="text-h6 pb-3">
-                        <strong>Registrati al Servizio</strong> 
+                        <strong>{{ $t('registrazione.titolo') }}</strong> 
                     </p>
-                    <p>1. Inserisci e convalida la tua mail:</p>
+                    <p>{{ $t('registrazione.punto1') }}</p>
                     <v-text-field :disabled="emailRegDisabled" density="compact" v-model="emailReg" label="Email"
                         class="mb-n5" id="email-reg"></v-text-field>
                     <div class="text-center">
-                        <v-btn class="my-3" size="small" variant="elevated" @click="confirmEmail()"
-                            :text="this.emailRegDisabled ? 'Modifica Email' : 'Conferma Email'" />
+                        <v-btn class="my-3" size="small" variant="elevated" @click="confirmEmail()">
+                        {{ emailButtonText }}
+                        </v-btn>
                     </div>
                     <div v-if="this.showPayment">
                         <v-divider class="py-2"></v-divider>
                         <p>2. <label><input :checked="checkBoxCondizioni" type="checkbox"
                                     style="margin-bottom: 20px; margin-right: 10px; margin-left: 5px;"
-                                    @change="checkCondizioni()"><span>Accetto le <a href="http://www.andreabonaga.it/node/9" target="_blank">condizioni di
-                                        utilizzo</a>.</span></label></p>
+                                    @change="checkCondizioni()"><span>{{ $t('registrazione.punto2') }}<a href="http://www.andreabonaga.it/node/9" target="_blank">
+                                        {{ $t('registrazione.punto21') }}</a>.</span></label></p>
                     </div>
-                    <div v-if="this.checkBoxCondizioni">
+                    <div v-show="this.checkBoxCondizioni">
                         <v-divider class="py-2"></v-divider>
-                        <p>3. Completa la registrazione effettuando il pagamento:</p>
+                        <p>{{ $t('registrazione.punto3') }}</p>
                         <div id="paypal-button-container"></div>
                     </div>
                 </v-container>
@@ -122,17 +123,22 @@ export default {
             }
         }
     },
+    computed: {
+        emailButtonText() {
+            return this.emailRegDisabled ? this.$t('registrazione.modificaMailButton') : this.$t('registrazione.confermaMailButton')
+        }
+    },
     mounted() {
         document.getElementById('psw').onkeydown = (e) => {
             if (e.keyCode == 13) {
                 this.authUser();
             }
-        };
+        },
         document.getElementById('email-reg').onkeydown = (e) => {
             if (e.keyCode == 13) {
                 this.confirmEmail();
             }
-        };
+        }
     },
     methods: {
         ...mapActions(['setCredentials', 'setIdUtente']),
@@ -145,9 +151,9 @@ export default {
                     this.setIdUtente(responseData.idUtente);
                     this.$router.push({name: 'SpecialEventView'});
                 } else if (response.status == 409) {
-                    this.showAlertLoginFunction("error", "Attenzione!", "La connessione non può essere effettuata da due dispositivi contemporaneamente. Si prega di disconnetterne uno e riprovare.");
+                    this.showAlertLoginFunction("error", this.$t('authAlerts.attenzioneAlertTitle'), this.$t('authAlerts.concurrentConnessionText'));
                 } else if (response.status == 401) {
-                    this.showAlertLoginFunction("error", "Attenzione!", "Le credenziali fornite non sono corrette o l'utenza non è registrata al servizio. Si prega di ricontrollare la mail inviata con le credenziali o effettuare la registrazione al servizio.");
+                    this.showAlertLoginFunction("error", this.$t('authAlerts.attenzioneAlertTitle'), this.$t('authAlerts.credenzialiNonValide'));
                 } else {
                     throw new Error("Errore imprevisto nel login: status " + response.status);
                 }
@@ -195,7 +201,7 @@ export default {
                             const details = await response.json();
                             this.completeRegistration(details);
                             this.resetRegisterFields();
-                            this.showAlertReg("success","Congratulazioni!","La registrazione è avvenuta con successo. A breve le arriveranno le credenziali di accesso alla mail utilizzata durante la registrazione.")
+                            this.showAlertReg("success",this.$t('registrazioneAlerts.successoTitolo'), this.$t('registrazioneAlerts.successoTesto'))
                         } catch (error) {
                             console.error("Errore in onApprove", error);
                         }
@@ -225,7 +231,7 @@ export default {
                     this.checkBoxCondizioni = false;
                 }
             } else {
-                this.showAlertReg("error", "Attenzione!", "La mail inserita non è valida o già associata ad un altro utente.")
+                this.showAlertReg("error", this.$t('registrazioneAlerts.attenzioneTitolo'), this.$t('registrazioneAlerts.mailNonValidaTesto'))
             }
         },
 
@@ -293,7 +299,8 @@ export default {
         },
         handleLostPsw() {
             this.$emit('lostPsw');
-        }
+        },
+        
     }
 }
 

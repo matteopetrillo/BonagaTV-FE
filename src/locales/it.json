@@ -4,25 +4,44 @@
     "lostPsw": "Ho dimenticato le credenziali"
   },
   "credenzialiSmarrite": {
-    "testoIntro": "",
-    "pulsanteConfermaMail": "",
-    "alertErrore": "",
-    "alertSuccesso": ""
+    "testoIntro": "Inserisci l'email di registrazione e provvederemo a inviare nuovamente le credenziali.",
+    "pulsanteConfermaMail": "Conferma Email",
+    "alertErroreTitolo": "Attenzione!",
+    "alertErroreTesto": "La mail inserita non è registrata nel nostro sistema per questo evento",
+    "alertSuccessoTitolo": "Email Valida!",
+    "alertSuccessoTesto": "Stiamo inviando alla tua email le credenziali di accesso."
+  },
+  "authAlerts" : {
+    "attenzioneAlertTitle": "Attenzione!",
+    "concurrentConnessionText": "La connessione non può essere effettuata da due dispositivi contemporaneamente. Si prega di disconnetterne uno e riprovare.",
+    "credenzialiNonValide": "Le credenziali fornite non sono corrette o l'utenza non è registrata al servizio. Si prega di ricontrollare la mail inviata con le credenziali o effettuare la registrazione al servizio."
   },
   "registrazione": {
-    "titolo": "",
-    "punto1": "",
-    "bottoneConfermaMail": "",
-    "punto2": "",
-    "punto3": ""
+    "titolo": "Registrati al Servizio",
+    "punto1": "1. Inserisci e convalida la tua mail:",
+    "punto2": "Accetto le ",
+    "punto21": "condizioni di utilizzo",
+    "punto3": "3. Completa la registrazione effettuando il pagamento:",
+    "modificaMailButton": "Modifica Email",
+    "confermaMailButton": "Conferma Email"
+  },
+  "registrazioneAlerts": {
+    "successoTitolo": "Congratulazioni!",
+    "attenzioneTitolo": "Attenzione!",
+    "successoTesto": "La registrazione è avvenuta con successo. A breve le arriveranno le credenziali di accesso alla mail utilizzata durante la registrazione.",
+    "mailNonValidaTesto": "La mail inserita non è valida o già associata ad un altro utente."
   },
   "descSpecial": {
-    "introduzione": "",
-    "elencoPunto1": "",
-    "elencoPunto2": "",
-    "elencoPunto3": "",
-    "conclusione": ""
+    "introduzione1": "Per registrarsi al servizio streaming bisognerà seguire i passaggi illustrati nella sezione 'Registrati al Servizio'.",
+    "introduzione2": "In particolare verrà richiesto di:",
+    "elencoPunto1": "Inserire una mail valida a cui successivamente riceverete la vostra password",
+    "elencoPunto2": "Accettare le condizioni di utilizzo del sito",
+    "elencoPunto3": "Finalizzare la registrazione tramite il pagamento. Il costo della diretta è di €",
+    "conclusione1": "In caso di mancata ricezione o smarrimento della mail contenente le credenziali di accesso, essa potrà essere richiesta nuovamente cliccando sul pulsante 'Ho dimenticato le credenziali' nella sezione di login.",
+    "conclusione2": "Solo per ulteriori problemi potrete contattarci all'indirizzo mail",
+    "conclusione3": "Grazie e buona visione."
   },
-  "canaliLive": "",
-  "canaliOffline": ""
+  "canaliLive": "In diretta questa settimana",
+  "canaliOffline": "I nostri altri canali",
+  "sponsor": "Grazie ai nostri sponsor!"
 }

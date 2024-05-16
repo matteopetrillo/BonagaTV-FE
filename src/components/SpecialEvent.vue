@@ -15,18 +15,18 @@
                         <strong>{{ nomeEvento }}</strong>
                     </h3>
                     <p class="text-caption" style="width: 90%; padding-top: 10px; text-align: justify;">
-                        Per registrarsi al servizio streaming bisognerà seguire i passaggi illustrati nella sezione "Registrati al Servizio". <br> 
-                        In particolare verrà richiesto di: 
+                        {{ $t('descSpecial.introduzione1') }} <br> {{ $t('descSpecial.introduzione2') }}
                         <ol style="margin-left: 20px;">
-                            <li>Inserire una mail valida a cui successivamente riceverete la vostra password</li>
-                            <li>Accettare le condizioni di utilizzo del sito</li>
-                            <li>Finalizzare la registrazione tramite il pagamento. Il costo della diretta è di €{{ this.getSpecialEvent.costo }} .</li>
+                            <li>{{ $t('descSpecial.elencoPunto1') }}</li>
+                            <li>{{ $t('descSpecial.elencoPunto2') }}</li>
+                            <li>{{ $t('descSpecial.elencoPunto3') }}{{ (this.getSpecialEvent.costo).toFixed(2) }} .</li>
                         </ol>
                         <br>
-                        In caso di smarrimento della mail contenente le credenziali di accesso, essa potrà essere richiesta nuovamente cliccando sul pulsante
-                        "Ho dimenticato le credenziali" nella sezione di login. <br> Solo per ulteriori problemi potrete
-                        contattarci all'indirizzo mail <a href="mailto:help@bonagacommunication.tv">help@bonagacommunication.tv</a> . <br> Grazie e buona
-                        visione.
+                        {{ $t('descSpecial.conclusione1') }} <br> {{ $t('descSpecial.conclusione2') }}
+                        <a href="mailto:help@bonagacommunication.tv">help@bonagacommunication.tv</a> . 
+                        <br>
+                        {{ $t('descSpecial.conclusione3') }}
+                        <br> 
                     </p>
                 </div>
 
@@ -46,12 +46,12 @@
     <div class="text-center pa-4">
         <v-dialog v-model="lostPswDialog" width="auto" persistent>
             <v-card max-width="600"
-                text="Inserisci l'email di registrazione e provvederemo a inviarle nuovamente le credenziali.">
-                    <Alert v-if="showDialogAlert" :tipo="dialogAlertType" :titolo="dialogAlertTitle"
-                    :testo="dialogAlertText" style="margin: auto;"></Alert>
+                :text="this.$t('credenzialiSmarrite.testoIntro')">
+                <Alert v-if="showDialogAlert" :tipo="dialogAlertType" :titolo="dialogAlertTitle"
+                :testo="dialogAlertText" style="margin: auto;"></Alert>
                 <v-container class="text-center">
                     <v-text-field density="compact" v-model="emailDialog" label="Email" style="max-width: 450px; margin: auto"></v-text-field>
-                    <v-btn text="Conferma Email" class="ms-auto" @click="sendCredentials()"></v-btn>
+                    <v-btn :text="this.$t('credenzialiSmarrite.pulsanteConfermaMail')" class="ms-auto" @click="sendCredentials()"></v-btn>
                 </v-container>
                 <template v-slot:actions>
                     <v-btn density="compact" icon="mdi-close" class="ms-auto" @click="closeDialog()"></v-btn>
@@ -128,14 +128,14 @@ export default {
                 const idUtenteFromMail = await checkDispEmail(this.emailDialog);
                 if (idUtenteFromMail != 0) {
                     try {
-                        this.showDialogAlertFunction('success','Email Valida!','Stiamo inviando alla tua email le credenziali di accesso.')
+                        this.showDialogAlertFunction('success',this.$t('credenzialiSmarrite.alertSuccessoTitolo'), this.$t('credenzialiSmarrite.alertSuccessoTesto'))
                         await sendEmail(idUtenteFromMail);
                         this.closeDialog();
                     } catch (errorInvioEmail) {
                         console.error("Errore durante l'invio della mail all'utente", errorInvioEmail);
                     }
                 } else {
-                    this.showDialogAlertFunction('error','Attenzione!','La mail inserita non è registrata nel nostro sistema per questo evento')
+                    this.showDialogAlertFunction('error',this.$t('credenzialiSmarrite.alertErroreTitolo'), this.$t('credenzialiSmarrite.alertErroreTesto'))
                 }
             } catch (error) {
                 console.log(error)

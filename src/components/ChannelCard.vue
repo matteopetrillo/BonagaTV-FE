@@ -23,6 +23,7 @@
                     query: {id: idCanale}}">
                     <div class="channelName">{{ nomeCanale }}</div>
                 </router-link>
+                <!-- <div class="channelDesc"> {{ descCanale }} </div> -->
                 <div class="liveDescription"> {{ nomeEvento }} </div>
             </div>
             <!-- <div class="liveIcon">
@@ -48,6 +49,9 @@ export default {
             type: String
         },
         nomeEvento: {
+            type: String
+        },
+        descCanale: {
             type: String
         },
         isLive: {
@@ -81,7 +85,7 @@ export default {
 
 .mainCard {
     max-width: 18.5rem;
-    max-height: 13rem;
+    max-height: 15rem;
     margin: auto;
     box-shadow: 4px 4px 4px rgba(0,0,0,0.1);
 }
@@ -102,10 +106,17 @@ export default {
     font-weight: bold;
 }
 
+.channelDesc {
+    font-size: 0.6rem;
+    color: rgb(49, 49, 49);
+    margin-bottom: 0.3rem;
+
+}
+
 .liveDescription {
-    font-size: 0.8rem;
+    font-size: 0.5rem;
     color: grey;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
 
 }
 

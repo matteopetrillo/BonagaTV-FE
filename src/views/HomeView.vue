@@ -8,7 +8,7 @@
       <v-container>
         <v-row>
           <v-col class="mb-n6" cols="12">
-            <h2 class="text-h5"><strong>In diretta questa settimana</strong></h2>
+            <h2 class="text-h5"><strong>{{ $t('canaliLive') }}</strong></h2>
           </v-col>
           <v-item-group>
             <v-container>
@@ -17,7 +17,7 @@
                   :lg="getNumCols(this.canaliOnline)" :class="{'pr-10' : this.canaliOnline.length < 3}">
                   <v-item>
                     <ChannelCard :idCanale="canale.id" :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento"
-                      :srcLink="canale.streamingSrc" :isLive="true" />
+                      :descCanale="canale.descCanale" :srcLink="canale.streamingSrc" :channelLogo="canale.logoCanale" />
                   </v-item>
                 </v-col>
               </v-row>
@@ -25,7 +25,7 @@
           </v-item-group>
 
           <v-col class="mt-4 mb-n6" cols="12">
-            <h2 class="text-h5"><strong>I nostri altri canali</strong></h2>
+            <h2 class="text-h5"><strong>{{ $t('canaliOffline') }}</strong></h2>
           </v-col>
           <v-item-group>
             <v-container>
@@ -34,7 +34,7 @@
                   :lg="getNumCols(this.canaliOffline)">
                   <v-item>
                     <ChannelCard :idCanale="canale.id" :nomeCanale="canale.nomeCanale" :nomeEvento="canale.nomeEvento"
-                    :srcLink="canale.streamingSrc" :isLive="false" />
+                    :descCanale="canale.descCanale" :srcLink="canale.streamingSrc" :channelLogo="canale.logoCanale" />
                   </v-item>
                 </v-col>
               </v-row>

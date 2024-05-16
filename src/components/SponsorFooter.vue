@@ -3,7 +3,7 @@
         <v-flex xs1>
             <v-row justify="center" >
                 <p class="text-h5 text-white">
-                    Grazie ai nostri sponsor!
+                    {{ $t('sponsor') }}
                 </p> 
             </v-row>
         </v-flex>              
