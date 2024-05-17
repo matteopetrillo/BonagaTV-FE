@@ -17,6 +17,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import { getSponsors } from '@/services/api'
 
     export default {
         name: "SponsorFooter",
@@ -29,7 +30,8 @@
                 sponsors: null
             }
         },
-        created() {
+        async created() {
+            const responseSponsor = await getSponsors();
             this.sponsors = this.getSponsors;
         }
     }

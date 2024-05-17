@@ -66,8 +66,8 @@ export default createStore({
         commit('setCanaliProxLive', responseCanali.canaliProssimamenteLive);
         commit('setCanaliOffline', responseCanali.canaliOffline);
         commit('setSpecialEvent', responseCanali.specialEvent);
-        const responseSponsor = await getSponsors();
-        commit('setSponsors', responseSponsor);
+        //const responseSponsor = await getSponsors();
+        //commit('setSponsors', responseSponsor);
       } catch (error) {
         console.error('Errore durante il recupero dei canali:', error);
         throw error;
