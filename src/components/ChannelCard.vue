@@ -80,6 +80,9 @@ export default {
             circle: mdiCircle,
         }
     },
+    mounted() {
+        console.error = () => {};
+    }
 
 }
 

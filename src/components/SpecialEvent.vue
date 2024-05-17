@@ -7,7 +7,7 @@
             <v-col cols="12" sm="12" md="5" lg="6">
 
                 <div class="my-4 logo">
-                    <img :src="getLogoSrc()"></img>
+                    <img :src="this.logoSrc"></img>
                 </div>
                 <div
                     style="display: flex; justify-content: center; text-align: center; align-items: center; flex-direction: column;">
