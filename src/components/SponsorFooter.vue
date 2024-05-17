@@ -2,12 +2,12 @@
     <v-footer app color="grey-darken-2" class="footer">
         <v-flex xs1>
             <v-row justify="center" >
-                <p class="text-h5 text-white">
-                    {{ $t('sponsor') }}
+                <p class="text-h5 text-white mb-n2">
+                   <strong>{{ $t('sponsor') }}</strong> 
                 </p> 
             </v-row>
             <v-row justify="center" >
-                <v-col v-for="(sponsor, index) in sponsors" :key="index" cols="2">
+                <v-col v-for="(sponsor, index) in sponsors" :key="index" cols="6">
                     <img :src="sponsor.srcImgLink" class="sponsor-image">
                 </v-col>
             </v-row>
@@ -37,7 +37,7 @@
 
 <style scoped>
 .footer {
-    height: 18%;
+    height: 20%;
     width: 100%;
     padding: 25px;
     flex-direction: column;
@@ -45,23 +45,22 @@
 }
 
 .sponsor-image {
-    width: 100px;
-    height: auto;
-    margin-left: 15px;
-    margin-right: 15px;
+    width: auto;
+    height: 130px;
+    margin: auto;
 }
 
 @media screen and (max-width: 600px) {
     .footer {
-        height: 22%;
+        height: 20%;
         width: 100%;
         padding: 15px;
         flex-direction: column;
     }
 
     .sponsor-image {
-        width: 60px;
-        height: auto;
+        width: auto;
+        height: 60px;
         margin: auto;
     }
 }
