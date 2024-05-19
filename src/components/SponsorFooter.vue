@@ -7,8 +7,11 @@
                 </p> 
             </v-row>
             <v-row justify="center" >
-                <v-col v-for="(sponsor, index) in sponsors" :key="index" cols="6">
-                    <img :src="sponsor.srcImgLink" class="sponsor-image">
+                <v-col cols="6">
+                    <img src="@/assets/bannerQD.jpg" class="sponsor-image">
+                </v-col>
+                <v-col cols="6">
+                    <img src="@/assets/giannittiBanner.jpg" class="sponsor-image">
                 </v-col>
             </v-row>
         </v-flex>              
@@ -30,10 +33,10 @@
                 sponsors: null
             }
         },
-        async created() {
-            const responseSponsor = await getSponsors();
-            this.sponsors = this.getSponsors;
-        }
+        // async created() {
+        //     const responseSponsor = await getSponsors();
+        //     this.sponsors = this.getSponsors;
+        // }
     }
 </script>
 
