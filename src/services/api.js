@@ -44,7 +44,6 @@ export const getSpecialEventChannel = (credentials) => {
       return response.json();
     })
     .catch(error => {
-      console.log(error)
       throw new Error('Errore di rete durante la richiesta');
     });
 };

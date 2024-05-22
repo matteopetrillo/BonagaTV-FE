@@ -140,7 +140,7 @@ export default {
                     const responseData = await response.json();
                     this.setCredentials({ email: this.emailLogin, password: this.password });
                     this.setIdUtente(responseData.idUtente);
-                    this.$router.push({name: 'SpecialEventView'});
+                    this.$router.push({name: 'SpecialEventView', query: {usr: responseData.idUtente}});
                 } else if (response.status == 409) {
                     this.showAlertLoginFunction("error", this.$t('authAlerts.attenzioneAlertTitle'), this.$t('authAlerts.concurrentConnessionText'));
                 } else if (response.status == 401) {

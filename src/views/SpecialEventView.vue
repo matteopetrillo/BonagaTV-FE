@@ -37,13 +37,12 @@ export default {
     },
 
     created() {
-
         getSpecialEventChannel(this.getCredentials)
                 .then(response => {
                     this.streamingSrc = response.streamingSrc                        
                 })
                 .catch(error => {
-                    console.log(error)
+                    this.$router.push({name: 'HomeView'})
             });
         
         this.connect();
@@ -56,7 +55,7 @@ export default {
             this.socket = new SockJS(process.env.VUE_APP_HEARTBEAT);
             this.stompClient = Stomp.over(this.socket);
             this.stompClient.connect(
-                {idUtente: this.getIdUtente},
+                {idUtente: this.$route.query.usr},
                 error => {
                     console.log(error);
                     this.connect = false;
@@ -66,7 +65,7 @@ export default {
         disconnect() {
             this.stompClient.disconnect(() => {
                 this.connect = false;
-            },{idUtente: this.getIdUtente});
+            },{idUtente: this.$route.query.usr});
         },
     },
 
