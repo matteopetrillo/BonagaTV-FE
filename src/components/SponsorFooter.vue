@@ -48,9 +48,11 @@
   padding: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   opacity: 98%;
-  max-height: 20%;
+  min-height: 20%;
+  height: auto;
+  flex-wrap: wrap;
 }
 
 .container {
@@ -59,7 +61,7 @@
 }
 
 .header {
-  margin-top: 10px;
+  margin-top: -8px;
   margin-bottom: -3px;
 }
 
@@ -67,23 +69,27 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
 }
 
 .sponsor-item {
   max-width: 50%;
   padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: -15px;
 }
 
 .sponsor-image {
-  width: auto;
+  width: 100%;
+  height: auto;
   max-height: 130px;
 }
 
 @media screen and (max-width: 600px) {
   .footer {
     padding: 10px;
-    max-height: 23%;
+    min-height: 23%;
+    align-items: flex-start;
   }
 
   .scritta-sponsor {
@@ -91,12 +97,12 @@
   }
 
   .header {
-    margin-top: -2px;
+    margin-top: -4px;
     margin-bottom: 5px;
     }
 
   .sponsors-wrap {
-    gap: 5px;
+    gap: 20px;
   }
   .sponsor-item {
     max-width: 45%;
