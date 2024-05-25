@@ -80,7 +80,7 @@
 }
 
 .sponsor-image {
-  width: 100%;
+  width: auto;
   height: auto;
   max-height: 130px;
 }
@@ -102,11 +102,13 @@
     }
 
   .sponsors-wrap {
-    gap: 20px;
+    gap: 15px;
   }
   .sponsor-item {
     max-width: 45%;
     padding: 2px;
+    margin-bottom: -10px;
+
   }
 
   .sponsor-image {
