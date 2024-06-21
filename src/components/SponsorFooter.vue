@@ -14,7 +14,7 @@
             <img src="@/assets/deniro.jpg" class="sponsor-image">
           </div>
           <div class="sponsor-item">
-            <img src="@/assets/elgoes.jpg" class="sponsor-image">
+            <img src="@/assets/ELEMENTA.jpg" class="sponsor-image">
           </div>
           <div class="sponsor-item">
             <img src="@/assets/giannittiBanner.jpg" class="sponsor-image">
