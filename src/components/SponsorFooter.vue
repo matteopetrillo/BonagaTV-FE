@@ -119,5 +119,39 @@
     max-height: 50px;
     margin: -4px 0;
   }
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) and (orientation: landscape) {
+  .footer {
+    padding: 2px;
+    max-height: 10%;
+    align-items: flex-start;
+  }
+
+  .scritta-sponsor {
+    font-size: 18px !important;
+  }
+
+  .header {
+    margin-top: -4px;
+    margin-bottom: 4px;
+    }
+
+  .sponsors-wrap {
+    gap: 8px;
+  }
+  .sponsor-item {
+    max-width: 45%;
+    padding: 2px;
+    margin-bottom: -10px;
+
+  }
+
+  .sponsor-image {
+    max-height: 40px;
+    margin: -12px 0;
+  }
+
 }
 </style>
