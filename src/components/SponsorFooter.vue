@@ -1,5 +1,8 @@
 <template>
-    <v-footer app color="grey-darken-2" class="footer">
+    <v-footer v-if="isVisible" app color="grey-darken-2" class="footer">
+      <div class="close-btn" @click="closeFooter">
+      <span class="close-text">X</span> 
+    </div>
       <div class="container">
         <div class="header">
           <p class="text-h5 text-white scritta-sponsor">
@@ -37,13 +40,15 @@
         ])},
         data() {
             return {
-                sponsors: null
+                sponsors: null,
+                isVisible: true
             }
         },
-        // async created() {
-        //     const responseSponsor = await getSponsors();
-        //     this.sponsors = this.getSponsors;
-        // }
+        methods: {
+          closeFooter() {
+            this.isVisible = false;
+          }
+        }
     }
 </script>
 
@@ -88,6 +93,32 @@
   height: auto;
   max-height: 130px;
 }
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 2%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  border-bottom: 2px solid white; /* Sottolineatura unica */
+  line-height: 1; /* Riduce l'altezza della linea di testo */
+
+}
+
+.close-text {
+  margin: 0 3px;
+  font-weight: bold;
+}
+
+/* Aggiungi interazione */
+.close-btn:hover {
+  color: #e27e2c; /* Cambia colore al passaggio del mouse */
+  border-bottom-color: #e27e2c; /* Cambia il colore della sottolineatura */
+}
+
 
 @media screen and (max-width: 600px) {
   .footer {
