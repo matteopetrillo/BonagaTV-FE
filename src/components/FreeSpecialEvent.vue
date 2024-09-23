@@ -15,15 +15,17 @@
         <img :src="logoSrc" alt="Event Logo" class="event-logo" />
         
         <!-- Nome dell'evento -->
-        <h2 >{{ nomeEvento }}</h2>
+        <h2>{{ nomeEvento }}</h2>
     </div>
+
+    <!-- Divider sotto il logo e il titolo -->
+    <hr class="divider" />
 
 </template>
 
 <script>
 
 export default {
-
     name: 'FreeSpecialEvent',
     props: {
         logoSrc: {
@@ -43,27 +45,27 @@ export default {
 <style scoped>
 
 .iframe-wrapper {
-    display: flex; /* Flexbox per centrare il contenuto */
-    justify-content: center; /* Allinea al centro orizzontalmente */
-    align-items: center; /* Allinea al centro verticalmente */
+    display: flex;
+    justify-content: center; /* Centra l'iframe orizzontalmente */
+    align-items: center;
     padding-top: 20px;
+    position: relative; /* Usato per allineare il logo */
 }
 
 .iframe-wrapper iframe {
-  width: 854px;
-  height: 480px;
-  border: 0;
+    width: 854px;
+    height: 480px;
+    border: 0;
 }
 
 .event-info {
     display: flex;
-    justify-content: center; /* Allinea il contenuto al centro orizzontalmente */
     align-items: center; /* Allinea verticalmente il titolo con il logo */
-    padding-left: 10%; /* Padding a sinistra */
-    padding-bottom: 40px; /* Padding in basso */
-    padding-left: 5%;
+    padding-bottom: 40px;
     padding-top: 10px;
-    text-align: center; /* Allinea il testo al centro */
+    text-align: left;
+    position: relative; /* Allineamento preciso rispetto all'iframe */
+    margin-left: calc((100% - 854px) / 2); /* Allinea il logo con il bordo sinistro del player */
 }
 
 .event-logo {
@@ -77,6 +79,15 @@ h2 {
     line-height: 1; /* Imposta l'altezza della linea per allineare il testo verticalmente */
 }
 
+.divider {
+    border: 0;
+    height: 1px;
+    background: #ccc; /* Colore della linea di divisione */
+    margin: 0 5%; /* Margini orizzontali per mantenere il divider centrato */
+    margin-bottom: 40px; /* Spazio sotto la linea */
+    width: 90%; /* Lunghezza della linea */
+}
+
 @media screen and (max-width: 600px) { 
     .iframe-wrapper iframe { 
         width: 90%; 
@@ -86,10 +97,15 @@ h2 {
     .event-info {
         flex-direction: column; /* Per dispositivi mobili, posiziona logo e titolo in verticale */
         text-align: center;
+        margin-left: 0; /* Reset del margine per schermi piccoli */
     }
     .event-logo {
         margin-bottom: 10px; /* Spazio tra logo e titolo per layout mobile */
         margin-right: 0;
+    }
+    .divider {
+        margin-left: 5%; /* Mantieni una piccola distanza a sinistra sul mobile */
+        width: 90%; /* Assicura che il divider non sia troppo largo su mobile */
     }
 } 
 
