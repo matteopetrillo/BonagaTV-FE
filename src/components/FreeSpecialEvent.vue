@@ -61,6 +61,7 @@ export default {
     align-items: center; /* Allinea verticalmente il titolo con il logo */
     padding-left: 10%; /* Padding a sinistra */
     padding-bottom: 40px; /* Padding in basso */
+    padding-left: 5%;
     padding-top: 10px;
     text-align: center; /* Allinea il testo al centro */
 }
