@@ -43,7 +43,9 @@ export default {
 <style scoped>
 
 .iframe-wrapper {
-    text-align: center;
+    display: flex; /* Flexbox per centrare il contenuto */
+    justify-content: center; /* Allinea al centro orizzontalmente */
+    align-items: center; /* Allinea al centro verticalmente */
     padding-top: 20px;
 }
 
@@ -55,10 +57,12 @@ export default {
 
 .event-info {
     display: flex;
+    justify-content: center; /* Allinea il contenuto al centro orizzontalmente */
     align-items: center; /* Allinea verticalmente il titolo con il logo */
     padding-left: 10%; /* Padding a sinistra */
     padding-bottom: 40px; /* Padding in basso */
     padding-top: 10px;
+    text-align: center; /* Allinea il testo al centro */
 }
 
 .event-logo {
@@ -74,10 +78,18 @@ h2 {
 
 @media screen and (max-width: 600px) { 
     .iframe-wrapper iframe { 
-    width: 90%; 
-    height: 65vw;
-    padding-top: 7%
-    } 
+        width: 90%; 
+        height: 65vw;
+        padding-top: 7%;
+    }
+    .event-info {
+        flex-direction: column; /* Per dispositivi mobili, posiziona logo e titolo in verticale */
+        text-align: center;
+    }
+    .event-logo {
+        margin-bottom: 10px; /* Spazio tra logo e titolo per layout mobile */
+        margin-right: 0;
+    }
 } 
 
 </style>
