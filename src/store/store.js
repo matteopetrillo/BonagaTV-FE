@@ -7,6 +7,7 @@ export default createStore({
     canaliProssimamenteLive: null,
     canaliOffline: null,
     specialEvent: null,
+    freeSpecialEvent: null,
     isAuthenticated: false,
     credentials: null,
     idUtente: null,
@@ -21,6 +22,9 @@ export default createStore({
     },
     getSpecialEvent(state) {
       return state.specialEvent;
+    },
+    getFreeSpecialEvent(state) {
+      return state.freeSpecialEvent;
     },
     getCredentials(state) {
       return state.credentials;
@@ -47,7 +51,9 @@ export default createStore({
     },
     setSpecialEvent(state, canali) {
       state.specialEvent = canali;
-      
+    },
+    setFreeSpecialEvent(state, canali) {
+      state.freeSpecialEvent = canali;
     },
     setCredentials(state, cred) {
       state.credentials = cred;
@@ -66,6 +72,7 @@ export default createStore({
         commit('setCanaliProxLive', responseCanali.canaliProssimamenteLive);
         commit('setCanaliOffline', responseCanali.canaliOffline);
         commit('setSpecialEvent', responseCanali.specialEvent);
+        commit('setFreeSpecialEvent', responseCanali.freeSpecialEvent);
         //const responseSponsor = await getSponsors();
         //commit('setSponsors', responseSponsor);
       } catch (error) {

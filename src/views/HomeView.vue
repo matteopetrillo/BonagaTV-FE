@@ -6,6 +6,8 @@
       <SpecialEvent v-if="this.specialEvent != null" :nomeEvento="this.specialEvent.nomeEvento"
         :logoSrc="this.specialEvent.logoEventoSrc" :idEvento="this.specialEvent.idEvento"></SpecialEvent>
       <v-container>
+        <FreeSpecialEvent v-if="this.freeSpecialEvent != null" :nomeEvento="this.freeSpecialEvent.nomeEvento" :logoSrc="this.freeSpecialEvent.logoEventoSrc" 
+        :streamSrc="this.freeSpecialEvent.streamingSrc"></FreeSpecialEvent>
         <v-row>
           <v-col class="mb-n6" cols="12">
             <h2 class="text-h5"><strong>{{ $t('canaliLive') }}</strong></h2>
@@ -50,29 +52,34 @@
   import { mapActions, mapGetters } from 'vuex'
   import ChannelCard from '@/components/ChannelCard.vue'
   import SpecialEvent from '@/components/SpecialEvent.vue'
+  import FreeSpecialEvent from '@/components/FreeSpecialEvent.vue'
 
   export default {
     name: 'HomeView',
     components: {
       ChannelCard,
-      SpecialEvent
+      SpecialEvent,
+      FreeSpecialEvent
     },
     computed: {
       ...mapGetters([
         'getCanaliProxLive',
         'getCanaliOffline',
-        'getSpecialEvent'
+        'getSpecialEvent',
+        'getFreeSpecialEvent'
       ])
 
     },
     created() {
       this.getData();
+      
     },
     data() {
       return {
         specialEvent: null,
         canaliOnline: null,
         canaliOffline: null,
+        freeSpecialEvent: null,
         readyToShow: false
       }
     },
@@ -83,6 +90,7 @@
           this.specialEvent = this.getSpecialEvent;
           this.canaliOnline = this.getCanaliProxLive;
           this.canaliOffline = this.getCanaliOffline;
+          this.freeSpecialEvent = this.getFreeSpecialEvent;
           this.readyToShow = true;
       },
       getNumCols(canali) {
@@ -106,6 +114,25 @@
   align-items: center;
   justify-content: center;
 }
+
+.iframe-wrapper {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.iframe-wrapper iframe {
+  width: 854px;
+  height: 480px;
+  border: 0;
+}
+
+@media screen and (max-width: 600px) { 
+    .iframe-wrapper iframe { 
+    width: 90%; 
+    height: 65vw;
+    padding-top: 7%
+    } 
+} 
 
 </style>
 
