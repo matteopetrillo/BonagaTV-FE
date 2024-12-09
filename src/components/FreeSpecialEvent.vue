@@ -12,7 +12,7 @@
 
     <div class="event-info">
         <!-- Logo dell'evento -->
-        <img :src="logoSrc" alt="Event Logo" class="event-logo" />
+      <!--  <img :src="logoSrc" alt="Event Logo" class="event-logo" /> -->
         
         <!-- Nome dell'evento -->
         <h2>{{ nomeEvento }}</h2>
