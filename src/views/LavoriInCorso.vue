@@ -1,7 +1,7 @@
 <template>
 <div class="maintenance-container">
     <h1>Lavori in Corso</h1>
-    <p>Siamo spiacenti, ma il sito è attualmente in manutenzione. Torna a trovarci più tardi.</p>
+    <p>Siamo spiacenti. Il sito è attualmente in manutenzione. Torna a trovarci più tardi.</p>
 </div>
 </template>
 
