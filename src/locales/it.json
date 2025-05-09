@@ -32,6 +32,7 @@
     "mailNonValidaTesto": "La mail inserita non è valida o già associata ad un altro utente."
   },
   "descSpecial": {
+    "howToRegister": "Come registrarsi",
     "introduzione1": "Per registrarsi al servizio streaming bisognerà seguire i passaggi illustrati nella sezione 'Registrati al Servizio'.",
     "introduzione2": "In particolare verrà richiesto di:",
     "elencoPunto1": "Inserire una mail valida a cui successivamente riceverete la vostra password",
@@ -41,8 +42,8 @@
     "conclusione2": "Solo per ulteriori problemi potrete contattarci all'indirizzo mail",
     "conclusione3": "Grazie e buona visione."
   },
-  "canaliLive": "In diretta questa settimana",
-  "canaliOffline": "I nostri altri canali",
+  "canaliLive": "Dirette della Settimana",
+  "canaliOffline": "I Nostri Canali",
   "sponsor": "Grazie ai nostri sponsor!",
   "chiudiFooter": "Chiudi"
 }

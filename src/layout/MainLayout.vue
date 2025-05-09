@@ -1,6 +1,6 @@
 <template>
 
-    <v-sheet class="pr-8 bar" :height="85" :elevation="3"
+    <v-sheet class="pr-8 bar" :height="90" :elevation="3"
         style="z-index: 999; position: fixed; width: 100%; align-items: center;">
         <div
             style="display: flex; justify-content: center; align-items: center; max-width: fit-content; margin-top: 5px">
@@ -80,6 +80,8 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 999;
+    background-color: white; /* Add solid background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
 }
 
 .lang-switcher {

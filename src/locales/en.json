@@ -32,6 +32,7 @@
     "mailNonValidaTesto": "The entered email is not valid or already associated with another user."
   },
   "descSpecial": {
+    "howToRegister": "How to register",
     "introduzione1": "To register for the streaming service, follow the steps outlined in the 'Register for the Service' section.",
     "introduzione2": "In particular, you will be asked to:",
     "elencoPunto1": "Enter a valid email to which you will later receive your password",
@@ -41,8 +42,8 @@
     "conclusione2": "For further issues, you can contact us at the email address",
     "conclusione3": "Thank you and enjoy the show."
   },
-  "canaliLive": "Live this week",
-  "canaliOffline": "Our other channels",
+  "canaliLive": "Live this Week",
+  "canaliOffline": "Our Channels",
   "sponsor": "Thanks to our sponsors!",
   "chiudiFooter": "Close"
 }

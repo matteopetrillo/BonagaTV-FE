@@ -5,16 +5,16 @@
                 <Alert v-if="showAlertLogin" :tipo="tipoAlertLogin" :titolo="titoloAlertLogin" :testo="testoAlertLogin">
                 </Alert>
 
-                <v-container>
+                <v-container class="pa-0">
                     <v-form>
-                        <p class="text-h6 pb-3">
+                        <p class="text-h6 pb-2">
                             <strong>{{ $t('login.titolo') }}</strong> 
                         </p>
-                        <v-text-field density="compact" v-model="emailLogin" label="Email"></v-text-field>
-                        <v-text-field id="psw" density="compact" v-model="password" label="Password"
+                        <v-text-field class="field-spacing" density="compact" v-model="emailLogin" label="Email"></v-text-field>
+                        <v-text-field class="field-spacing" id="psw" density="compact" v-model="password" label="Password"
                             type="password"></v-text-field>
                         <div class="text-center">
-                            <v-btn class="mb-4" size="large" variant="elevated" @click="authUser">
+                            <v-btn class="mb-2" size="large" variant="elevated" @click="authUser">
                                 Login
                             </v-btn>
                             <p><a href="#" @click="handleLostPsw()">{{ $t('login.lostPsw') }}</a></p>
@@ -29,8 +29,8 @@
                 <Alert v-if="showAlertRegistrazione" :tipo="tipoAlertReg" :titolo="titoloAlertReg"
                     :testo="testoAlertReg"></Alert>
 
-                <v-container>
-                    <p class="text-h6 pb-3">
+                <v-container class="pa-2">
+                    <p class="text-h6 pb-2">
                         <strong>{{ $t('registrazione.titolo') }}</strong> 
                     </p>
                     <p>{{ $t('registrazione.punto1') }}</p>
@@ -296,3 +296,58 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.text-h6 {
+    color: #1a1a1a;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.field-spacing {
+    margin-bottom: 0.5rem;
+}
+
+.v-text-field {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.v-container {
+    padding: 0.5rem 0;
+}
+
+.v-btn {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.v-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(226, 126, 44, 0.3);
+    background-color: #e27e2c !important;
+    color: white;
+}
+
+.v-text-field {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0.2rem;
+}
+
+a {
+    color: #e27e2c;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+}
+
+a:hover {
+    color: #c66a24;
+    text-decoration: underline;
+}
+
+
+
+</style>
