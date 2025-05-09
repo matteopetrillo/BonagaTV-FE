@@ -163,7 +163,7 @@
 .v-container.py-8 {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 2rem 2rem 2rem;  /* Removed top padding */
+  padding: 2rem 2rem 2rem 2rem;  /* Aggiunto padding top di 2rem */
 }
 
 .loading {
@@ -206,14 +206,14 @@
 
 section {
   position: relative;
-  padding: 0.5rem 0;  /* Reduced from 1rem */
-  margin: 0.5rem 0;   /* Reduced from 1rem */
+  padding: 1.5rem 0;  /* Aumentato da 0.5rem a 1.5rem */
+  margin: 1.5rem 0;   /* Aumentato da 0.5rem a 1.5rem */
   text-align: center;
 }
 
 section:first-of-type {
-  margin-top: -1rem;  /* Added negative margin to pull it up */
-  padding-top: 0;     /* Removed top padding */
+  margin-top: 0;  /* Rimosso il margine negativo */
+  padding-top: 1rem;  /* Aggiunto padding top */
 }
 
 section:hover {
