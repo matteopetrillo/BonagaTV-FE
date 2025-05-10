@@ -45,5 +45,10 @@
   "canaliLive": "Live this Week",
   "canaliOffline": "Our Channels",
   "sponsor": "Thanks to our sponsors!",
-  "chiudiFooter": "Close"
+  "chiudiFooter": "Close",
+  "tabs": {
+    "comingSoon": "Coming Soon",
+    "onDemandDesc": "This feature will be available soon"
+  }
 }
+

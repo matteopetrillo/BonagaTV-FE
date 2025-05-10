@@ -74,7 +74,7 @@
   import FreeSpecialEvent from '@/components/FreeSpecialEvent.vue'
 
   export default {
-    name: 'HomeView',
+    name: 'LiveView',
     components: {
       ChannelCard,
       SpecialEvent,
@@ -330,6 +330,5 @@ section h2:hover::after {
     max-width: 80px;
   }
 }
+
 </style>
-
-

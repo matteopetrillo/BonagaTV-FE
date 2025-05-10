@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import MainLayout from '@/layout/MainLayout.vue'
 import ChannelView from '../views/ChannelView.vue'
 import SpecialEventView from '@/views/SpecialEventView.vue'
 import LavoriInCorso from '@/views/LavoriInCorso.vue'
+import LiveView from '../views/LiveView.vue'
+import OnDemandView from '../views/OnDemandView.vue'
 import i18n from '@/i18n'
 
 const lavoriInCorso = false;
@@ -16,8 +17,17 @@ const routes = [
     children: [
       {
         path: '',
-        component: HomeView,
-        name: 'HomeView'
+        redirect: to => `/${to.params.lang}/live`
+      },
+      {
+        path: 'live',
+        component: LiveView,
+        name: 'LiveView'
+      },
+      {
+        path: 'ondemand',
+        component: OnDemandView,
+        name: 'OnDemandView'
       },
       {
         path: 'channel/:nomeCanale',

@@ -45,5 +45,9 @@
   "canaliLive": "Dirette della Settimana",
   "canaliOffline": "I Nostri Canali",
   "sponsor": "Grazie ai nostri sponsor!",
-  "chiudiFooter": "Chiudi"
+  "chiudiFooter": "Chiudi",
+  "tabs": {
+    "comingSoon": "Prossimamente",
+    "onDemandDesc": "Questa funzionalità sarà presto disponibile"
+  }
 }
