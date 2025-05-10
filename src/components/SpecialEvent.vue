@@ -155,12 +155,8 @@ export default {
 .logo img {
     width: 180px;
     height: auto;
-    transition: transform 0.3s ease;
 }
 
-.logo img:hover {
-    transform: scale(1.05);
-}
 
 .event-title {
     position: relative;
