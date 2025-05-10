@@ -166,6 +166,7 @@ export default {
     font-weight: 700;   /* Reduced from 800 */
     letter-spacing: -0.3px;  /* Reduced from -0.5px */
     background: linear-gradient(30deg, #1a1a1a 40%, #e27e2c 90%);  /* Modified gradient */
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding-bottom: 5px;

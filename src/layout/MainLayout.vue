@@ -14,9 +14,16 @@
                         color="orange"
                         align-tabs="center"
                         @update:model-value="handleTabChange"
+                        class="custom-tabs"
                     >
-                        <v-tab value="live">Live</v-tab>
-                        <v-tab value="ondemand">On Demand</v-tab>
+                        <v-tab value="live" class="font-weight-bold">
+                            <v-icon left>mdi-video</v-icon>
+                            Live
+                        </v-tab>
+                        <v-tab value="ondemand" class="font-weight-bold">
+                            <v-icon left>mdi-play-circle</v-icon>
+                            On Demand
+                        </v-tab>
                     </v-tabs>
                 </div>
                 <div class="lang-switcher-container">
@@ -53,9 +60,16 @@
             color="orange"
             align-tabs="center"
             @update:model-value="handleTabChange"
+            class="custom-tabs"
         >
-            <v-tab value="live">Live</v-tab>
-            <v-tab value="ondemand">On Demand</v-tab>
+            <v-tab value="live" class="font-weight-bold">
+                <v-icon left>mdi-video</v-icon>
+                Live
+            </v-tab>
+            <v-tab value="ondemand" class="font-weight-bold">
+                <v-icon left>mdi-play-circle</v-icon>
+                On Demand
+            </v-tab>
         </v-tabs>
     </div>
     
@@ -332,6 +346,37 @@ export default {
         right: -2rem;
         top: 50%;
         transform: translateY(-50%);
+    }
+}
+
+/* Stili personalizzati per le tabs */
+:deep(.custom-tabs) {
+    .v-tab {
+        min-width: 110px;
+        font-weight: 600 !important;
+        padding: 0 16px;
+        margin-bottom: -10px;  /* Aggiunto per avvicinare la linea */
+
+        .v-icon {
+            margin-right: 8px;
+        }
+    }
+
+    .v-tab--selected {
+        font-weight: 700 !important;
+    }
+
+    .v-tabs-bar {
+        height: 32px !important;
+    }
+
+    .v-slide-group__content {
+        gap: 8px;
+    }
+
+    .v-tab__slider {
+        height: 2px !important;  /* Altezza linea più sottile */
+        margin-top: -4px;  /* Avvicina ulteriormente la linea */
     }
 }
 </style>
