@@ -30,6 +30,11 @@ const routes = [
         name: 'OnDemandView'
       },
       {
+        path: 'ondemand/confirm-email',
+        component: () => import('../views/EmailConfirmationView.vue'),
+        name: 'EmailConfirmation'
+      },
+      {
         path: 'channel/:nomeCanale',
         component: ChannelView,
         name: 'ChannelView',

@@ -1,7 +1,8 @@
 {
   "login": {
     "titolo": "Accedi per guardare la diretta",
-    "lostPsw": "Ho Bisogno di Assistenza"
+    "lostPsw": "Ho Bisogno di Assistenza",
+    "invalid": "Email o password non valide."
   },
   "credenzialiSmarrite": {
     "testoIntro": "Inserisci l'email di registrazione e provvederemo a inviare nuovamente le credenziali.",
@@ -49,5 +50,15 @@
   "tabs": {
     "comingSoon": "Prossimamente",
     "onDemandDesc": "Questa funzionalità sarà presto disponibile"
+  },
+  "register": {
+    "titolo": "Registrati",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Conferma Password",
+    "fillAllFields": "Compila tutti i campi.",
+    "passwordMismatch": "Le password non coincidono.",
+    "confirmationSent": "Ti abbiamo inviato una mail di conferma. Controlla la tua casella di posta.",
+    "invalid": "Email o password non valide."
   }
 }

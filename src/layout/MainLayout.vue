@@ -99,10 +99,33 @@ export default {
             return i18n.global.locale.value;
         }
     },
+    watch: {
+        // Aggiungi un watcher per sincronizzare il tab attivo con la rotta
+        '$route'(to) {
+            this.updateActiveTab(to);
+        }
+    },
+    mounted() {
+        // Imposta il tab attivo al mount basandosi sulla rotta corrente
+        this.updateActiveTab(this.$route);
+    },
     methods: {
         handleTabChange(newTab) {
-            this.$store.commit('setActiveTab', newTab);
+            this.showMobileMenu = false; // Chiudi il menu mobile se aperto
             this.$router.push(`/${this.language}/${newTab}`);
+        },
+        
+        updateActiveTab(route) {
+            // Estrai la sezione dalla rotta corrente
+            const path = route.path;
+            if (path.includes('/ondemand')) {
+                this.activeTab = 'ondemand';
+            } else if (path.includes('/live')) {
+                this.activeTab = 'live';
+            } else {
+                // Default a live per la home
+                this.activeTab = 'live';
+            }
         }
     }
 }
@@ -114,25 +137,7 @@ export default {
     max-width: 1600px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 65px;  /* Ridotto da 80px */
-}
-
-@media screen and (max-width: 600px) {
-    .view {
-        margin-top: 55px;  /* Ridotto da 70px */
-        width: 100%;
-        margin-right: auto;
-        margin-left: auto;
-    }
-}
-
-@media screen and (min-width: 750px) and (max-width: 1200px) {
-    .view {
-        margin-top: 55px;  /* Ridotto da 70px */
-        width: 90%;
-        margin-right: auto;
-        margin-left: auto;
-    }
+    margin-top: 65px;
 }
 
 .header-container {
@@ -183,8 +188,8 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 999;
-    background-color: white; /* Add solid background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .lang-switcher {
@@ -196,156 +201,94 @@ export default {
 .menu-icon {
     cursor: pointer;
     font-size: 28px;
-    color: rgba(0, 0, 0, 0.87);  /* Grigio standard Material Design */
-}
-
-/* Mobile only */
-@media screen and (max-width: 600px) {
-    .header-container {
-        width: 100%;
-        padding: 0 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .center-group {
-        flex: 1;
-        justify-content: center;
-    }
-
-    .menu-icon {
-        display: block;
-    }
-
-    .tabs-container {
-        display: none;
-        position: absolute;
-        top: 75px;
-        left: 0;
-        width: 100%;
-        background: white;
-        padding: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .tabs-container.show-mobile {
-        display: block;
-    }
-
-    .view {
-        margin-top: 85px;
-        width: 100%;
-    }
-
-    .logo {
-        height: 60px;
-        padding-top: 3px;
-    }
-
-    .bar {
-        height: auto;
-        min-height: 75px;
-        padding: 10px 0;
-    }
-}
-
-/* Tablet */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-    .header-container {
-        width: 90%;
-    }
-
-    .menu-icon {
-        display: none;
-    }
-
-    .tabs-container {
-        display: flex;
-        margin-left: 2rem;
-    }
-}
-
-/* Desktop */
-@media screen and (min-width: 1025px) {
-    .header-container {
-        width: 80%;
-    }
-}
-
-@media screen and (min-width: 750px) and (max-width: 1200px) {
-    .header-container {
-        width: 90%;
-    }
+    color: rgba(0, 0, 0, 0.87);
 }
 
 .desktop-layout {
+    display: none;
+}
+
+.mobile-layout {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.mobile-layout {
-    display: none;
-}
-
 .mobile-menu {
     display: none;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.mobile-menu.show-mobile {
+    display: block;
+}
+
+/* Mobile */
 @media screen and (max-width: 600px) {
-    .desktop-layout {
-        display: none;
-    }
-
-    .mobile-layout {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .view {
+        margin-top: 55px;
         width: 100%;
     }
-
-    .mobile-menu {
-        display: none;
-        position: absolute;
-        top: 75px;
-        left: 0;
+    
+    .header-container {
         width: 100%;
-        background: white;
-        padding: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0 20px;
     }
-
-    .mobile-menu.show-mobile {
-        display: block;
+    
+    .logo {
+        height: 60px;
+        padding-top: 3px;
     }
-
-    /* ...existing mobile styles... */
 }
 
 /* Tablet and Desktop */
 @media screen and (min-width: 601px) {
     .desktop-layout {
-        position: relative;  /* Aggiunto per il posizionamento assoluto del lang switcher */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
     }
-
+    
+    .mobile-layout {
+        display: none;
+    }
+    
+    .mobile-menu {
+        display: none;
+    }
+    
     .tabs-container {
         position: absolute;
-        left: 49%;
+        left: 50%;
         transform: translateX(-50%);
         width: auto;
     }
-
-    .logo-container {
-        flex: 1;
-    }
-
+    
     .lang-switcher-container {
-        position: absolute;  /* Posizionamento assoluto per non influenzare il layout delle tab */
-        right: -2rem;
+        position: absolute;
+        right: 0;
         top: 50%;
         transform: translateY(-50%);
+    }
+}
+
+@media screen and (min-width: 750px) and (max-width: 1200px) {
+    .view {
+        margin-top: 55px;
+        width: 90%;
+    }
+    
+    .header-container {
+        width: 90%;
     }
 }
 
@@ -355,8 +298,8 @@ export default {
         min-width: 110px;
         font-weight: 600 !important;
         padding: 0 16px;
-        margin-bottom: -10px;  /* Aggiunto per avvicinare la linea */
-
+        margin-bottom: -10px;
+        
         .v-icon {
             margin-right: 8px;
         }
@@ -375,8 +318,8 @@ export default {
     }
 
     .v-tab__slider {
-        height: 2px !important;  /* Altezza linea più sottile */
-        margin-top: -4px;  /* Avvicina ulteriormente la linea */
+        height: 2px !important;
+        margin-top: -4px;
     }
 }
 </style>

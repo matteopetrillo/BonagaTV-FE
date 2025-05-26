@@ -1,7 +1,8 @@
 {
   "login": {
     "titolo": "Sign in to watch the live stream",
-    "lostPsw": "I Need Assistance"
+    "lostPsw": "I Need Assistance",
+    "invalid": "Invalid email or password."
   },
   "credenzialiSmarrite": {
     "testoIntro": "Enter the registration email and we will resend the credentials.",
@@ -49,6 +50,16 @@
   "tabs": {
     "comingSoon": "Coming Soon",
     "onDemandDesc": "This feature will be available soon"
+  },
+  "register": {
+    "titolo": "Register",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm Password",
+    "fillAllFields": "Please fill in all fields.",
+    "passwordMismatch": "Passwords do not match.",
+    "confirmationSent": "A confirmation email has been sent. Please check your inbox.",
+    "invalid": "Invalid email or password."
   }
 }
 
