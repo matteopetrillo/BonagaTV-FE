@@ -108,7 +108,6 @@
           indeterminate 
           size="64"
         ></v-progress-circular>
-        <p class="mt-4">{{ $t('ondemand.caricamentoCatalogo') }}</p>
       </div>
 
       <!-- Contenuto principale - mostrato solo dopo il caricamento -->
@@ -1020,19 +1019,20 @@ export default {
 
 /* Stili per il catalogo VOD */
 .catalogo-loading-center {
+  position: fixed;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  z-index: 1000;
+  width: 80px;
+  height: 80px;
+  background: transparent;
   text-align: center;
   color: #666;
-}
-
-.catalogo-loading-center p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem;
-  margin: 0;
 }
 
 .catalogo-section {
@@ -1220,13 +1220,17 @@ export default {
 }
 
 .catalogo-loading {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  color: #666;
+  z-index: 1000;
+  width: 80px;
+  height: 80px;
+  background: transparent;
 }
 
 /* Stili per il link "Dimenticato password" */
