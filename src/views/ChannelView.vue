@@ -1,6 +1,6 @@
 <template>
     <div v-if="!this.readyToShow" class="loading">
-      <v-progress-circular color="orange" indeterminate></v-progress-circular>
+      <v-progress-circular color="orange" indeterminate size="64"></v-progress-circular>
     </div>
     <v-main v-else class="bg-white-2">
         <div class="iframe-wrapper">
@@ -71,6 +71,24 @@ export default {
 </script>
 
 <style scoped>
+.bg-white-2 {
+  background: linear-gradient(to bottom, rgba(249, 249, 249, 0.97), rgba(255, 255, 255, 0.97));
+  min-height: 100vh;
+}
+
+.loading {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  width: 80px;
+  height: 80px;
+  background: transparent;
+}
 
 .iframe-wrapper {
     text-align: center;

@@ -101,162 +101,173 @@
     </v-dialog>
 
     <v-container class="py-8">
-      <!-- Barra utente loggato -->
-      <div v-if="isUserAuthenticated" class="user-info-bar">
-        <v-card class="user-card" elevation="2">
-          <v-card-text class="d-flex align-center justify-space-between pa-4">
-            <div class="user-details">
-              <div class="d-flex align-center">
-                <v-icon color="success" class="mr-3">mdi-account-circle</v-icon>
-                <div>
-                  <h3 class="user-title">{{ $t('ondemand.accessoEffettuato') }}</h3>
-                  <p class="user-email">{{ userEmail }}</p>
-                </div>
-              </div>
-            </div>
-            <v-btn 
-              color="orange" 
-              variant="outlined"
-              @click="logout"
-              class="logout-btn-small"
-            >
-              <v-icon left>mdi-logout</v-icon>
-              {{ $t('ondemand.logout') }}
-            </v-btn>
-          </v-card-text>
-        </v-card>
+      <!-- Loading del catalogo - mostrato solo durante il caricamento -->
+      <div v-if="catalogoLoading" class="catalogo-loading-center">
+        <v-progress-circular 
+          color="orange" 
+          indeterminate 
+          size="64"
+        ></v-progress-circular>
+        <p class="mt-4">{{ $t('ondemand.caricamentoCatalogo') }}</p>
       </div>
 
-      <!-- Form di login/registrazione per utenti non autenticati -->
-      <div v-if="!isUserAuthenticated">
-        <div class="intro-text">
-          <p>
-            {{ $t('ondemand.loginRequired') }}
-          </p>
-        </div>
-        <v-row no-gutters align="stretch" class="login-register-row">
-          <!-- Login Form -->
-          <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height login-col">
-            <h3 class="form-title">{{ $t('ondemand.accedi') }}</h3>
-            <v-form @submit.prevent="handleLogin">
-              <v-text-field
-                v-model="loginEmail"
-                :label="$t('register.email')"
-                type="email"
-                required
-                class="mb-3"
-              />
-              <v-text-field
-                v-model="loginPassword"
-                :label="$t('register.password')"
-                type="password"
-                required
-                class="mb-3"
-              />
-              <div class="forgot-password-link">
-                <a href="#" @click.prevent="handleForgotPassword" class="forgot-link">
-                  {{ $t('ondemand.dimenticatoPassword') }}
-                </a>
+      <!-- Contenuto principale - mostrato solo dopo il caricamento -->
+      <div v-else-if="catalogoLoaded">
+        <!-- Barra utente loggato -->
+        <div v-if="isUserAuthenticated" class="user-info-bar">
+          <v-card class="user-card" elevation="2">
+            <v-card-text class="d-flex align-center justify-space-between pa-4">
+              <div class="user-details">
+                <div class="d-flex align-center">
+                  <v-icon color="success" class="mr-3">mdi-account-circle</v-icon>
+                  <div>
+                    <h3 class="user-title">{{ $t('ondemand.accessoEffettuato') }}</h3>
+                    <p class="user-email">{{ userEmail }}</p>
+                  </div>
+                </div>
               </div>
-              <div class="login-actions-row">
+              <v-btn 
+                color="orange" 
+                variant="outlined"
+                @click="logout"
+                class="logout-btn-small"
+              >
+                <v-icon left>mdi-logout</v-icon>
+                {{ $t('ondemand.logout') }}
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </div>
+
+        <!-- Form di login/registrazione per utenti non autenticati -->
+        <div v-if="!isUserAuthenticated">
+          <div class="intro-text">
+            <p>
+              {{ $t('ondemand.loginRequired') }}
+            </p>
+          </div>
+          <v-row no-gutters align="stretch" class="login-register-row">
+            <!-- Login Form -->
+            <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height login-col">
+              <h3 class="form-title">{{ $t('ondemand.accedi') }}</h3>
+              <v-form @submit.prevent="handleLogin">
+                <v-text-field
+                  v-model="loginEmail"
+                  :label="$t('register.email')"
+                  type="email"
+                  required
+                  class="mb-3"
+                />
+                <v-text-field
+                  v-model="loginPassword"
+                  :label="$t('register.password')"
+                  type="password"
+                  required
+                  class="mb-3"
+                />
+                <div class="forgot-password-link">
+                  <a href="#" @click.prevent="handleForgotPassword" class="forgot-link">
+                    {{ $t('ondemand.dimenticatoPassword') }}
+                  </a>
+                </div>
+                <div class="login-actions-row">
+                  <v-btn 
+                    color="orange" 
+                    type="submit" 
+                    block 
+                    class="login-btn"
+                    :loading="loginLoading"
+                    :disabled="loginLoading"
+                  >
+                    {{ $t('ondemand.accedi') }}
+                  </v-btn>
+                </div>
+              </v-form>
+              <v-alert
+                v-if="loginError"
+                type="error"
+                class="mt-3"
+                dense
+              >{{ loginError }}</v-alert>
+            </v-col>
+            <!-- Divider: visibile solo su md e superiori -->
+            <v-col cols="0" md="2" class="d-none d-md-flex align-center justify-center px-0">
+              <div class="custom-divider"></div>
+            </v-col>
+            <!-- Register Form -->
+            <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height register-col">
+              <h3 class="form-title">{{ $t('ondemand.registrati') }}</h3>
+              <v-form @submit.prevent="handleRegister">
+                <v-text-field
+                  v-model="registerEmail"
+                  :label="$t('register.email')"
+                  type="email"
+                  required
+                  class="mb-3"
+                />
+                <v-text-field
+                  v-model="registerPassword"
+                  :label="$t('register.password')"
+                  type="password"
+                  required
+                  class="mb-3"
+                />
+                <v-text-field
+                  v-model="registerPasswordConfirm"
+                  :label="$t('register.passwordConfirm')"
+                  type="password"
+                  required
+                  class="mb-3"
+                />
+                <v-checkbox
+                  v-model="acceptTerms"
+                  class="terms-checkbox"
+                  required
+                >
+                  <template v-slot:label>
+                    <span class="terms-label">
+                      {{ $t('ondemand.accetto') }} 
+                      <a href="#" @click.prevent="showTermsDialog" class="terms-link">
+                        {{ $t('ondemand.terminiCondizioni') }}
+                      </a>
+                    </span>
+                  </template>
+                </v-checkbox>
                 <v-btn 
                   color="orange" 
                   type="submit" 
-                  block 
-                  class="login-btn"
-                  :loading="loginLoading"
-                  :disabled="loginLoading"
+                  block
+                  :loading="registerLoading"
+                  :disabled="registerLoading || !acceptTerms"
                 >
-                  {{ $t('ondemand.accedi') }}
+                  {{ $t('ondemand.registrati') }}
                 </v-btn>
-              </div>
-            </v-form>
-            <v-alert
-              v-if="loginError"
-              type="error"
-              class="mt-3"
-              dense
-            >{{ loginError }}</v-alert>
-          </v-col>
-          <!-- Divider: visibile solo su md e superiori -->
-          <v-col cols="0" md="2" class="d-none d-md-flex align-center justify-center px-0">
-            <div class="custom-divider"></div>
-          </v-col>
-          <!-- Register Form -->
-          <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height register-col">
-            <h3 class="form-title">{{ $t('ondemand.registrati') }}</h3>
-            <v-form @submit.prevent="handleRegister">
-              <v-text-field
-                v-model="registerEmail"
-                :label="$t('register.email')"
-                type="email"
-                required
-                class="mb-3"
-              />
-              <v-text-field
-                v-model="registerPassword"
-                :label="$t('register.password')"
-                type="password"
-                required
-                class="mb-3"
-              />
-              <v-text-field
-                v-model="registerPasswordConfirm"
-                :label="$t('register.passwordConfirm')"
-                type="password"
-                required
-                class="mb-3"
-              />
-              <v-checkbox
-                v-model="acceptTerms"
-                class="terms-checkbox"
-                required
+              </v-form>
+              <v-alert
+                v-if="registerError"
+                type="error"
+                class="mt-3"
+                dense
+              >{{ registerError }}</v-alert>
+              <v-alert
+                v-if="registerSuccess"
+                type="success"
+                class="mt-3"
+                dense
               >
-                <template v-slot:label>
-                  <span class="terms-label">
-                    {{ $t('ondemand.accetto') }} 
-                    <a href="#" @click.prevent="showTermsDialog" class="terms-link">
-                      {{ $t('ondemand.terminiCondizioni') }}
-                    </a>
-                  </span>
-                </template>
-              </v-checkbox>
-              <v-btn 
-                color="orange" 
-                type="submit" 
-                block
-                :loading="registerLoading"
-                :disabled="registerLoading || !acceptTerms"
-              >
-                {{ $t('ondemand.registrati') }}
-              </v-btn>
-            </v-form>
-            <v-alert
-              v-if="registerError"
-              type="error"
-              class="mt-3"
-              dense
-            >{{ registerError }}</v-alert>
-            <v-alert
-              v-if="registerSuccess"
-              type="success"
-              class="mt-3"
-              dense
-            >
-              <div class="success-message">
-                <strong>Registrazione completata!</strong><br>
-                Ti abbiamo inviato un'email di conferma all'indirizzo <strong>{{ registerEmail }}</strong>.<br>
-                Clicca sul link nell'email per attivare il tuo account.
-              </div>
-            </v-alert>
-          </v-col>
-        </v-row>
-      </div>
+                <div class="success-message">
+                  <strong>Registrazione completata!</strong><br>
+                  Ti abbiamo inviato un'email di conferma all'indirizzo <strong>{{ registerEmail }}</strong>.<br>
+                  Clicca sul link nell'email per attivare il tuo account.
+                </div>
+              </v-alert>
+            </v-col>
+          </v-row>
+        </div>
 
-      <!-- Catalogo VOD -->
-      <div v-if="catalogoLoaded" class="catalogo-section">
+        <!-- Divider centrale -->
         <v-divider v-if="isUserAuthenticated" class="my-8"></v-divider>
-        
+
         <!-- Sezione "La Mia Libreria" (sempre visibile se autenticato) -->
         <section v-if="isUserAuthenticated" class="mb-8">
           <h2 class="catalogo-title">
@@ -395,14 +406,14 @@
         </section>
       </div>
 
-      <!-- Loading del catalogo -->
-      <div v-else-if="catalogoLoading" class="catalogo-loading">
+      <!-- Fallback per quando il catalogo non è caricato -->
+      <div v-else class="catalogo-loading-center">
         <v-progress-circular 
           color="orange" 
           indeterminate 
           size="64"
         ></v-progress-circular>
-        <p class="mt-4">{{ $t('ondemand.caricamentoCatalogo') }}</p>
+        <p class="mt-4">Inizializzazione...</p>
       </div>
     </v-container>
   </v-main>
@@ -454,6 +465,7 @@ export default {
   },
   methods: {
     async handleLogin() {
+      console.log('Login attempt started');
       this.loginError = '';
       this.loginLoading = true;
       
@@ -464,7 +476,9 @@ export default {
       }
 
       try {
+        console.log('Calling login API...');
         const response = await ondemandAuthApi.login(this.loginEmail, this.loginPassword);
+        console.log('Login response:', response);
         
         // Login riuscito - vai al contenuto OnDemand
         this.loginError = '';
@@ -475,6 +489,7 @@ export default {
         window.location.reload();
         
       } catch (error) {
+        console.error('Login error:', error);
         this.loginError = error.message || this.$t('login.invalid') || 'Credenziali non valide';
       } finally {
         this.loginLoading = false;
@@ -526,7 +541,9 @@ export default {
     },
 
     checkAuthentication() {
+      console.log('Checking authentication...');
       this.isUserAuthenticated = ondemandAuthApi.isAuthenticated();
+      console.log('Is authenticated:', this.isUserAuthenticated);
       if (this.isUserAuthenticated) {
         // Recupera l'email dell'utente dal token o da localStorage
         const user = ondemandAuthApi.getCurrentUser();
@@ -584,9 +601,11 @@ export default {
     },
 
     async loadCatalogo() {
+      console.log('Loading catalog...');
       this.catalogoLoading = true;
       try {
         this.catalogoData = await ondemandAuthApi.getCatalogo();
+        console.log('Catalog loaded:', this.catalogoData);
         this.catalogoLoaded = true;
       } catch (error) {
         console.error('Errore nel caricamento del catalogo:', error);
@@ -647,6 +666,7 @@ export default {
   },
   
   async mounted() {
+    console.log('OnDemandView mounted');
     this.checkAuthentication();
     this.checkEmailConfirmationStatus();
     await this.loadCatalogo();
@@ -981,6 +1001,9 @@ export default {
   max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
 }
 @media (max-width: 600px) {
   .v-container {
@@ -996,6 +1019,22 @@ export default {
 }
 
 /* Stili per il catalogo VOD */
+.catalogo-loading-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: #666;
+}
+
+.catalogo-loading-center p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
 .catalogo-section {
   margin-top: 3rem;
 }

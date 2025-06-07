@@ -1,6 +1,6 @@
 <template>
     <div v-if="!this.readyToShow" class="loading">
-      <v-progress-circular color="orange" indeterminate></v-progress-circular>
+      <v-progress-circular color="orange" indeterminate size="64"></v-progress-circular>
     </div>
     <v-main v-else class="bg-white-2">
         <div class="iframe-wrapper">
