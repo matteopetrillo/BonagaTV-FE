@@ -11,8 +11,8 @@
               size="64"
               class="mb-4"
             ></v-progress-circular>
-            <h2 class="mb-3">Conferma in corso...</h2>
-            <p>Stiamo verificando il tuo account.</p>
+            <h2 class="mb-3">{{ $t('emailConfirmation.confermaInCorso') }}</h2>
+            <p>{{ $t('emailConfirmation.verificandoAccount') }}</p>
           </div>
 
           <!-- Email Form -->
@@ -22,9 +22,9 @@
               size="64" 
               class="mb-4"
             >mdi-email</v-icon>
-            <h2 class="mb-3">Conferma la tua email</h2>
+            <h2 class="mb-3">{{ $t('emailConfirmation.confermaEmail') }}</h2>
             <p class="mb-4">
-              Inserisci l'indirizzo email per completare la conferma dell'account.
+              {{ $t('emailConfirmation.inserisciEmail') }}
             </p>
             <v-form @submit.prevent="handleEmailConfirmation">
               <v-text-field
@@ -42,7 +42,7 @@
                 block
                 class="login-btn"
               >
-                Conferma Account
+                {{ $t('emailConfirmation.confermaAccount') }}
               </v-btn>
               <v-alert
                 v-if="emailError"
@@ -60,17 +60,16 @@
               size="64" 
               class="mb-4"
             >mdi-check-circle</v-icon>
-            <h2 class="mb-3 text-success">Email confermata!</h2>
+            <h2 class="mb-3 text-success">{{ $t('ondemand.emailConfermata') }}</h2>
             <p class="mb-4">
-              Il tuo account è stato attivato con successo.<br>
-              Ora puoi accedere ai contenuti on demand.
+              {{ $t('ondemand.accountAttivato') }}
             </p>
             <v-btn 
               color="orange" 
               @click="goToLogin"
               class="login-btn"
             >
-              Vai al Login
+              {{ $t('emailConfirmation.vaiAlLogin') }}
             </v-btn>
           </div>
 
@@ -81,13 +80,13 @@
               size="64" 
               class="mb-4"
             >mdi-alert-circle</v-icon>
-            <h2 class="mb-3 text-error">Errore di conferma</h2>
+            <h2 class="mb-3 text-error">{{ $t('ondemand.erroreConferma') }}</h2>
             <p class="mb-4">{{ errorMessage }}</p>
             <v-btn 
               color="orange" 
               @click="goToLogin"
             >
-              Torna al Login
+              {{ $t('emailConfirmation.tornaAlLogin') }}
             </v-btn>
           </div>
         </v-card-text>
@@ -144,7 +143,7 @@ export default {
 
     async handleEmailConfirmation() {
       if (!this.confirmationEmail) {
-        this.emailError = 'Inserisci un indirizzo email valido.';
+        this.emailError = this.$t('emailConfirmation.inserisciEmailValida');
         return;
       }
 

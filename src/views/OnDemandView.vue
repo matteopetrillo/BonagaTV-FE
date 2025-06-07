@@ -15,13 +15,12 @@
               size="64" 
               class="mb-4"
             >mdi-check-circle</v-icon>
-            <h2 class="popup-title success-title">Email confermata!</h2>
+            <h2 class="popup-title success-title">{{ $t('ondemand.emailConfermata') }}</h2>
             <p class="popup-message">
-              Il tuo account è stato attivato con successo.<br>
-              Ora puoi accedere a tutti i contenuti on demand.
+              {{ $t('ondemand.accountAttivato') }}
             </p>
             <div class="countdown-text">
-              <small>Questo popup si chiuderà automaticamente tra {{ countdown }} secondi</small>
+              <small>{{ $t('ondemand.popupChiusura') }} {{ countdown }} {{ $t('ondemand.secondi') }}</small>
             </div>
           </div>
           
@@ -32,7 +31,7 @@
               size="64" 
               class="mb-4"
             >mdi-alert-circle</v-icon>
-            <h2 class="popup-title error-title">Errore di conferma</h2>
+            <h2 class="popup-title error-title">{{ $t('ondemand.erroreConferma') }}</h2>
             <p class="popup-message">{{ emailConfirmationError }}</p>
           </div>
           
@@ -42,43 +41,103 @@
             class="close-popup-btn mt-4"
             block
           >
-            Chiudi
+            {{ $t('ondemand.chiudi') }}
           </v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
 
-    <v-container class="py-8">
-      <!-- Messaggio di benvenuto per utenti autenticati -->
-      <div v-if="isUserAuthenticated" class="welcome-section">
-        <div class="welcome-card">
-          <v-icon color="success" size="64" class="mb-4">mdi-check-circle</v-icon>
-          <h2 class="welcome-title">Benvenuto!</h2>
-          <p class="welcome-message">
-            Hai effettuato l'accesso con successo.<br>
-            Ora puoi accedere a tutti i contenuti on demand.
-          </p>
+    <!-- Overlay di acquisto -->
+    <v-dialog 
+      v-model="showPurchaseDialog" 
+      max-width="500" 
+      persistent
+    >
+      <v-card class="purchase-dialog">
+        <v-card-title class="purchase-dialog-title">
+          <v-icon color="orange" class="mr-3">mdi-cart</v-icon>
+          {{ $t('ondemand.confermaAcquisto') }}
+        </v-card-title>
+        
+        <v-card-text class="pa-6">
+          <div class="purchase-content">
+            <div class="product-info mb-4">
+              <h3 class="product-title">{{ selectedVod?.titolo }}</h3>
+              <div class="product-details">
+                <span v-if="selectedVod?.durata" class="product-duration">
+                  <v-icon size="16" color="#a0522d">mdi-clock-outline</v-icon>
+                  {{ formatDuration(selectedVod.durata) }}
+                </span>
+                <span class="product-price">€{{ selectedVod?.prezzo?.toFixed(2) }}</span>
+              </div>
+            </div>
+            
+            <div class="payment-section">
+              <h4 class="payment-title">{{ $t('ondemand.metodoPagamento') }}</h4>
+              <div class="paypal-container">
+                <PaypalButtons 
+                  v-if="selectedVod"
+                  type="vod"
+                  :vod-id="selectedVod.id"
+                  @payment-success="handlePaymentSuccess"
+                  @payment-error="handlePaymentError"
+                />
+              </div>
+            </div>
+          </div>
+        </v-card-text>
+        
+        <v-card-actions class="pa-4">
+          <v-spacer></v-spacer>
           <v-btn 
-            color="orange" 
-            @click="logout"
-            class="logout-btn"
+            variant="outlined"
+            color="grey"
+            @click="closePurchaseDialog"
           >
-            Logout
+            {{ $t('ondemand.annulla') }}
           </v-btn>
-        </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-container class="py-8">
+      <!-- Barra utente loggato -->
+      <div v-if="isUserAuthenticated" class="user-info-bar">
+        <v-card class="user-card" elevation="2">
+          <v-card-text class="d-flex align-center justify-space-between pa-4">
+            <div class="user-details">
+              <div class="d-flex align-center">
+                <v-icon color="success" class="mr-3">mdi-account-circle</v-icon>
+                <div>
+                  <h3 class="user-title">{{ $t('ondemand.accessoEffettuato') }}</h3>
+                  <p class="user-email">{{ userEmail }}</p>
+                </div>
+              </div>
+            </div>
+            <v-btn 
+              color="orange" 
+              variant="outlined"
+              @click="logout"
+              class="logout-btn-small"
+            >
+              <v-icon left>mdi-logout</v-icon>
+              {{ $t('ondemand.logout') }}
+            </v-btn>
+          </v-card-text>
+        </v-card>
       </div>
 
       <!-- Form di login/registrazione per utenti non autenticati -->
-      <div v-else>
+      <div v-if="!isUserAuthenticated">
         <div class="intro-text">
           <p>
-            Per acquistare i prodotti è necessario effettuare l'accesso o la registrazione se non si possiede già un account.
+            {{ $t('ondemand.loginRequired') }}
           </p>
         </div>
         <v-row no-gutters align="stretch" class="login-register-row">
           <!-- Login Form -->
           <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height login-col">
-            <h3 class="form-title">Accedi</h3>
+            <h3 class="form-title">{{ $t('ondemand.accedi') }}</h3>
             <v-form @submit.prevent="handleLogin">
               <v-text-field
                 v-model="loginEmail"
@@ -94,6 +153,11 @@
                 required
                 class="mb-3"
               />
+              <div class="forgot-password-link">
+                <a href="#" @click.prevent="handleForgotPassword" class="forgot-link">
+                  {{ $t('ondemand.dimenticatoPassword') }}
+                </a>
+              </div>
               <div class="login-actions-row">
                 <v-btn 
                   color="orange" 
@@ -103,7 +167,7 @@
                   :loading="loginLoading"
                   :disabled="loginLoading"
                 >
-                  Accedi
+                  {{ $t('ondemand.accedi') }}
                 </v-btn>
               </div>
             </v-form>
@@ -120,7 +184,7 @@
           </v-col>
           <!-- Register Form -->
           <v-col cols="12" md="5" class="d-flex flex-column justify-center fill-height register-col">
-            <h3 class="form-title">Registrati</h3>
+            <h3 class="form-title">{{ $t('ondemand.registrati') }}</h3>
             <v-form @submit.prevent="handleRegister">
               <v-text-field
                 v-model="registerEmail"
@@ -143,14 +207,28 @@
                 required
                 class="mb-3"
               />
+              <v-checkbox
+                v-model="acceptTerms"
+                class="terms-checkbox"
+                required
+              >
+                <template v-slot:label>
+                  <span class="terms-label">
+                    {{ $t('ondemand.accetto') }} 
+                    <a href="#" @click.prevent="showTermsDialog" class="terms-link">
+                      {{ $t('ondemand.terminiCondizioni') }}
+                    </a>
+                  </span>
+                </template>
+              </v-checkbox>
               <v-btn 
                 color="orange" 
                 type="submit" 
                 block
                 :loading="registerLoading"
-                :disabled="registerLoading"
+                :disabled="registerLoading || !acceptTerms"
               >
-                Registrati
+                {{ $t('ondemand.registrati') }}
               </v-btn>
             </v-form>
             <v-alert
@@ -174,15 +252,171 @@
           </v-col>
         </v-row>
       </div>
+
+      <!-- Catalogo VOD -->
+      <div v-if="catalogoLoaded" class="catalogo-section">
+        <v-divider v-if="isUserAuthenticated" class="my-8"></v-divider>
+        
+        <!-- Sezione "La Mia Libreria" (sempre visibile se autenticato) -->
+        <section v-if="isUserAuthenticated" class="mb-8">
+          <h2 class="catalogo-title">
+            <v-icon color="orange" class="mr-3">mdi-video-box</v-icon>
+            {{ $t('ondemand.laMiaLibreria') }}
+          </h2>
+          <div v-if="catalogoData.acquistati && catalogoData.acquistati.length > 0">
+            <v-row>
+              <v-col 
+                v-for="(vod, index) in catalogoData.acquistati" 
+                :key="'owned-' + index"
+                cols="12" 
+                sm="6" 
+                md="4" 
+                lg="3"
+              >
+                <v-card class="vod-card owned" elevation="3">
+                  <v-img
+                    v-if="vod.urlThumbnail"
+                    :src="vod.urlThumbnail"
+                    aspect-ratio="0.9"
+                    cover
+                    class="vod-image"
+                  >
+                    <template v-slot:placeholder>
+                      <div class="d-flex align-center justify-center fill-height">
+                        <v-progress-circular
+                          color="grey-lighten-4"
+                          indeterminate
+                        ></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-img>
+                  <div v-else class="placeholder-image">
+                    <v-icon size="64" color="grey-lighten-2">mdi-video</v-icon>
+                  </div>
+
+                  <v-card-title class="vod-title">{{ vod.titolo }}</v-card-title>
+                  
+                  <v-card-text class="vod-card-text">
+                    <div class="vod-info">
+                      <span v-if="vod.durata" class="duration">{{ formatDuration(vod.durata) }}</span>
+                    </div>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-btn 
+                      color="orange" 
+                      variant="elevated"
+                      @click="riproduciVod(vod)"
+                      block
+                    >
+                      <v-icon left>mdi-play</v-icon>
+                      {{ $t('ondemand.riproduci') }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+          <div v-else class="no-content">
+            <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-video-box-off</v-icon>
+            <p>{{ $t('ondemand.nonHaiAcquistato') }}</p>
+            <p class="text-caption">{{ $t('ondemand.acquistAppariranno') }}</p>
+          </div>
+        </section>
+
+        <!-- Divider tra le sezioni -->
+        <v-divider v-if="isUserAuthenticated" class="my-8"></v-divider>
+
+        <!-- Sezione contenuti disponibili -->
+        <section class="mb-8">
+          <h2 class="catalogo-title">
+            <v-icon color="orange" class="mr-3">mdi-shopping</v-icon>
+            {{ $t('ondemand.contenutiDisponibili') }}
+          </h2>
+          <div v-if="catalogoData.acquistabili && catalogoData.acquistabili.length > 0">
+            <v-row>
+              <v-col 
+                v-for="(vod, index) in catalogoData.acquistabili" 
+                :key="'available-' + index"
+                cols="12" 
+                sm="6" 
+                md="4" 
+                lg="3"
+              >
+                <v-card class="vod-card" elevation="3">
+                  <v-img
+                    v-if="vod.urlThumbnail"
+                    :src="vod.urlThumbnail"
+                    aspect-ratio="0.9"
+                    cover
+                    class="vod-image"
+                  >
+                    <template v-slot:placeholder>
+                      <div class="d-flex align-center justify-center fill-height">
+                        <v-progress-circular
+                          color="grey-lighten-4"
+                          indeterminate
+                        ></v-progress-circular>
+                      </div>
+                    </template>
+                  </v-img>
+                  <div v-else class="placeholder-image">
+                    <v-icon size="64" color="grey-lighten-2">mdi-video</v-icon>
+                  </div>
+
+                  <v-card-title class="vod-title">{{ vod.titolo }}</v-card-title>
+                  
+                  <v-card-text class="vod-card-text">
+                    <div class="vod-info">
+                      <span v-if="vod.durata" class="duration">{{ formatDuration(vod.durata) }}</span>
+                      <span v-if="vod.prezzo" class="price">€{{ vod.prezzo.toFixed(2) }}</span>
+                    </div>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-btn 
+                      color="orange" 
+                      variant="elevated"
+                      :disabled="!isUserAuthenticated"
+                      @click="acquistaVod(vod)"
+                      block
+                    >
+                      <v-icon left>mdi-cart</v-icon>
+                      {{ isUserAuthenticated ? $t('ondemand.acquista') : $t('ondemand.loginRichiesto') }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+          <div v-else class="no-content">
+            <p>{{ $t('ondemand.nessunContenuto') }}</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Loading del catalogo -->
+      <div v-else-if="catalogoLoading" class="catalogo-loading">
+        <v-progress-circular 
+          color="orange" 
+          indeterminate 
+          size="64"
+        ></v-progress-circular>
+        <p class="mt-4">{{ $t('ondemand.caricamentoCatalogo') }}</p>
+      </div>
     </v-container>
   </v-main>
 </template>
 
 <script>
 import { ondemandAuthApi } from '@/api/ondemand';
+import PaypalButtons from '@/components/PaypalButtons.vue';
 
 export default {
   name: 'OnDemandView',
+  components: {
+    PaypalButtons
+  },
   data() {
     return {
       // Login
@@ -206,6 +440,16 @@ export default {
       emailConfirmationError: '',
       countdown: 5,
       countdownInterval: null,
+      // Catalogo VOD
+      catalogoData: null,
+      catalogoLoaded: false,
+      catalogoLoading: false,
+      userEmail: '',
+      // Purchase dialog
+      showPurchaseDialog: false,
+      selectedVod: null,
+      // Form additions
+      acceptTerms: false,
     }
   },
   methods: {
@@ -248,6 +492,12 @@ export default {
         return;
       }
       
+      if (!this.acceptTerms) {
+        this.registerError = this.$t('ondemand.accettareCondizioni') || 'Devi accettare le condizioni di registrazione';
+        this.registerLoading = false;
+        return;
+      }
+      
       if (this.registerPassword !== this.registerPasswordConfirm) {
         this.registerError = this.$t('register.passwordMismatch') || 'Le password non coincidono';
         this.registerLoading = false;
@@ -265,6 +515,7 @@ export default {
         setTimeout(() => {
           this.registerPassword = '';
           this.registerPasswordConfirm = '';
+          this.acceptTerms = false;
         }, 2000);
         
       } catch (error) {
@@ -274,15 +525,23 @@ export default {
       }
     },
 
+    checkAuthentication() {
+      this.isUserAuthenticated = ondemandAuthApi.isAuthenticated();
+      if (this.isUserAuthenticated) {
+        // Recupera l'email dell'utente dal token o da localStorage
+        const user = ondemandAuthApi.getCurrentUser();
+        this.userEmail = user?.email || 'Utente loggato';
+      }
+    },
+
     logout() {
       ondemandAuthApi.logout();
       this.isUserAuthenticated = false;
+      this.userEmail = '';
+      // Aggiorna immediatamente l'autenticazione e ricarica il catalogo
+      this.checkAuthentication();
     },
     
-    checkAuthentication() {
-      this.isUserAuthenticated = ondemandAuthApi.isAuthenticated();
-    },
-
     closeEmailConfirmationPopup() {
       this.showEmailConfirmationPopup = false;
       this.clearCountdown();
@@ -322,19 +581,86 @@ export default {
           this.showEmailConfirmationPopup = true;
         }
       }
+    },
+
+    async loadCatalogo() {
+      this.catalogoLoading = true;
+      try {
+        this.catalogoData = await ondemandAuthApi.getCatalogo();
+        this.catalogoLoaded = true;
+      } catch (error) {
+        console.error('Errore nel caricamento del catalogo:', error);
+        // Mostra un messaggio di errore se necessario
+      } finally {
+        this.catalogoLoading = false;
+      }
+    },
+
+    formatDuration(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      if (hours > 0) {
+        return `${hours}h ${mins}m`;
+      }
+      return `${mins} min`;
+    },
+
+    acquistaVod(vod) {
+      this.selectedVod = vod;
+      this.showPurchaseDialog = true;
+    },
+
+    closePurchaseDialog() {
+      this.showPurchaseDialog = false;
+      this.selectedVod = null;
+    },
+
+    handlePaymentSuccess(details) {
+      console.log('Pagamento completato:', details);
+      this.closePurchaseDialog();
+      // Ricarica il catalogo per aggiornare i contenuti posseduti
+      this.loadCatalogo();
+      // Mostra un messaggio di successo
+      this.$toast.success('Acquisto completato con successo!');
+    },
+
+    handlePaymentError(error) {
+      console.error('Errore nel pagamento:', error);
+      this.$toast.error('Errore durante il pagamento. Riprova.');
+    },
+
+    riproduciVod(vod) {
+      // Reindirizza al player VOD usando il path corretto dal router
+      this.$router.push(`/${this.$i18n.locale}/ondemand/player?id=${vod.id}`);
+    },
+
+    handleForgotPassword() {
+      // TODO: Implementare la logica per il recupero password
+      console.log('Recupero password per:', this.loginEmail);
+      // Per ora mostra solo un alert
+      alert('Funzionalità di recupero password non ancora implementata');
+    },
+
+    showTermsDialog() {
+      // TODO: Implementare il popup con i termini e condizioni
     }
   },
   
-  mounted() {
+  async mounted() {
     this.checkAuthentication();
     this.checkEmailConfirmationStatus();
+    await this.loadCatalogo();
   },
   
   watch: {
-    // Controlla l'autenticazione quando cambia la rotta
     '$route'() {
       this.checkAuthentication();
       this.checkEmailConfirmationStatus();
+    },
+    
+    // Ricarica il catalogo quando cambia lo stato di autenticazione
+    isUserAuthenticated() {
+      this.loadCatalogo();
     }
   },
   
@@ -541,6 +867,83 @@ export default {
   box-shadow: 0 4px 16px 0 #e27e2c44;
 }
 
+/* Stili per l'overlay di acquisto */
+.purchase-dialog {
+  border-radius: 16px !important;
+}
+
+.purchase-dialog-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #e27e2c;
+  background-color: #fafafa;
+  border-bottom: 1px solid #eee;
+}
+
+.purchase-content {
+  text-align: center;
+}
+
+.product-info {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: #fafafa;
+}
+
+.product-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #8b4513;
+  margin-bottom: 1rem;
+}
+
+.product-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #a0522d;
+}
+
+.product-price {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #d2691e;
+  text-align: center;
+}
+
+.payment-section {
+  margin-top: 1.5rem;
+}
+
+.payment-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.paypal-container {
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 960px) {
   .login-register-row {
     flex-wrap: wrap;
@@ -590,5 +993,242 @@ export default {
   .v-container {
     width: 90%;
   }
+}
+
+/* Stili per il catalogo VOD */
+.catalogo-section {
+  margin-top: 3rem;
+}
+
+.catalogo-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #e27e2c;
+  text-align: center;
+}
+
+.vod-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.vod-image {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.vod-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(0.65rem, 2.2vw, 0.85rem) !important;
+  color: #8b4513 !important;
+  padding: 6px 12px 6px 6px !important;
+  line-height: 0.9 !important;
+  min-height: auto !important;
+  display: block !important;
+  text-align: center !important;
+  position: relative;
+  white-space: normal !important;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.vod-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffa726 0%, #ff8a50 100%);
+  border-radius: 1px;
+}
+
+/* Override di Vuetify specifico */
+.v-card-title.vod-title {
+  line-height: 1.1 !important;
+  padding: 6px 12px 6px 6px !important;
+}
+
+.vod-card-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 10px 6px 10px;
+}
+
+.vod-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.duration {
+  font-size: 0.75rem;
+  color: #a0522d;
+}
+
+.price {
+  font-weight: 700;
+  padding-top: 4px;
+  font-size: 1rem;
+  color: #d2691e;
+  text-align: center;
+}
+
+.owned-badge {
+  background: #4caf50;
+  color: white;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.v-card-actions {
+  margin-top: auto;
+  padding: 8px 12px 12px 12px;
+}
+
+/* Stili per la barra utente */
+.user-info-bar {
+  margin-bottom: 2rem;
+}
+
+.user-card {
+  border-radius: 12px;
+  border-left: 4px solid #4caf50;
+}
+
+.user-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2e7d32;
+  margin-bottom: 4px;
+}
+
+.user-email {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+.logout-btn-small {
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+/* Aggiornamenti per i contenuti posseduti */
+.vod-card.owned {
+  position: relative;
+}
+
+/* Aggiornamenti per i titoli delle sezioni */
+.catalogo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-image {
+  width: 100%;
+  aspect-ratio: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+}
+
+.placeholder-image .v-icon {
+  font-size: 48px !important;
+}
+
+.no-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  color: #666;
+}
+
+.no-content p {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.no-content .text-caption {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.catalogo-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  color: #666;
+}
+
+/* Stili per il link "Dimenticato password" */
+.forgot-password-link {
+  text-align: center;
+  margin-top: -0.5rem;
+}
+
+.forgot-link {
+  color: #e27e2c;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #ff9800;
+  text-decoration: underline;
+}
+
+/* Stili per il checkbox delle condizioni */
+.terms-checkbox {
+  margin-bottom: -2rem;
+  margin-top: -0.6rem;
+}
+
+.terms-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.terms-link {
+  color: #e27e2c;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.terms-link:hover {
+  color: #ff9800;
+  text-decoration: underline;
 }
 </style>

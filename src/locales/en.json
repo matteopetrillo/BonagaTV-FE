@@ -60,6 +60,49 @@
     "passwordMismatch": "Passwords do not match.",
     "confirmationSent": "A confirmation email has been sent. Please check your inbox.",
     "invalid": "Invalid email or password."
+  },
+  "ondemand": {
+    "emailConfermata": "Email confirmed!",
+    "accountAttivato": "Your account has been successfully activated. You can now access all on-demand content.",
+    "popupChiusura": "This popup will close automatically in",
+    "secondi": "seconds",
+    "erroreConferma": "Confirmation error",
+    "chiudi": "Close",
+    "confermaAcquisto": "Confirm Purchase",
+    "metodoPagamento": "Payment method:",
+    "annulla": "Cancel",
+    "accessoEffettuato": "Logged in",
+    "logout": "Logout",
+    "loginRequired": "To purchase products you need to log in or register if you don't already have an account.",
+    "accedi": "Login",
+    "registrati": "Register",
+    "dimenticatoPassword": "I forgot my password",
+    "accetto": "I accept the",
+    "terminiCondizioni": "terms and conditions",
+    "accettareCondizioni": "You must accept the terms and conditions",
+    "laMiaLibreria": "My Library",
+    "riproduci": "Play",
+    "nonHaiAcquistato": "You haven't purchased any content yet.",
+    "acquistAppariranno": "Your purchases will appear here.",
+    "contenutiDisponibili": "Available Content",
+    "acquista": "Purchase",
+    "loginRichiesto": "Login required",
+    "nessunContenuto": "No content available at the moment.",
+    "caricamentoCatalogo": "Loading catalog..."
+  },
+  "emailConfirmation": {
+    "confermaInCorso": "Confirmation in progress...",
+    "verificandoAccount": "We are verifying your account.",
+    "confermaEmail": "Confirm your email",
+    "inserisciEmail": "Enter the email address to complete account confirmation.",
+    "confermaAccount": "Confirm Account",
+    "inserisciEmailValida": "Enter a valid email address.",
+    "vaiAlLogin": "Go to Login",
+    "tornaAlLogin": "Back to Login"
+  },
+  "maintenance": {
+    "titolo": "Under Maintenance",
+    "messaggio": "We're sorry. The site is currently under maintenance. Please come back later."
   }
 }
 

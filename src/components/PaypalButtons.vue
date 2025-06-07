@@ -11,18 +11,36 @@ import { mapGetters } from 'vuex';
 
 export default {
     name: 'PaypalButtons',
+    props: {
+        type: {
+            type: String,
+            default: 'event', // 'event' o 'vod'
+            validator: value => ['event', 'vod'].includes(value)
+        },
+        vodId: {
+            type: [String, Number],
+            default: null
+        }
+    },
     computed: {
       ...mapGetters([
         'getIdSpecialEvent'
       ])
-    }, data() {
+    }, 
+    data() {
         return {
             idOrdine: null
         }
     },
     async mounted() {
 
-        const idEvento = this.$store.getters.getSpecialEvent.idEvento;
+        // Determina l'ID in base al tipo
+        let targetId;
+        if (this.type === 'vod' && this.vodId) {
+            targetId = this.vodId;
+        } else {
+            targetId = this.$store.getters.getSpecialEvent.idEvento;
+        }
 
         const paypalSdk = await loadScript({
             'clientId': 'AZ-KdqJRqNOlHsDUsjH5ul8HB1bpb3X_5KjPrWWvRNHZyNgzNNqhFdSMNYO9_HFWdZysQgqAugN4WoxX',
@@ -34,7 +52,7 @@ export default {
 
             },
             createOrder: function(data,actions) {
-                return fetch(baseURL+"/ordine/crea-ordine?id="+idEvento, {
+                return fetch(baseURL+"/ordine/crea-ordine?id="+targetId, {
                     method: "POST", headers: {"Content-Type": "application/json"}
                 })
                 .then((response) => {return response.json()})
@@ -66,8 +84,6 @@ export default {
         }).render('#paypal-button-container')
         .catch((error) => {console.log(error)});
     }
-
-
 
 }
 

@@ -61,6 +61,8 @@ export const ondemandAuthApi = {
       // Salva token dall'AuthResponse
       if (response.data.token) {
         localStorage.setItem('ondemand_token', response.data.token);
+        // Salva anche l'email dell'utente
+        localStorage.setItem('ondemand_user', JSON.stringify({ email }));
       }
       
       return response.data;
@@ -113,6 +115,16 @@ export const ondemandAuthApi = {
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Errore durante la conferma dell\'email');
+    }
+  },
+
+  // Ottieni catalogo VOD
+  async getCatalogo() {
+    try {
+      const response = await ondemandApi.get('/api/vod/catalogo');
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Errore durante il recupero del catalogo');
     }
   }
 };

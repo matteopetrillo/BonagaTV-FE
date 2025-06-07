@@ -60,5 +60,48 @@
     "passwordMismatch": "Le password non coincidono.",
     "confirmationSent": "Ti abbiamo inviato una mail di conferma. Controlla la tua casella di posta.",
     "invalid": "Email o password non valide."
+  },
+  "ondemand": {
+    "emailConfermata": "Email confermata!",
+    "accountAttivato": "Il tuo account è stato attivato con successo. Ora puoi accedere a tutti i contenuti on demand.",
+    "popupChiusura": "Questo popup si chiuderà automaticamente tra",
+    "secondi": "secondi",
+    "erroreConferma": "Errore di conferma",
+    "chiudi": "Chiudi",
+    "confermaAcquisto": "Conferma Acquisto",
+    "metodoPagamento": "Metodo di pagamento:",
+    "annulla": "Annulla",
+    "accessoEffettuato": "Accesso effettuato",
+    "logout": "Logout",
+    "loginRequired": "Per acquistare i prodotti è necessario effettuare l'accesso o la registrazione se non si possiede già un account.",
+    "accedi": "Accedi",
+    "registrati": "Registrati",
+    "dimenticatoPassword": "Ho dimenticato la password",
+    "accetto": "Accetto i",
+    "terminiCondizioni": "termini e condizioni",
+    "accettareCondizioni": "Devi accettare i termini e condizioni",
+    "laMiaLibreria": "La Mia Libreria",
+    "riproduci": "Riproduci",
+    "nonHaiAcquistato": "Non hai ancora acquistato nessun contenuto.",
+    "acquistAppariranno": "I tuoi acquisti appariranno qui.",
+    "contenutiDisponibili": "Contenuti Disponibili",
+    "acquista": "Acquista",
+    "loginRichiesto": "Login richiesto",
+    "nessunContenuto": "Nessun contenuto disponibile al momento.",
+    "caricamentoCatalogo": "Caricamento catalogo..."
+  },
+  "emailConfirmation": {
+    "confermaInCorso": "Conferma in corso...",
+    "verificandoAccount": "Stiamo verificando il tuo account.",
+    "confermaEmail": "Conferma la tua email",
+    "inserisciEmail": "Inserisci l'indirizzo email per completare la conferma dell'account.",
+    "confermaAccount": "Conferma Account",
+    "inserisciEmailValida": "Inserisci un indirizzo email valido.",
+    "vaiAlLogin": "Vai al Login",
+    "tornaAlLogin": "Torna al Login"
+  },
+  "maintenance": {
+    "titolo": "Lavori in Corso",
+    "messaggio": "Siamo spiacenti. Il sito è attualmente in manutenzione. Torna a trovarci più tardi."
   }
 }

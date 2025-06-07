@@ -35,6 +35,11 @@ const routes = [
         name: 'EmailConfirmation'
       },
       {
+        path: 'ondemand/player',
+        component: () => import('../views/VodPlayerView.vue'),
+        name: 'VodPlayer'
+      },
+      {
         path: 'channel/:nomeCanale',
         component: ChannelView,
         name: 'ChannelView',

@@ -49,6 +49,24 @@ const routes = [
       next();
     }
   },
+  {
+    path: '/:locale/ondemand/player',
+    name: 'VodPlayer',
+    component: () => import('../views/VodPlayerView.vue'),
+    beforeEnter: (to, from, next) => {
+      setLocale(to.params.locale);
+      next();
+    }
+  },
+  {
+    path: '/:locale/channel',
+    name: 'ChannelView',
+    component: () => import('../views/ChannelView.vue'),
+    beforeEnter: (to, from, next) => {
+      setLocale(to.params.locale);
+      next();
+    }
+  },
   // Commento le rotte che puntano a file inesistenti
   // {
   //   path: '/:locale/about',

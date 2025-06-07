@@ -1,0 +1,31 @@
+{
+  "ondemand": {
+    "emailConfermata": "E-Mail bestätigt!",
+    "accountAttivato": "Ihr Konto wurde erfolgreich aktiviert. Sie können jetzt auf alle On-Demand-Inhalte zugreifen.",
+    "popupChiusura": "Dieses Popup schließt sich automatisch in",
+    "secondi": "Sekunden",
+    "erroreConferma": "Bestätigungsfehler",
+    "chiudi": "Schließen",
+    "confermaAcquisto": "Kauf bestätigen",
+    "metodoPagamento": "Zahlungsmethode:",
+    "annulla": "Abbrechen",
+    "accessoEffettuato": "Angemeldet",
+    "logout": "Abmelden",
+    "loginRequired": "Um Produkte zu kaufen, müssen Sie sich anmelden oder registrieren, falls Sie noch kein Konto haben.",
+    "accedi": "Anmelden",
+    "registrati": "Registrieren",
+    "dimenticatoPassword": "Ich habe mein Passwort vergessen",
+    "accetto": "Ich akzeptiere die",
+    "terminiCondizioni": "Allgemeinen Geschäftsbedingungen",
+    "accettareCondizioni": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren",
+    "laMiaLibreria": "Meine Bibliothek",
+    "riproduci": "Abspielen",
+    "nonHaiAcquistato": "Sie haben noch keine Inhalte gekauft.",
+    "acquistAppariranno": "Ihre Käufe werden hier angezeigt.",
+    "contenutiDisponibili": "Verfügbare Inhalte",
+    "acquista": "Kaufen",
+    "loginRichiesto": "Anmeldung erforderlich",
+    "nessunContenuto": "Derzeit sind keine Inhalte verfügbar.",
+    "caricamentoCatalogo": "Katalog wird geladen..."
+  }
+}

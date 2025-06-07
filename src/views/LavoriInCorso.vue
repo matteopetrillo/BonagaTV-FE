@@ -1,7 +1,7 @@
 <template>
 <div class="maintenance-container">
-    <h1>Lavori in Corso</h1>
-    <p>Siamo spiacenti. Il sito è attualmente in manutenzione. Torna a trovarci più tardi.</p>
+    <h1>{{ $t('maintenance.titolo') }}</h1>
+    <p>{{ $t('maintenance.messaggio') }}</p>
 </div>
 </template>
 
