@@ -265,10 +265,10 @@
         </div>
 
         <!-- Divider centrale -->
-        <v-divider v-if="isUserAuthenticated" class="my-8"></v-divider>
+        <v-divider v-if="isUserAuthenticated" class="my-12"></v-divider>
 
         <!-- Sezione "La Mia Libreria" (sempre visibile se autenticato) -->
-        <section v-if="isUserAuthenticated" class="mb-8">
+        <section v-if="isUserAuthenticated" class="mb-12">
           <h2 class="catalogo-title">
             <v-icon color="orange" class="mr-3">mdi-video-box</v-icon>
             {{ $t('ondemand.laMiaLibreria') }}
@@ -335,10 +335,10 @@
         </section>
 
         <!-- Divider tra le sezioni -->
-        <v-divider v-if="isUserAuthenticated" class="my-8"></v-divider>
+        <v-divider v-if="isUserAuthenticated" class="my-12"></v-divider>
 
         <!-- Sezione contenuti disponibili -->
-        <section class="mb-8">
+        <section class="mb-12 mt-12">
           <h2 class="catalogo-title">
             <v-icon color="orange" class="mr-3">mdi-shopping</v-icon>
             {{ $t('ondemand.contenutiDisponibili') }}
@@ -715,6 +715,7 @@ export default {
   height: 100%;
   flex-wrap: nowrap;
   align-items: stretch;
+  margin-bottom: 1rem;
 }
 .login-col,
 .register-col {
@@ -1044,6 +1045,7 @@ export default {
   font-weight: 700;
   font-size: 1.8rem;
   margin-bottom: 2rem;
+  margin-top: -2rem;
   color: #e27e2c;
   text-align: center;
 }
