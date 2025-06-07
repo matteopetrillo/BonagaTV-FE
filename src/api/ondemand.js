@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Base URL per il microservizio on demand
-const ONDEMAND_API_BASE_URL = 'http://localhost:8080';
+const ONDEMAND_API_BASE_URL = process.env.VUE_APP_ONDEMAND_API_URL;
+;
 
 // Crea un'istanza axios specifica per on demand
 const ondemandApi = axios.create({
