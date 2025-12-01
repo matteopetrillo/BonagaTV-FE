@@ -68,6 +68,7 @@ export default createStore({
   actions: {
     async beginningFetch({commit}) {
       try {
+        console.log('Fetching canali from:', process.env.VUE_APP_ROOT_API);
         const responseCanali = await getCanali();
         commit('setCanaliProxLive', responseCanali.canaliProssimamenteLive);
         commit('setCanaliOffline', responseCanali.canaliOffline);
@@ -77,6 +78,12 @@ export default createStore({
         //commit('setSponsors', responseSponsor);
       } catch (error) {
         console.error('Errore durante il recupero dei canali:', error);
+        console.error('Assicurati che il backend sia in esecuzione su:', process.env.VUE_APP_ROOT_API);
+        // Set default values to prevent app crash
+        commit('setCanaliProxLive', []);
+        commit('setCanaliOffline', []);
+        commit('setSpecialEvent', null);
+        commit('setFreeSpecialEvent', null);
         throw error;
       }
     },

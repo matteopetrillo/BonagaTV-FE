@@ -1,7 +1,51 @@
 <template>
-  <div v-if="!this.readyToShow" class="loading">
+  <div v-if="!this.readyToShow && !this.error" class="loading">
     <v-progress-circular color="orange" indeterminate size="64"></v-progress-circular>
   </div>
+  
+  <v-main v-else-if="this.error" class="bg-white-2">
+    <v-container class="error-container">
+      <v-alert
+        type="error"
+        prominent
+        border="start"
+        class="error-alert"
+      >
+        <v-row align="center">
+          <v-col class="grow">
+            <div class="text-h6 mb-2">Errore di Connessione</div>
+            <div>
+              Impossibile connettersi al server. 
+              <br>
+              Assicurati che il backend sia in esecuzione su <code>{{ backendUrl }}</code>
+            </div>
+          </v-col>
+          <v-col class="shrink">
+            <v-btn
+              color="white"
+              variant="outlined"
+              @click="retryConnection"
+            >
+              Riprova
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-alert>
+      
+      <v-card class="mt-4 pa-4" elevation="2">
+        <v-card-title class="text-h6">Istruzioni per avviare il backend:</v-card-title>
+        <v-card-text>
+          <ol>
+            <li>Apri il terminale nella directory del progetto backend</li>
+            <li>Esegui: <code>./mvnw spring-boot:run</code> (oppure usa le configurazioni VS Code)</li>
+            <li>Attendi che il server si avvii sulla porta 8080</li>
+            <li>Clicca sul pulsante "Riprova"</li>
+          </ol>
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </v-main>
+  
   <v-main v-else class="bg-white-2">
     <SpecialEvent v-if="isSpecialEventComplete" 
       :nomeEvento="this.specialEvent.nomeEvento"
@@ -92,11 +136,13 @@
                this.specialEvent.nomeEvento && 
                this.specialEvent.logoEventoSrc && 
                this.specialEvent.idEvento;
+      },
+      backendUrl() {
+        return process.env.VUE_APP_ROOT_API;
       }
     },
     created() {
       this.getData();
-      
     },
     data() {
       return {
@@ -104,18 +150,31 @@
         canaliOnline: null,
         canaliOffline: null,
         freeSpecialEvent: null,
-        readyToShow: false
+        readyToShow: false,
+        error: false
       }
     },
     methods: {
       ...mapActions(['beginningFetch']),
       async getData() {
+        try {
           await this.beginningFetch();
           this.specialEvent = this.getSpecialEvent;
           this.canaliOnline = this.getCanaliProxLive;
           this.canaliOffline = this.getCanaliOffline;
           this.freeSpecialEvent = this.getFreeSpecialEvent;
           this.readyToShow = true;
+          this.error = false;
+        } catch (error) {
+          console.error('Errore durante il recupero dei dati:', error);
+          this.error = true;
+          this.readyToShow = false;
+        }
+      },
+      async retryConnection() {
+        this.error = false;
+        this.readyToShow = false;
+        await this.getData();
       },
       getNumCols(canali) {
           const col = Math.round(12 / canali.length);
@@ -331,4 +390,21 @@ section h2:hover::after {
   }
 }
 
+.error-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 3rem;
+}
+
+.error-alert {
+  font-family: 'Montserrat', sans-serif;
+}
+
+code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: #e27e2c;
+}
 </style>
