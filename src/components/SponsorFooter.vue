@@ -36,7 +36,8 @@
                 sponsorImages: [
                     require('@/assets/bannerQD.jpg'),
                     require('@/assets/ELEMENTA.jpg'),
-                    require('@/assets/giannittiBanner.jpg')
+                    require('@/assets/giannittiBanner.jpg'),
+                    require('@/assets/deniro_consfondo.png')
                 ]
             }
         },
@@ -98,23 +99,26 @@
 
 .sponsors-wrap {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center; /* Aggiunto per allineamento verticale */
-  flex-wrap: wrap;
-  gap: 15px; /* Ridotto da 30px */
+  flex-wrap: nowrap;
+  gap: 14px;
   padding: 0 20px;
 }
 
 .sponsor-item {
-  flex: 0 1 280px;
-  padding: 8px;
-  margin-bottom: 15px; /* Aggiunto spazio dal fondo */
+  flex: 1 1 0;
+  max-width: 250px;
+  min-width: 0;
+  padding: 8px 10px;
+  margin-bottom: 0;
 }
 
 .sponsor-image {
+  max-width: 100%;
   width: auto;
   height: auto;
-  max-height: 95px; /* Aumentato da 80px */
+  max-height: 108px;
   object-fit: contain;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
 }
@@ -168,19 +172,20 @@
   }
 
   .sponsors-wrap {
-    gap: 10px;
+    gap: 6px;
     padding: 0 6px;
     row-gap: 2px; /* Ridotto da 12px */
   }
 
   .sponsor-item {
-    flex: 0 1 31%;
-    padding: 0;
+    flex: 1 1 0;
+    max-width: none;
+    padding: 0 4px;
     margin-bottom: 0;
   }
 
   .sponsor-image {
-    max-height: 52px;
+    max-height: 58px;
   }
 
   .close-btn {
@@ -228,12 +233,13 @@
   }
 
   .sponsor-item {
-    flex: 0 1 30%;
-    padding: 0;
+    flex: 1 1 0;
+    max-width: none;
+    padding: 0 6px;
   }
 
   .sponsor-image {
-    max-height: 85px;
+    max-height: 96px;
   }
 }
 
@@ -250,17 +256,19 @@
   }
 
   .sponsors-wrap {
-    gap: 12px;
+    gap: 8px;
     margin-top: 0;
     justify-content: center;
   }
 
   .sponsor-item {
-    flex: 0 1 140px; /* Dimensione fissa più piccola */
+    flex: 1 1 0;
+    max-width: none;
+    padding: 0 4px;
   }
 
   .sponsor-image {
-    max-height: 35px;
+    max-height: 42px;
   }
 
   .header {
@@ -282,19 +290,20 @@
   }
 
   .sponsors-wrap {
-    gap: 2px;
+    gap: 10px;
     margin-top: 10px;
     padding: 0 10px;
   }
 
   .sponsor-item {
-    flex: 0 1 230px;
-    padding: 4px;
-    margin-bottom: 8px;
+    flex: 1 1 0;
+    max-width: none;
+    padding: 0 6px;
+    margin-bottom: 0;
   }
 
   .sponsor-image {
-    max-height: 80px;
+    max-height: 92px;
   }
 
   .header {
