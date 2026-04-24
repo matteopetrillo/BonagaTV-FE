@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL per il microservizio on demand
-const ONDEMAND_API_BASE_URL = 'http://localhost:8080';
+const ONDEMAND_API_BASE_URL = process.env.VUE_APP_ONDEMAND_API_URL || 'http://localhost:8082';
 
 // Crea un'istanza axios specifica per on demand
 const ondemandApi = axios.create({
@@ -125,6 +125,26 @@ export const ondemandAuthApi = {
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Errore durante il recupero del catalogo');
+    }
+  },
+
+  // Crea ordine VOD
+  async createVodOrder(orderData) {
+    try {
+      const response = await ondemandApi.post('/api/vod/order/create', orderData);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Errore durante la creazione dell\'ordine');
+    }
+  },
+
+  // Cattura pagamento VOD
+  async captureVodPayment(paymentData) {
+    try {
+      const response = await ondemandApi.post('/api/vod/order/capture', paymentData);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Errore durante il completamento del pagamento');
     }
   }
 };

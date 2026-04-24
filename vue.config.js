@@ -26,13 +26,19 @@ module.exports = defineConfig({
       },
       // Proxy per le API OnDemand
       '/api/auth': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8082',
         changeOrigin: true,
         secure: false,
         logLevel: 'debug'
       },
       '/api/registrazione': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+        secure: false,
+        logLevel: 'debug'
+      },
+      '/api/vod': {
+        target: 'http://localhost:8082',
         changeOrigin: true,
         secure: false,
         logLevel: 'debug'
